@@ -4,4 +4,4 @@ const HelloWorld: React.FC = () => (
     <h1>HelloWorld</h1>
 )
 
-export default HelloWorld;
+export default HelloWorld

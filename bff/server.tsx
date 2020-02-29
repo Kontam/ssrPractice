@@ -1,18 +1,23 @@
 import express, { Request, Response } from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import ssrLoger from './middleware/ssrLoger';
+import RootRouter from '../src/shared/routes';
+import { StaticRouter } from 'react-router-dom';
 
-import HelloWorld from '../src/shared/components/atoms/HelloWorld';
+import render from './components/HTML';
 
 const app = express();
+app.use(ssrLoger);
+app.use(express.static(__dirname + '/public'));
 
 app.get('*', (req: Request, res: Response) => {
    const content = renderToString(
-       <div id="root">
-           <HelloWorld />
-       </div>
+        <StaticRouter location={req.url} context={{}}>
+            <RootRouter />
+        </StaticRouter>
    );
-   res.write(content);
+   res.write(render(content));
    res.end(); 
 });
 
