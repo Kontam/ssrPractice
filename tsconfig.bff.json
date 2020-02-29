@@ -1,0 +1,7 @@
+{
+	"extends": "./tsconfig.json",
+	"exclude": [
+		"src/client.tsx",
+		"node_modules"
+	]
+}
