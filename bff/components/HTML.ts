@@ -1,4 +1,6 @@
-export default (content: string) => {
+import { RootState } from "../../src/shared/redux/store"
+
+export default (content: string, state: RootState) => {
     return `
     <html lang="en">
         <head>
@@ -8,6 +10,9 @@ export default (content: string) => {
         </head>
         <body>
             <div id="root">${content}</div>
+            <script>
+                window.INITIAL_STATE = ${JSON.stringify(state)}
+            </script>
             <script type="text/javascript" charset="utf-8" src="static/js/bundle.js"></script>
         </body>
     </html>

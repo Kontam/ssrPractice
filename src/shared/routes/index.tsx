@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter, } from 'react-router-dom';
-import Home from '../components/auganisms/Home';
-import About from '../components/auganisms/About';
+import Home from '../components/pages/Home';
+import About from '../components/pages/About';
 
 const RootRouter = () => (
     <Switch>
