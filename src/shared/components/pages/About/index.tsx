@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PageTemplate from '../../template/PageTemplate';
 import { RootState } from '../../../redux/store';
 import { Longo, setLongos } from '../../../redux/modules/longos';
+import CreateArea from '../../auganisms/CreateArea';
 
 const routeSelector = (state: RootState) => state.router;
 const longosSeletor = (state: RootState) => state.longos;
@@ -23,6 +24,7 @@ const About: React.FC = () => {
         <PageTemplate>
             About with effect
             {longos.length>0 && longos[0].text || "ない"}
+            <CreateArea />
         </PageTemplate>
     )
 }
