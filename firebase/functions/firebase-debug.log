@@ -1,0 +1,101 @@
+[debug] [2020-03-01T05:43:21.894Z] ----------------------------------------------------------------------
+[debug] [2020-03-01T05:43:21.895Z] Command:       /Users/kanta/.config/nvm/12.14.1/bin/node /usr/local/bin/firebase functions:shell
+[debug] [2020-03-01T05:43:21.895Z] CLI Version:   7.11.0
+[debug] [2020-03-01T05:43:21.896Z] Platform:      darwin
+[debug] [2020-03-01T05:43:21.896Z] Node Version:  v12.14.1
+[debug] [2020-03-01T05:43:21.896Z] Time:          Sun Mar 01 2020 14:43:21 GMT+0900 (GMT+09:00)
+[debug] [2020-03-01T05:43:21.896Z] ----------------------------------------------------------------------
+[debug] [2020-03-01T05:43:21.896Z] 
+[debug] [2020-03-01T05:43:21.901Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-01T05:43:21.901Z] > authorizing via signed-in user
+[debug] [2020-03-01T05:43:21.901Z] [iam] checking project longo-ed4e7 for permissions ["firebase.projects.get"]
+[debug] [2020-03-01T05:43:21.902Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/longo-ed4e7:testIamPermissions  
+
+[debug] [2020-03-01T05:43:22.791Z] <<< HTTP RESPONSE 200
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "12"
+[info] ✔  functions: Emulator started at http://localhost:5000
+[debug] [2020-03-01T05:43:23.065Z] [functions] Watching "/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions" for Cloud Functions...
+[debug] [2020-03-01T05:43:23.074Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-03-01T05:43:23.074Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-03-01T05:43:23.074Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2020-03-01T05:43:23.075Z] DEBUG: [worker-~diagnostic~-3f6e6b04-efc8-4320-ba51-9dbc2e02f5cf]: Assigning socketPath: /var/folders/tr/x6_slfz54ms64fdmbpvgrvkm0000gp/T/fire_emu_3088.sock
+[debug] [2020-03-01T05:43:23.075Z] DEBUG: [worker-~diagnostic~-3f6e6b04-efc8-4320-ba51-9dbc2e02f5cf]: BUSY
+[debug] [2020-03-01T05:43:23.244Z] DEBUG: [runtime-status] [3088] Functions runtime initialized. {"cwd":"/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions","node_version":"12.14.1"}
+[debug] [2020-03-01T05:43:23.244Z] DEBUG: [runtime-status] [3088] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-01T05:43:23.246Z] DEBUG: [runtime-status] [3088] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-01T05:43:23.247Z] DEBUG: [runtime-status] [3088] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T05:43:23.247Z] DEBUG: [runtime-status] [3088] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T05:43:23.296Z] [functions[mockLongo]] http function initialized (http://localhost:5000/longo-ed4e7/us-central1/mockLongo).
+[info] i  functions: Loaded functions: mockLongo
+[debug] [2020-03-01T05:43:23.305Z] DEBUG: [worker-~diagnostic~-3f6e6b04-efc8-4320-ba51-9dbc2e02f5cf]: IDLE
+[debug] [2020-03-01T05:43:51.548Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-01T05:43:51.549Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-01T05:43:51.549Z] Accepted request GET /longo-ed4e7/us-central1/mockLongo --> mockLongo
+[debug] [2020-03-01T05:43:51.553Z] DEBUG: [worker-pool] addWorker(mockLongo)
+[debug] [2020-03-01T05:43:51.554Z] DEBUG: [worker-pool] Adding worker with key mockLongo, total=1
+[debug] [2020-03-01T05:43:51.554Z] DEBUG: [worker-pool] submitWork(triggerId=mockLongo)
+[debug] [2020-03-01T05:43:51.554Z] DEBUG: [worker-mockLongo-3ea96619-bae5-4af3-be43-ba07b144718d]: Assigning socketPath: /var/folders/tr/x6_slfz54ms64fdmbpvgrvkm0000gp/T/fire_emu_3100.sock
+[debug] [2020-03-01T05:43:51.554Z] DEBUG: [worker-mockLongo-3ea96619-bae5-4af3-be43-ba07b144718d]: BUSY
+[debug] [2020-03-01T05:43:51.730Z] DEBUG: [runtime-status] [3100] Functions runtime initialized. {"cwd":"/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions","node_version":"12.14.1"}
+[debug] [2020-03-01T05:43:51.731Z] DEBUG: [runtime-status] [3100] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-03-01T05:43:51.732Z] DEBUG: [runtime-status] [3100] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-01T05:43:51.733Z] DEBUG: [runtime-status] [3100] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T05:43:51.734Z] DEBUG: [runtime-status] [3100] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/kanta/Desktop/WORKSPACE/10.Development/20.Web/ssrPractice/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T05:43:51.779Z] DEBUG: [runtime-status] [3100] Trigger "mockLongo" has been found, beginning invocation!
+[debug] [2020-03-01T05:43:51.780Z] [functions] Beginning execution of "mockLongo"
+[debug] [2020-03-01T05:43:51.780Z] DEBUG: [runtime-status] [3100] triggerDefinition {"httpsTrigger":{},"name":"mockLongo","entryPoint":"mockLongo"}
+[debug] [2020-03-01T05:43:51.780Z] DEBUG: [runtime-status] [3100] Running mockLongo in mode HTTPS
+[debug] [2020-03-01T05:43:51.782Z] DEBUG: [runtime-status] [3100] Attempting to listen to socketPath: /var/folders/tr/x6_slfz54ms64fdmbpvgrvkm0000gp/T/fire_emu_3100.sock
+[debug] [2020-03-01T05:43:51.785Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T05:43:51.789Z] DEBUG: [runtime-status] [3100] Ephemeral server handling GET request
+[info] >  CollectionReference {
+[info] >    _firestore: Firestore {
+[info] >      _settings: {
+[info] >        credentials: [Object],
+[info] >        projectId: 'longo-ed4e7',
+[info] >        firebaseVersion: '8.9.2',
+[info] >        libName: 'gccl',
+[info] >        libVersion: '3.5.1 fire/8.9.2'
+[info] >      },
+[info] >      _settingsFrozen: false,
+[info] >      _serializer: Serializer { createReference: [Function] },
+[info] >      _projectId: 'longo-ed4e7',
+[info] >      registeredListenersCount: 0,
+[info] >      _lastSuccessfulRequest: 0,
+[info] >      _backoffSettings: { initialDelayMs: 100, maxDelayMs: 60000, backoffFactor: 1.3 },
+[info] >      _preferTransactions: false,
+[info] >      _clientPool: ClientPool {
+[info] >        concurrentOperationLimit: 100,
+[info] >        maxIdleClients: 1,
+[info] >        clientFactory: [Function],
+[info] >        clientDestructor: [Function],
+[info] >        activeClients: Map {},
+[info] >        terminated: false,
+[info] >        terminateDeferred: [Deferred]
+[info] >      }
+[info] >    },
+[info] >    _queryOptions: QueryOptions {
+[info] >      parentPath: ResourcePath { segments: [] },
+[info] >      collectionId: 'longs',
+[info] >      converter: {
+[info] >        toFirestore: [Function: toFirestore],
+[info] >        fromFirestore: [Function: fromFirestore]
+[info] >      },
+[info] >      allDescendants: false,
+[info] >      fieldFilters: [],
+[info] >      fieldOrders: [],
+[info] >      startAt: undefined,
+[info] >      endAt: undefined,
+[info] >      limit: undefined,
+[info] >      offset: undefined,
+[info] >      projection: undefined
+[info] >    },
+[info] >    _serializer: Serializer { createReference: [Function] }
+[info] >  }
+[info] >  WriteResult {
+[info] >    _writeTime: Timestamp { _seconds: 1583041169, _nanoseconds: 858761000 }
+[info] >  }
+[debug] [2020-03-01T05:43:52.592Z] DEBUG: [runtime-status] [3100] Ephemeral server survived.
+[debug] [2020-03-01T05:43:52.592Z] [functions] Finished "mockLongo" in ~1s
+[debug] [2020-03-01T05:43:52.592Z] DEBUG: [worker-mockLongo-3ea96619-bae5-4af3-be43-ba07b144718d]: IDLE
+[debug] [2020-03-01T05:43:52.593Z] [work-queue] {"queueLength":0,"workRunningCount":0}
