@@ -1,17 +1,14 @@
 import React, { FormEventHandler } from 'react';
-import { Field, reduxForm, InjectedFormProps, FormProps } from 'redux-form';
+import { Form, Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { Longo } from '../../../redux/modules/longos';
 
 export type LongoFormData = Longo;
-type Props = {
-    onSubmit : any,
-}
 
-const LongoForm: React.FC<any> = ({ onSubmit }) => {
+const LongoForm: React.FC<InjectedFormProps<LongoFormData>> = ({ handleSubmit }) => {
     return (
-        <form onSubmit={onSubmit}>
+        <Form onSubmit={handleSubmit}>
             <div>
-                <label>テキスト</label>
+                <label>テキスト2</label>
                 <Field type="text" component="input" name="text" />
             </div>
             <div>
@@ -23,8 +20,8 @@ const LongoForm: React.FC<any> = ({ onSubmit }) => {
                 <Field type="text" component="input" name="comment" />
             </div>
             <button type="submit">送信</button>
-        </form>
+        </Form>
     );
 }
 
-export default reduxForm({form: 'longo'})(LongoForm);
+export default reduxForm<LongoFormData>({form: 'longo'})(LongoForm);
