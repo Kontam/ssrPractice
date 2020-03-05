@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PageTemplate from '../../template/PageTemplate';
 import { RootState } from '../../../redux/store';
-import { Longo, setLongos } from '../../../redux/modules/longos';
+import { Longo, setLongos, readLongos } from '../../../redux/modules/longos';
 import CreateArea from '../../auganisms/CreateArea';
 
 const routeSelector = (state: RootState) => state.router;
@@ -17,7 +17,7 @@ const mockLongo: Longo = {
 
 const About: React.FC = () => {
     const dispatch = useDispatch();
-    useEffect(() => {dispatch(setLongos([mockLongo]))}, [])
+    useEffect(() => {dispatch(readLongos())}, [])
     console.log("About", useSelector(routeSelector));
     const longos = useSelector(longosSeletor);
     return (
