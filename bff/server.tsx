@@ -6,12 +6,21 @@ import RootRouter from '../src/shared/routes';
 import { StaticRouter } from 'react-router-dom';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { Provider } from 'react-redux';
+import bodyParser from 'body-parser';
+const Fetchr = require('fetchr');
 
+import BFFConst from './const';
 import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
 import { ConnectedRouter } from 'connected-react-router';
+import longosService from './services/longosService';
 
 const app = express();
+
+app.use(bodyParser.json());
+Fetchr.registerService(longosService);
+app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
+
 app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
 

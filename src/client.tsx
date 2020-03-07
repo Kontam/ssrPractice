@@ -10,11 +10,8 @@ import { ConnectedRouter } from 'connected-react-router';
 declare var window: { INITIAL_STATE : Partial<RootState> };
 const state = window.INITIAL_STATE || initialState;
 
-console.log(state);
-
 const history = createBrowserhistory();
 const store = initializeStore(history, state);
-console.log("store", store.getState());
 
 ReactDOM.hydrate(
 	<Provider store={store}>

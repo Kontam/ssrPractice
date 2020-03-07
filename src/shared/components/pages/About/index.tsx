@@ -5,26 +5,18 @@ import PageTemplate from '../../template/PageTemplate';
 import { RootState } from '../../../redux/store';
 import { Longo, setLongos, readLongos } from '../../../redux/modules/longos';
 import CreateArea from '../../auganisms/CreateArea';
+import LongoList from '../../molecules/LongoList';
 
-const routeSelector = (state: RootState) => state.router;
 const longosSeletor = (state: RootState) => state.longos;
-
-const mockLongo: Longo = {
-    text: "学びて時にこれを習う",
-    meaning: "復習いいよね",
-    comment: "やらねば",
-}
 
 const About: React.FC = () => {
     const dispatch = useDispatch();
     useEffect(() => {dispatch(readLongos())}, [])
-    console.log("About", useSelector(routeSelector));
     const longos = useSelector(longosSeletor);
     return (
         <PageTemplate>
-            About with effect
-            {longos.length>0 && longos[0].text || "ない"}
             <CreateArea />
+            <LongoList longos={longos} />
         </PageTemplate>
     )
 }

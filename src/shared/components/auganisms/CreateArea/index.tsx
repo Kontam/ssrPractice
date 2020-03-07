@@ -1,15 +1,13 @@
-import React, { Dispatch } from 'react'
-import { useSelector } from 'react-redux';
+import React from 'react'
 import LongoForm, { LongoFormData } from '../../molecules/LongoForm'
-import { FormSubmitHandler, SubmitHandler, InjectedFormProps } from 'redux-form'
-import { setLongos } from '../../../redux/modules/longos'
+import { FormSubmitHandler } from 'redux-form'
+import { createLongo } from '../../../redux/modules/longos'
 
 const CreateArea: React.FC = () => {
     const handleSubmit: FormSubmitHandler<LongoFormData, {} ,string> = (values, dispatch) => {
-        console.log(values, dispatch)
+       dispatch(createLongo(values)); 
     };
 
-    console.log("CreateArea", LongoForm)
     return (
         <div>
             <h2>新しく作る</h2>

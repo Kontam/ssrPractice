@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware, RouterState } from 'connected-react-router';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
+import { all } from 'redux-saga/effects';
 
 import createReducer from './modules/reducer';
 import { Longos, longosSaga } from './modules/longos';
@@ -19,8 +20,12 @@ export const initializeStore = (history: any, initialState: Partial<RootState> =
         initialState,
         composeWithDevTools(applyMiddleware(routerMiddleware(history),sagaMiddleware)),
     );
-    
-    sagaMiddleware.run(longosSaga);
+    const rootSaga = function*(){
+        yield all(
+            longosSaga,
+        );
+    }
+    sagaMiddleware.run(rootSaga);
 
     return store;
 }
