@@ -6,16 +6,23 @@ import { RootState } from '../../../redux/store';
 import { Longo, setLongos, readLongos } from '../../../redux/modules/longos';
 import CreateArea from '../../auganisms/CreateArea';
 import LongoList from '../../molecules/LongoList';
+import AddDialog from '../../molecules/AddDialog';
+import { AddDialogState, closeAddDialog } from '../../../redux/modules/addDialogState';
 
 const longosSeletor = (state: RootState) => state.longos;
 
 const About: React.FC = () => {
     const dispatch = useDispatch();
-    useEffect(() => {dispatch(readLongos())}, [])
     const longos = useSelector(longosSeletor);
+    const addDialogState = useSelector<RootState, AddDialogState>(state => state.addDialogState);
+
+    useEffect(() => {dispatch(readLongos())}, [])
+
+    const onDialogClose = () => { dispatch(closeAddDialog());}
+    
     return (
         <PageTemplate>
-            <CreateArea />
+            <AddDialog isOpen={addDialogState.isOpen} onClose={onDialogClose}/>
             <LongoList longos={longos} />
         </PageTemplate>
     )

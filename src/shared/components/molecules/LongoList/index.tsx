@@ -13,11 +13,19 @@ const Container = styled.ul`
     justify-content: space-around;
 `;
 
+const Item = styled.li`
+    margin-top: 20px;
+`;
+
 const LongoList: React.FC<Props> = ({ longos }) => {
     return (
         <Container>
             {
-                longos.map((longo) => <LongoCard key={longo.id} longo={longo} />)
+                longos.map((longo) => (
+                    <Item key={longo.id}>
+                        <LongoCard longo={longo} />
+                    </Item>
+                ))
             }
         </Container>
     )

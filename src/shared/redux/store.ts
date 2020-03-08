@@ -6,10 +6,12 @@ import { all } from 'redux-saga/effects';
 
 import createReducer from './modules/reducer';
 import { Longos, longosSaga } from './modules/longos';
+import { AddDialogState } from './modules/addDialogState';
 
 export type RootState = {
     router: RouterState,
     longos: Longos,
+    addDialogState: AddDialogState,
 };
 const sagaMiddleware = createSagaMiddleware();
 export const initialState: Partial<RootState> = {};

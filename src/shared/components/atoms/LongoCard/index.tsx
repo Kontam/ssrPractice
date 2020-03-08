@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card } from '@material-ui/core';
+import { Card, CardActions, IconButton, CardContent, Typography } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 import { Longo } from '../../../redux/modules/longos';
 
@@ -9,13 +12,10 @@ type Prop = {
     longo: Longo
 }
 
-const CardWrapper = styled.li`
-    list-style: none;
-`;
 
 const useStyles = makeStyles({
     root: {
-        minWidth: 250,
+        width: 800,
     }
 })
 
@@ -23,14 +23,22 @@ const LongoCard: React.FC<Prop> = ({ longo }) => {
     const classes = useStyles();
 
     return (
-        <CardWrapper key={longo.id}>
-            <Card className={classes.root}>
-                <p>ID: {longo.id}</p>
-                <p>Text: {longo.text}</p>
-                <p>Meaning: {longo.meaning}</p>
-                <p>Comment: {longo.comment}</p>
-            </Card>
-        </CardWrapper>
+        <Card className={classes.root}>
+            <CardActions>
+                <IconButton aria-label="Edit Item">
+                    <EditIcon />
+                </IconButton>
+                <IconButton aria-label="Delete Item">
+                    <DeleteIcon />
+                </IconButton>
+            </CardActions>
+            <CardContent>
+                <Typography>ID: {longo.id}</Typography>
+                <Typography>Text: {longo.text}</Typography>
+                <Typography>Meaning: {longo.meaning}</Typography>
+                <Typography>Comment: {longo.comment}</Typography>
+            </CardContent>
+        </Card>
     )
 }
 

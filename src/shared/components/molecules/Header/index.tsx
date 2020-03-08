@@ -5,6 +5,9 @@ import AddIcon from '@material-ui/icons/Add';
 import AppBar from '@material-ui/core/AppBar';
 import HeaderMenuItem from '../../atoms/HeaderMenuItem';
 import { Toolbar, Fab, Tooltip } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../../redux/store';
+import { closeAddDialog, AddDialogState, openAddDialog } from '../../../redux/modules/addDialogState';
 
 export type NavMenu = {
     text: string,
@@ -28,6 +31,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const Header: React.FC = () => {
+    const addDialogState = useSelector<RootState, AddDialogState>(state => state.addDialogState);
+    const dispatch = useDispatch();
+
     const NavMenus: NavMenu[] = [
         {
             text: "home",
@@ -39,8 +45,10 @@ const Header: React.FC = () => {
             href: "/about",
             description: "論語の一覧が見られます",
         }
+    ];
 
-    ]
+    const handleAddIconClick: React.MouseEventHandler = () => { dispatch(addDialogState.isOpen ? closeAddDialog() : openAddDialog())};
+    
     return (
         <AppBar position="static">
             <Toolbar>
@@ -50,7 +58,7 @@ const Header: React.FC = () => {
                 {/* </MenuList> */}
             {/* </Nav> */}
                 <Tooltip title="新しいアイテムを作成">
-                    <Fab color="default" area-label="add">
+                    <Fab color="default" area-label="add" onClick={handleAddIconClick}>
                         <AddIcon />
                     </Fab>
                 </ Tooltip>
