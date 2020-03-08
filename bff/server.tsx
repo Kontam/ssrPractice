@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import React from 'react';
+import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
 import ssrLoger from './middleware/ssrLoger';
 import RootRouter from '../src/shared/routes';
@@ -14,6 +15,7 @@ import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
 import { ConnectedRouter } from 'connected-react-router';
 import longosService from './services/longosService';
+import GlobalStyle from '../src/shared/modules/GlobalStyle';
 
 const app = express();
 
@@ -32,16 +34,27 @@ app.get('*', (req: Request, res: Response) => {
     })
     const store = initializeStore(history); 
 
-   const content = renderToString(
-        <Provider store={store}>
-            <ConnectedRouter history={history}>
-                <StaticRouter location={req.url} context={{}}>
-                    <RootRouter />
-                </StaticRouter>
-            </ConnectedRouter>
-        </Provider>
-   );
-   res.write(render(content, store.getState()));
+    const sheet = new ServerStyleSheet();
+    let content = "";
+    let styleTags = "";
+    try {
+        content = renderToString(sheet.collectStyles(
+                <Provider store={store}>
+                    <GlobalStyle />
+                    <ConnectedRouter history={history}>
+                        <StaticRouter location={req.url} context={{}}>
+                            <RootRouter />
+                        </StaticRouter>
+                    </ConnectedRouter>
+                </Provider>
+        ));
+        styleTags = sheet.getStyleTags();
+    }catch (error) {
+        console.log("server.tsx", error);
+    } finally {
+        sheet.seal();
+    }
+   res.write(render(content, styleTags ,store.getState()));
    res.end(); 
 });
 
