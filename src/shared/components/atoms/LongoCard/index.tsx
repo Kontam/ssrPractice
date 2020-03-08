@@ -13,10 +13,18 @@ const CardWrapper = styled.li`
     list-style: none;
 `;
 
+const useStyles = makeStyles({
+    root: {
+        minWidth: 250,
+    }
+})
+
 const LongoCard: React.FC<Prop> = ({ longo }) => {
+    const classes = useStyles();
+
     return (
         <CardWrapper key={longo.id}>
-            <Card>
+            <Card className={classes.root}>
                 <p>ID: {longo.id}</p>
                 <p>Text: {longo.text}</p>
                 <p>Meaning: {longo.meaning}</p>

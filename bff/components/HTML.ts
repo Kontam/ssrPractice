@@ -1,11 +1,12 @@
 import { RootState } from "../../src/shared/redux/store"
 
-export default (content: string, style: string, state: RootState) => {
+export default (content: string, style: string, materialStyles: any, state: RootState) => {
     return `
     <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style id="jss-server-side">${materialStyles}</style>
             <title>Document</title>
         </head>
         ${style}

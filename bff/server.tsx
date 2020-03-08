@@ -8,6 +8,7 @@ import { StaticRouter } from 'react-router-dom';
 import createMemoryHistory from 'history/createMemoryHistory';
 import { Provider } from 'react-redux';
 import bodyParser from 'body-parser';
+import { ThemeProvider, createMuiTheme, ServerStyleSheets as MaterialStyleSheets } from '@material-ui/core/styles';
 const Fetchr = require('fetchr');
 
 import BFFConst from './const';
@@ -33,12 +34,13 @@ app.get('*', (req: Request, res: Response) => {
         initialIndex: 0,
     })
     const store = initializeStore(history); 
+    const materialStyles = new MaterialStyleSheets()
 
     const sheet = new ServerStyleSheet();
     let content = "";
     let styleTags = "";
     try {
-        content = renderToString(sheet.collectStyles(
+        content = renderToString(materialStyles.collect(sheet.collectStyles(
                 <Provider store={store}>
                     <GlobalStyle />
                     <ConnectedRouter history={history}>
@@ -47,14 +49,14 @@ app.get('*', (req: Request, res: Response) => {
                         </StaticRouter>
                     </ConnectedRouter>
                 </Provider>
-        ));
+        )));
         styleTags = sheet.getStyleTags();
     }catch (error) {
         console.log("server.tsx", error);
     } finally {
         sheet.seal();
     }
-   res.write(render(content, styleTags ,store.getState()));
+   res.write(render(content, styleTags, materialStyles.toString() ,store.getState()));
    res.end(); 
 });
 
