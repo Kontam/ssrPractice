@@ -8,12 +8,14 @@ import createReducer from './modules/reducer';
 import { Longos, longosSaga } from './modules/longos';
 import { AddDialogState } from './modules/addDialogState';
 import { UpdateDialogState } from './modules/updateDialogState';
+import { RemoveDialogState } from './modules/removeDialogState';
 
 export type RootState = {
     router: RouterState,
     longos: Longos,
     addDialogState: AddDialogState,
     updateDialogState: UpdateDialogState,
+    removeDialogState: RemoveDialogState,
 };
 const sagaMiddleware = createSagaMiddleware();
 export const initialState: Partial<RootState> = {};

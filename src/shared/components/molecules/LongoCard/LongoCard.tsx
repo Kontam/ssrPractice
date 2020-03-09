@@ -8,6 +8,7 @@ import { ContainerProps } from "./";
 
 export type Props = {
     handleEditClickCreator: (id:string) => React.MouseEventHandler
+    handleDeleteClickCreator: (id:string) => React.MouseEventHandler
 } & ContainerProps
 
 
@@ -17,9 +18,10 @@ const useStyles = makeStyles({
     }
 })
 
-const LongoCard: React.FC<Props> = ({ longo, handleEditClickCreator }) => {
+const LongoCard: React.FC<Props> = ({ longo, handleEditClickCreator, handleDeleteClickCreator }) => {
     const classes = useStyles();
-    const handleEditClick = useCallback(handleEditClickCreator(longo.id), [longo.id])
+    const handleEditClick = useCallback(handleEditClickCreator(longo.id), [longo.id]);
+    const handleDeleteClick = useCallback(handleDeleteClickCreator(longo.id), [longo.id]);
 
     return (
         <Card className={classes.root}>
@@ -27,7 +29,7 @@ const LongoCard: React.FC<Props> = ({ longo, handleEditClickCreator }) => {
                 <IconButton aria-label="Edit Item" onClick={handleEditClick}>
                     <EditIcon />
                 </IconButton>
-                <IconButton aria-label="Delete Item">
+                <IconButton aria-label="Delete Item" onClick={handleDeleteClick}>
                     <DeleteIcon />
                 </IconButton>
             </CardActions>

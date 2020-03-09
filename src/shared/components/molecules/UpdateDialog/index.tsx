@@ -18,11 +18,11 @@ export default () => {
 
     const onClose = () => dispatch(closeUpdateDialog());
     const onSubmit: FormSubmitHandler<Longo, {}, string> = (values, dispatch) => {
-        console.log("update submit", values);
-         dispatch(updateLongo({
-             ...values,
-             id: target.id,
-         }))};
+        dispatch(updateLongo({
+            ...values,
+            id: target.id,
+        }))
+    };
 
 
     return (

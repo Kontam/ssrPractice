@@ -3,6 +3,9 @@ import { call, takeEvery, put } from 'redux-saga/effects';
 import fetchr from '../util/fetchr';
 import { updateParams } from '../../../../bff/services/longosService';
 import ClientConst from '../../../ClientConst';
+import { closeUpdateDialog } from './updateDialogState';
+import { closeAddDialog } from './addDialogState';
+import { closeRemoveDialog } from './removeDialogState';
 
 export type Longo = {
     id: string,
@@ -46,16 +49,21 @@ function* requestFetchLongos() {
 function* requestPostLongo({ payload }: Action<Longo>) {
     const result = yield fetchr.create(ClientConst.longosDataName).body(payload).end();
     yield put(addLongo(result.data));
+    yield put(closeAddDialog());
 }
 
 function* requestPatchLongo({ payload }: Action<Longo>) {
     const result = yield fetchr.update(ClientConst.longosDataName).body(payload).end();
     yield put(patchLongo(result.data));
+    yield put(closeUpdateDialog());
 }
 
 function* requestDeleteLongo({ payload }: Action<string>) {
-    const result = yield fetchr.delete(ClientConst.longosDataName).body(payload).end();
-    yield put(deleteLongo(result.data));
+    console.log("requestDelete", payload);
+    const result = yield fetchr.delete(ClientConst.longosDataName).params({id: payload}).end();
+    console.log(result);
+    yield put((removeLongo(result.data.id)));
+    yield put(closeRemoveDialog());
 }
 
 export const longosSaga = [

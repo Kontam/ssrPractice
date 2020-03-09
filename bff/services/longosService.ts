@@ -48,7 +48,14 @@ export default {
         callback(null, result.data, meta);
     },
 
-    delete: async (req: Express.Request, resource: any, params: any, config: any, callback: any) => {
-
+    delete: async (req: Express.Request, resource: any, params: {id: string}, config: any, callback: any) => {
+        const meta = {
+            headers: {},
+            statusCode: 200,
+        };
+        console.log("before", params);
+        const result = await axios.delete<Longo>("", { data: params })
+        console.log("Longos Servce Delete", result.data)
+        callback(null, result.data, meta);
     },
 }
