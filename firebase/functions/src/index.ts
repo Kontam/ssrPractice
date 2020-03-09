@@ -19,8 +19,8 @@ type Longo = {
  * @param id チェック対象データのid
  * @return {boolean} 存在すればfalse
  */
-async function checkIsEmptyById(ref :any, id: string) {
-    return await (await ref.where("id", "==", id).get()).empty
+async function checkIsEmptyById(ref :FirebaseFirestore.CollectionReference<FirebaseFirestore.DocumentData>, id: string) {
+    return (await ref.doc(id).get()).exists;
 }
 
 export const longoAPI = functions.https.onRequest(async (request, response) => {
@@ -43,7 +43,7 @@ export const longoAPI = functions.https.onRequest(async (request, response) => {
 
         case "PATCH":
             const params: Longo = request.body;
-            if (await checkIsEmptyById(ref, params.id)) {
+            if (! await checkIsEmptyById(ref, params.id)) {
                 response.send(`${params.id} is not exist`);
                 break;
             }
