@@ -54,8 +54,12 @@ export const longoAPI = functions.https.onRequest(async (request, response) => {
         case "POST":
             const newPost: Partial<Longo> = request.body;
             //TODO: エラーチェックが公式に書いてないのでなにか考えたい
-             await ref.add(newPost);
-            response.send(newPost);
+            const newDocRef = await ref.add(newPost);
+            const res = {
+                ...(await newDocRef.get()).data(),
+                id: newDocRef.id
+            }
+            response.send(res);
             break;
         
         case "DELETE":
