@@ -43,8 +43,9 @@ export default {
             headers: {},
             statusCode: 200,
         };
-
         const result = await axios.patch<Longo>("", body)
+        console.log("Longos Servce Patch", result.data)
+        callback(null, result.data, meta);
     },
 
     delete: async (req: Express.Request, resource: any, params: any, config: any, callback: any) => {

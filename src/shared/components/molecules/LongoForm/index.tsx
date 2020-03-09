@@ -82,4 +82,7 @@ const LongoForm: React.FC<InjectedFormProps<LongoFormData>> = ({
   );
 };
 
-export default reduxForm<LongoFormData>({ form: "longo" })(LongoForm);
+export default reduxForm<LongoFormData>({
+    form: "longo",
+})(LongoForm);
+

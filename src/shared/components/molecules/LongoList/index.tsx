@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Longos } from '../../../redux/modules/longos';
-import LongoCard from '../../atoms/LongoCard';
+import LongoCard from '../LongoCard';
 
 type Props = {
     longos :Longos
