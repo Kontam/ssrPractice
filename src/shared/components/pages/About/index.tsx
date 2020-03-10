@@ -8,6 +8,8 @@ import CreateArea from '../../auganisms/CreateArea';
 import LongoList from '../../molecules/LongoList';
 import AddDialog from '../../molecules/AddDialog';
 import { AddDialogState, closeAddDialog } from '../../../redux/modules/addDialogState';
+import UpdateDIalog from '../../molecules/UpdateDIalog';
+import RemoveDialog from '../../molecules/RemoveDialog';
 
 const longosSeletor = (state: RootState) => state.longos;
 
@@ -23,6 +25,8 @@ const About: React.FC = () => {
     return (
         <PageTemplate>
             <AddDialog isOpen={addDialogState.isOpen} onClose={onDialogClose}/>
+            <UpdateDIalog />
+            <RemoveDialog/>
             <LongoList longos={longos} />
         </PageTemplate>
     )
