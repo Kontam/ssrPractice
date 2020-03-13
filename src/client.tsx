@@ -19,7 +19,7 @@ ReactDOM.hydrate(
 		<GlobalStyle />
 		<ConnectedRouter history={history}>
 			<Router>
-				<RootRouter />
+				<RootRouter store={store}/>
 			</Router>
 		</ ConnectedRouter>
 	</Provider>,

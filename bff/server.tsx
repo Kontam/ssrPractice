@@ -17,6 +17,7 @@ import { initializeStore } from '../src/shared/redux/store';
 import { ConnectedRouter } from 'connected-react-router';
 import longosService from './services/longosService';
 import GlobalStyle from '../src/shared/modules/GlobalStyle';
+import { readLongos, promiseReadLongos } from '../src/shared/redux/modules/longos';
 
 const app = express();
 
@@ -33,31 +34,40 @@ app.get('*', (req: Request, res: Response) => {
         initialEntries: [req.url],
         initialIndex: 0,
     })
-    const store = initializeStore(history); 
+    const store = initializeStore(history);
+    const prepare = () => {
+        return new Promise((resolve, reject) => {
+            store.dispatch(promiseReadLongos({resolve, reject}))
+        })
+    }
+    
     const materialStyles = new MaterialStyleSheets()
-
     const sheet = new ServerStyleSheet();
     let content = "";
     let styleTags = "";
-    try {
-        content = renderToString(materialStyles.collect(sheet.collectStyles(
-                <Provider store={store}>
-                    <GlobalStyle />
-                    <ConnectedRouter history={history}>
-                        <StaticRouter location={req.url} context={{}}>
-                            <RootRouter />
-                        </StaticRouter>
-                    </ConnectedRouter>
-                </Provider>
-        )));
-        styleTags = sheet.getStyleTags();
-    }catch (error) {
-        console.log("server.tsx", error);
-    } finally {
-        sheet.seal();
-    }
-   res.write(render(content, styleTags, materialStyles.toString() ,store.getState()));
-   res.end(); 
+
+    prepare().then((result) => {
+        try {
+            content = renderToString(materialStyles.collect(sheet.collectStyles(
+                    <Provider store={store}>
+                        <GlobalStyle />
+                        <ConnectedRouter history={history}>
+                            <StaticRouter location={req.url} context={{}}>
+                                <RootRouter store={store} />
+                            </StaticRouter>
+                        </ConnectedRouter>
+                    </Provider>
+            )));
+            styleTags = sheet.getStyleTags();
+        }catch (error) {
+            console.log("server.tsx", error);
+        } finally {
+            sheet.seal();
+        }
+       res.write(render(content, styleTags, materialStyles.toString() ,store.getState()));
+       res.end(); 
+    })
+    
 });
 
 app.listen(

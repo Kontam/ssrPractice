@@ -1,5 +1,5 @@
 import { handleActions, createAction, Action } from 'redux-actions';
-import { call, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery, put, take } from 'redux-saga/effects';
 import fetchr from '../util/fetchr';
 import { updateParams } from '../../../../bff/services/longosService';
 import ClientConst from '../../../ClientConst';
@@ -66,11 +66,21 @@ function* requestDeleteLongo({ payload }: Action<string>) {
     yield put(closeRemoveDialog());
 }
 
+export const PROMISE_READ_LONGOS = "PROMISE_READ_LONGOS"; 
+export const promiseReadLongos = createAction(PROMISE_READ_LONGOS);
+
+function* promiseReadLongosSaga({ payload: { resolve, reject }} :any) {
+    const result = yield fetchr.read(ClientConst.longosDataName).params({id: "aaa"}).end();
+    yield put(setLongos(result.data)) 
+    resolve(result)
+}
+
 export const longosSaga = [
     takeEvery(FETCH_LONGOS, requestFetchLongos),
     takeEvery(POST_LONGO, requestPostLongo),
     takeEvery(UPDATE_LONGO, requestPatchLongo),
     takeEvery(DELETE_LONGO, requestDeleteLongo),
+    takeEvery(PROMISE_READ_LONGOS,promiseReadLongosSaga),
 ];
 
 export default handleActions<Longos, any>({

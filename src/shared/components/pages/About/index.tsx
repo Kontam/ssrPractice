@@ -10,15 +10,20 @@ import AddDialog from '../../molecules/AddDialog';
 import { AddDialogState, closeAddDialog } from '../../../redux/modules/addDialogState';
 import UpdateDIalog from '../../molecules/UpdateDIalog';
 import RemoveDialog from '../../molecules/RemoveDialog';
+import { Store } from 'redux';
 
 const longosSeletor = (state: RootState) => state.longos;
+
+type Props = {
+    
+}
 
 const About: React.FC = () => {
     const dispatch = useDispatch();
     const longos = useSelector(longosSeletor);
     const addDialogState = useSelector<RootState, AddDialogState>(state => state.addDialogState);
 
-    useEffect(() => {dispatch(readLongos())}, [])
+    // useEffect(() => {dispatch(readLongos())}, [])
 
     const onDialogClose = () => { dispatch(closeAddDialog());}
     
@@ -30,6 +35,10 @@ const About: React.FC = () => {
             <LongoList longos={longos} />
         </PageTemplate>
     )
+}
+
+About.prototype.getInitialProps = async (store: Store) => {
+    await store.dispatch(readLongos());
 }
 
 export default About;
