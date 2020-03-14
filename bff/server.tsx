@@ -3,21 +3,18 @@ import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
 import ssrLoger from './middleware/ssrLoger';
-import RootRouter from '../src/shared/routes';
 import { StaticRouter } from 'react-router-dom';
 import createMemoryHistory from 'history/createMemoryHistory';
-import { Provider } from 'react-redux';
 import bodyParser from 'body-parser';
-import { ThemeProvider, createMuiTheme, ServerStyleSheets as MaterialStyleSheets } from '@material-ui/core/styles';
+import { ServerStyleSheets as MaterialStyleSheets } from '@material-ui/core/styles';
 const Fetchr = require('fetchr');
 
 import BFFConst from './const';
 import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
-import { ConnectedRouter } from 'connected-react-router';
 import longosService from './services/longosService';
-import GlobalStyle from '../src/shared/modules/GlobalStyle';
-import { readLongos, promiseReadLongos } from '../src/shared/redux/modules/longos';
+import { promiseReadLongos } from '../src/shared/redux/modules/longos';
+import App from '../src/shared/components/pages/App';
 
 const app = express();
 
@@ -49,14 +46,9 @@ app.get('*', (req: Request, res: Response) => {
     prepare().then((result) => {
         try {
             content = renderToString(materialStyles.collect(sheet.collectStyles(
-                    <Provider store={store}>
-                        <GlobalStyle />
-                        <ConnectedRouter history={history}>
-                            <StaticRouter location={req.url} context={{}}>
-                                <RootRouter store={store} />
-                            </StaticRouter>
-                        </ConnectedRouter>
-                    </Provider>
+                <StaticRouter location={req.url} context={{}}>
+                    <App store={store} history={history} />
+                </StaticRouter>
             )));
             styleTags = sheet.getStyleTags();
         }catch (error) {
