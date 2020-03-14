@@ -53,7 +53,6 @@ export default {
             headers: {},
             statusCode: 200,
         };
-        console.log("before");
         const result = await axios.delete<Longo>("", { data: params })
         console.log("Longos Servce Delete", result.data)
         callback(null, result.data, meta);

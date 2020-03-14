@@ -26,7 +26,6 @@ app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
 
 app.get('*', (req: Request, res: Response) => {
-
     const history = createMemoryHistory({
         initialEntries: [req.url],
         initialIndex: 0,
