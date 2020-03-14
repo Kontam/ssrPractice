@@ -15,7 +15,7 @@ const App: React.FC<Props> = ({ store, history }) => {
         <Provider store={store}>
             <GlobalStyle />
             <ConnectedRouter history={history}>
-                <RootRouter store={store} />
+                <RootRouter />
             </ConnectedRouter>
         </Provider>
     )

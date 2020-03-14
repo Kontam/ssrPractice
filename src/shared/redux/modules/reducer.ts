@@ -5,6 +5,7 @@ import longos from '../modules/longos';
 import addDialogState from './addDialogState';
 import updateDialogState from './updateDialogState';
 import removeDialogState from './removeDialogState';
+import isMounted from '../modules/isMounted';
 
 const createReducer = (history :any) => {
     return combineReducers({
@@ -12,6 +13,7 @@ const createReducer = (history :any) => {
         addDialogState,
         removeDialogState,
         updateDialogState,
+        isMounted,
         form: formReducer,
         router: connectRouter(history),
     });

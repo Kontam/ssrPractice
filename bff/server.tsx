@@ -3,7 +3,7 @@ import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
 import ssrLoger from './middleware/ssrLoger';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter, matchPath } from 'react-router-dom';
 import createMemoryHistory from 'history/createMemoryHistory';
 import bodyParser from 'body-parser';
 import { ServerStyleSheets as MaterialStyleSheets } from '@material-ui/core/styles';
@@ -13,8 +13,8 @@ import BFFConst from './const';
 import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
 import longosService from './services/longosService';
-import { promiseReadLongos } from '../src/shared/redux/modules/longos';
 import App from '../src/shared/components/pages/App';
+import routes from '../src/shared/routes/routes';
 
 const app = express();
 
@@ -33,9 +33,15 @@ app.get('*', (req: Request, res: Response) => {
     })
     const store = initializeStore(history);
     const prepare = () => {
-        return new Promise((resolve, reject) => {
-            store.dispatch(promiseReadLongos({resolve, reject}))
+        // From official example
+        // See: https://reacttraining.com/react-router/web/guides/server-rendering
+        const promises: Function[] = [];
+        routes.some(route => {
+            const match = matchPath(req.path, route);
+            if (match) promises.push(route.loadData(store, match));
+            return match;
         })
+        return Promise.all(promises);
     }
     
     const materialStyles = new MaterialStyleSheets()
@@ -43,7 +49,7 @@ app.get('*', (req: Request, res: Response) => {
     let content = "";
     let styleTags = "";
 
-    prepare().then((result) => {
+    prepare().then(() => {
         try {
             content = renderToString(materialStyles.collect(sheet.collectStyles(
                 <StaticRouter location={req.url} context={{}}>

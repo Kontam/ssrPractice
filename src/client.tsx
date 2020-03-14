@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { initialState, RootState, initializeStore } from './shared/redux/store';
+import { INITIAL_STATE, RootState, initializeStore } from './shared/redux/store';
 import createBrowserhistory from 'history/createBrowserHistory';
 import App from './shared/components/pages/App';
 
 declare var window: { INITIAL_STATE : Partial<RootState> };
-const state = window.INITIAL_STATE || initialState;
+const state = window.INITIAL_STATE || INITIAL_STATE;
 
 const history = createBrowserhistory();
 const store = initializeStore(history, state);

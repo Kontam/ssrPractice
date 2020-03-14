@@ -1,7 +1,6 @@
 import { handleActions, createAction, Action } from 'redux-actions';
 import { call, takeEvery, put, take } from 'redux-saga/effects';
 import fetchr from '../util/fetchr';
-import { updateParams } from '../../../../bff/services/longosService';
 import ClientConst from '../../../ClientConst';
 import { closeUpdateDialog } from './updateDialogState';
 import { closeAddDialog } from './addDialogState';
@@ -28,7 +27,7 @@ export const POST_LONGO = "POST_LONGO" as const;
 export const UPDATE_LONGO = "UPDATE_LONGO" as const;
 export const DELETE_LONGO = "DELETE_LONGO" as const;
 
-export const initialState: Longos = [];
+export const INITIAL_STATE: Longos = [];
 
 export const setLongos = createAction<Longos>(SET_LONGOS);
 export const addLongo = createAction<Longo>(ADD_LONGO);
@@ -95,7 +94,7 @@ export default handleActions<Longos, any>({
     [REMOVE_LONGO]: (state: Longos, { payload }: Action<string>) => {
         return state.filter((longo) => longo.id !== payload);
     }
-}, initialState);
+}, INITIAL_STATE);
 
 
 

@@ -9,6 +9,7 @@ import { Longos, longosSaga } from './modules/longos';
 import { AddDialogState } from './modules/addDialogState';
 import { UpdateDialogState } from './modules/updateDialogState';
 import { RemoveDialogState } from './modules/removeDialogState';
+import { IsMounted } from './modules/isMounted';
 
 export type RootState = {
     router: RouterState,
@@ -16,9 +17,10 @@ export type RootState = {
     addDialogState: AddDialogState,
     updateDialogState: UpdateDialogState,
     removeDialogState: RemoveDialogState,
+    isMounted: IsMounted,
 };
 const sagaMiddleware = createSagaMiddleware();
-export const initialState: Partial<RootState> = {};
+export const INITIAL_STATE: Partial<RootState> = {};
 
 export const initializeStore = (history: any, initialState: Partial<RootState> = {}) => {
     const store = createStore(

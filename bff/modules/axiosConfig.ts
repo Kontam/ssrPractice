@@ -4,7 +4,7 @@ import BFFConst from '../const';
 
 const axios = axiosFactory.create({
     baseURL: BFFConst.BACKEND_ENDPOINT,
-    timeout: 10000,
+    timeout: 20000,
     headers: {},
 });
 

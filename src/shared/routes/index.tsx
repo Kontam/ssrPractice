@@ -1,26 +1,14 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter, } from 'react-router-dom';
-import Home from '../components/pages/Home';
-import About from '../components/pages/About';
-import { Store } from 'redux';
+import { Switch, Route } from 'react-router-dom';
+import routes from './routes';
 
-type Props = {
-    store: Store,
-}
-
-const RootRouter: React.FC<Props> = ({ store }) => (
+const RootRouter: React.FC = () => (
     <Switch>
-        <Route
-            path="/about"
-            render={() => {
-            // const a = About.prototype.getInitialProps(store);
-            return <About />
-        }}
-        />
-        <Route
-            path="/"
-            render={() => <Home />}
-        />
+        {
+            routes.map(route => (
+                <Route {...route} key={route.path}/>
+            ))
+        }
   </Switch>
 )
 
