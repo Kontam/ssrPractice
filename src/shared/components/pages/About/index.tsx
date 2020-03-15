@@ -11,6 +11,7 @@ import UpdateDIalog from '../../molecules/UpdateDIalog';
 import RemoveDialog from '../../molecules/RemoveDialog';
 import { Store } from 'redux';
 import { setTrueIsMounted } from '../../../redux/modules/isMounted';
+import SnackBar from '../../atoms/SnackBar';
 
 const longosSeletor = (state: RootState) => state.longos;
 
@@ -34,6 +35,7 @@ const About: React.FC = () => {
             <UpdateDIalog />
             <RemoveDialog/>
             <LongoList longos={longos} />
+            <SnackBar />
         </PageTemplate>
     )
 }

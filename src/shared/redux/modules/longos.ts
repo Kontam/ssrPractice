@@ -5,12 +5,15 @@ import ClientConst from '../../../ClientConst';
 import { closeUpdateDialog } from './updateDialogState';
 import { closeAddDialog } from './addDialogState';
 import { closeRemoveDialog } from './removeDialogState';
+import { openSnackBar } from './snackBarState';
+import { startLoading, endLoading } from './loading';
 
 export type Longo = {
     id: string,
     text: string,
     meaning: string,
     comment: string,
+    loading: boolean,
 };
 
 export type Longos = Longo[];
@@ -29,6 +32,7 @@ export const DELETE_LONGO = "DELETE_LONGO" as const;
 
 export const INITIAL_STATE: Longos = [];
 
+// State Cange
 export const setLongos = createAction<Longos>(SET_LONGOS);
 export const addLongo = createAction<Longo>(ADD_LONGO);
 export const patchLongo = createAction<Longo>(PATCH_LONGO);
@@ -46,21 +50,30 @@ function* requestFetchLongos() {
 }
 
 function* requestPostLongo({ payload }: Action<Longo>) {
+    yield put(startLoading());
     const result = yield fetchr.create(ClientConst.longosDataName).body(payload).end();
     yield put(addLongo(result.data));
+    yield put(endLoading());
     yield put(closeAddDialog());
+    yield put(openSnackBar("アイテムを作成しました"));
 }
 
 function* requestPatchLongo({ payload }: Action<Longo>) {
+    yield put(startLoading());
     const result = yield fetchr.update(ClientConst.longosDataName).body(payload).end();
     yield put(patchLongo(result.data));
+    yield put(endLoading());
     yield put(closeUpdateDialog());
+    yield put(openSnackBar("編集が完了しました"));
 }
 
 function* requestDeleteLongo({ payload }: Action<string>) {
+    yield put(startLoading());
     const result = yield fetchr.delete(ClientConst.longosDataName).params({id: payload}).end();
     yield put((removeLongo(result.data.id)));
+    yield put(endLoading());
     yield put(closeRemoveDialog());
+    yield put(openSnackBar("アイテムを削除しました"));
 }
 
 export const PROMISE_READ_LONGOS = "PROMISE_READ_LONGOS"; 
@@ -91,7 +104,7 @@ export default handleActions<Longos, any>({
     },
     [REMOVE_LONGO]: (state: Longos, { payload }: Action<string>) => {
         return state.filter((longo) => longo.id !== payload);
-    }
+    },
 }, INITIAL_STATE);
 
 
