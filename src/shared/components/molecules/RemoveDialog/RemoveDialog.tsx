@@ -1,7 +1,8 @@
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import { DialogTitle, DialogContent, Typography, DialogActions, Button } from '@material-ui/core';
+import { DialogTitle, DialogContent, Typography, DialogActions, Button, makeStyles } from '@material-ui/core';
 import { Longo } from '../../../redux/modules/longos';
+import LoadingLine from '../../atoms/LoadingLine';
 
 type Props = {
     isOpen: boolean 
@@ -11,15 +12,23 @@ type Props = {
     onCancelClick: React.MouseEventHandler
 }
 
+const useStyles = makeStyles({
+        heading: {
+            marginBottom: 15,
+        }
+    })
+
 const RemoveDialog: React.FC<Props> = ({isOpen, onClose, longo, onDeleteClick, onCancelClick}) => {
+    const classes = useStyles();
     return (
         <Dialog open={isOpen} onClose={onClose} maxWidth={"lg"} fullWidth={true}>
             <DialogTitle>アイテムの削除</DialogTitle>
-            <DialogContent>
-                <Typography>以下のアイテムを削除します。よろしいですか？</Typography>
-                <Typography>{longo.text}</Typography>
-                <Typography>{longo.meaning}</Typography>
-                <Typography>{longo.comment}</Typography>
+            <LoadingLine/>
+            <DialogContent dividers>
+                <Typography className={classes.heading} variant="h6">以下のアイテムを削除します。よろしいですか？</Typography>
+                <Typography variant="body1">{longo.text}</Typography>
+                <Typography variant="body1">{longo.meaning}</Typography>
+                <Typography variant="body1">{longo.comment}</Typography>
             </DialogContent>
             <DialogActions>
                 <Button color="primary" onClick={onDeleteClick}>
