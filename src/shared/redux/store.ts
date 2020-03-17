@@ -9,6 +9,9 @@ import { Longos, longosSaga } from './modules/longos';
 import { AddDialogState } from './modules/addDialogState';
 import { UpdateDialogState } from './modules/updateDialogState';
 import { RemoveDialogState } from './modules/removeDialogState';
+import { IsMounted } from './modules/isMounted';
+import { SnackBarState } from './modules/snackBarState';
+import { Loading } from './modules/loading';
 
 export type RootState = {
     router: RouterState,
@@ -16,21 +19,24 @@ export type RootState = {
     addDialogState: AddDialogState,
     updateDialogState: UpdateDialogState,
     removeDialogState: RemoveDialogState,
+    snackBarState: SnackBarState,
+    loading: Loading,
+    isMounted: IsMounted,
 };
-const sagaMiddleware = createSagaMiddleware();
-export const initialState: Partial<RootState> = {};
+export const INITIAL_STATE: Partial<RootState> = {};
 
 export const initializeStore = (history: any, initialState: Partial<RootState> = {}) => {
+const sagaMiddleware = createSagaMiddleware();
+const rootSaga = function*(){
+    yield all(
+        longosSaga,
+    );
+}
     const store = createStore(
         createReducer(history),
         initialState,
         composeWithDevTools(applyMiddleware(routerMiddleware(history),sagaMiddleware)),
     );
-    const rootSaga = function*(){
-        yield all(
-            longosSaga,
-        );
-    }
     sagaMiddleware.run(rootSaga);
 
     return store;

@@ -34,7 +34,7 @@ const LongoCard: React.FC<Props> = ({ longo, handleEditClickCreator, handleDelet
                 </IconButton>
             </CardActions>
             <CardContent>
-                <Typography>ID: {longo.id}</Typography>
+                {/* <Typography>ID: {longo.id}</Typography> */}
                 <Typography>Text: {longo.text}</Typography>
                 <Typography>Meaning: {longo.meaning}</Typography>
                 <Typography>Comment: {longo.comment}</Typography>

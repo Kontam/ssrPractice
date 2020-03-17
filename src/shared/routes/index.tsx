@@ -1,16 +1,14 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter, } from 'react-router-dom';
-import Home from '../components/pages/Home';
-import About from '../components/pages/About';
+import { Switch, Route } from 'react-router-dom';
+import routes from './routes';
 
-const RootRouter = () => (
+const RootRouter: React.FC = () => (
     <Switch>
-        <Route path="/about">
-            <About />
-        </Route>
-        <Route path="/">
-            <Home />
-        </Route>
+        {
+            routes.map(route => (
+                <Route {...route} key={route.path}/>
+            ))
+        }
   </Switch>
 )
 
