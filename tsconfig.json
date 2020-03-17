@@ -51,6 +51,7 @@
     
   },
   "exclude": [
+    "firebase",
 	  "src/server.tsx",
 	  "node_modules"
   ]

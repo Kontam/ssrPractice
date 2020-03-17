@@ -1,6 +1,7 @@
 {
 	"extends": "./tsconfig.json",
 	"exclude": [
+		"firebase",
 		"src/client.tsx",
 		"node_modules"
 	]
