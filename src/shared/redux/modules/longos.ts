@@ -1,8 +1,8 @@
 import { handleActions, createAction, Action } from 'redux-actions';
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, call, fork, cancelled, take, cancel } from 'redux-saga/effects';
 import fetchr from '../util/fetchr';
 import ClientConst from '../../../ClientConst';
-import { closeUpdateDialog } from './updateDialogState';
+import { closeUpdateDialog, CLOSE_UPDATE_DIALOG } from './updateDialogState';
 import { closeAddDialog } from './addDialogState';
 import { closeRemoveDialog } from './removeDialogState';
 import { openSnackBar } from './snackBarState';
@@ -58,13 +58,29 @@ function* requestPostLongo({ payload }: Action<Longo>) {
     yield put(openSnackBar("アイテムを作成しました"));
 }
 
-function* requestPatchLongo({ payload }: Action<Longo>) {
+function* requestPatchLongo(payload: Longo) {
+    try {
+        const result = yield call([fetchr, fetchr.update], ClientConst.longosDataName, {}, payload, {});
+        yield put(patchLongo(result.data));
+        yield put(endLoading());
+        yield put(closeUpdateDialog());
+        yield put(openSnackBar("編集が完了しました"));
+        return "a";
+    } catch (error) {
+        console.log(error);
+    } finally {
+        if (yield cancelled()) {
+            console.log("fork cancelled");
+            yield put(endLoading());
+        }
+    }
+}
+
+function* patchLongoFlow({ payload }: Action<Longo>) {
     yield put(startLoading());
-    const result = yield fetchr.update(ClientConst.longosDataName).body(payload).end();
-    yield put(patchLongo(result.data));
-    yield put(endLoading());
-    yield put(closeUpdateDialog());
-    yield put(openSnackBar("編集が完了しました"));
+    const task = yield fork(requestPatchLongo, payload);
+    yield take(CLOSE_UPDATE_DIALOG);
+    yield cancel(task);
 }
 
 function* requestDeleteLongo({ payload }: Action<string>) {
@@ -88,7 +104,7 @@ function* promiseReadLongosSaga({ payload: { resolve, reject }} :any) {
 export const longosSaga = [
     takeEvery(FETCH_LONGOS, requestFetchLongos),
     takeEvery(POST_LONGO, requestPostLongo),
-    takeEvery(UPDATE_LONGO, requestPatchLongo),
+    takeEvery(UPDATE_LONGO, patchLongoFlow),
     takeEvery(DELETE_LONGO, requestDeleteLongo),
     takeEvery(PROMISE_READ_LONGOS, promiseReadLongosSaga),
 ];

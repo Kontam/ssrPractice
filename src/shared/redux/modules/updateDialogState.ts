@@ -10,8 +10,8 @@ const INITIAL_STATE :UpdateDialogState = {
     targetId: "",
 }
 
-const OPEN_UPDATE_DIALOG = "OPEN_UPDATE_DIALOG";
-const CLOSE_UPDATE_DIALOG = "CLOSE_UPDATE_DIALOG";
+export const OPEN_UPDATE_DIALOG = "OPEN_UPDATE_DIALOG";
+export const CLOSE_UPDATE_DIALOG = "CLOSE_UPDATE_DIALOG";
 
 export const openUpdateDialog = createAction<string>(OPEN_UPDATE_DIALOG);
 export const closeUpdateDialog = createAction(CLOSE_UPDATE_DIALOG);
