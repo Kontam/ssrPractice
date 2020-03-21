@@ -39,9 +39,9 @@ const GoogleLoginButton: React.FC = () => {
   const handleLoginClick = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then((user) => {
-      user.user?.getIdToken().then((idToken => {
+      user.user?.getIdToken().then((idToken :string) => {
         console.log("idToken", idToken)
-      }
+      })
     });
   }
 

@@ -1,6 +1,6 @@
 const BFFConst = {
     API_ENDPOINT: '/api',
-    BACKEND_ENDPOINT: 'https://us-central1-longo-ed4e7.cloudfunctions.net/longoAPI',
+    BACKEND_ENDPOINT: process.env.BACKEND_ENDPOINT,
+    SESSION_SECRET: process.env.SESSION_SECRET,
 } as const;
-
 export default BFFConst;

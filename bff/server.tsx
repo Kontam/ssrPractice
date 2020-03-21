@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+require('dotenv').config();
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
@@ -8,6 +9,7 @@ import createMemoryHistory from 'history/createMemoryHistory';
 import bodyParser from 'body-parser';
 import { ServerStyleSheets as MaterialStyleSheets } from '@material-ui/core/styles';
 const Fetchr = require('fetchr');
+import session from 'express-session';
 
 import BFFConst from './const';
 import render from './components/HTML';
@@ -15,12 +17,14 @@ import { initializeStore } from '../src/shared/redux/store';
 import longosService from './services/longosService';
 import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
+import sessionConfig from './modules/sessionConfig';
 
 const app = express();
 
 app.use(bodyParser.json());
 Fetchr.registerService(longosService);
 app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
+app.use(session(sessionConfig));
 
 app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
