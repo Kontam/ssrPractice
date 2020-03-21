@@ -10,6 +10,8 @@ import bodyParser from 'body-parser';
 import { ServerStyleSheets as MaterialStyleSheets } from '@material-ui/core/styles';
 const Fetchr = require('fetchr');
 import session from 'express-session';
+import cookieParser from 'cookie-parser';
+import csrf from 'csurf';
 
 import BFFConst from './const';
 import render from './components/HTML';
@@ -22,12 +24,15 @@ import sessionConfig from './modules/sessionConfig';
 const app = express();
 
 app.use(bodyParser.json());
-Fetchr.registerService(longosService);
-app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
 app.use(session(sessionConfig));
+app.use(cookieParser()); // for csurf
+app.use(csrf({ cookie: true }));
 
 app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
+
+app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
+Fetchr.registerService(longosService);
 
 app.get('*', (req: Request, res: Response) => {
     const history = createMemoryHistory({
@@ -65,10 +70,8 @@ app.get('*', (req: Request, res: Response) => {
         } finally {
             sheet.seal();
         }
-       res.write(render(content, styleTags, materialStyles.toString() ,store.getState()));
-       res.end(); 
+       res.send(render(content, styleTags, materialStyles.toString() ,store.getState(), req.csrfToken()));
     })
-    
 });
 
 app.listen(
