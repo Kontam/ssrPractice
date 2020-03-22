@@ -5,6 +5,7 @@ import firebaseApp from '../../../modules/firebaseAuthUtil';
 import GoogleLoginButton from '../../atoms/GoogleLoginButton';
 
 import { setUserInfo, removeUserInfo, UserInfo, convertUserObj } from '../../../redux/modules/userInfo';
+import { startLogin } from '../../../redux/modules/login';
 import { RootState } from '../../../redux/store';
 
 const LoginForm = () => {
@@ -15,7 +16,7 @@ const LoginForm = () => {
     firebaseApp.auth().onAuthStateChanged(async (user) => {
       if(user) {
         const idToken = await user.getIdToken();
-        dispatch(setUserInfo(convertUserObj(user, idToken)));
+        dispatch(startLogin(convertUserObj(user, idToken)));
       }
       else dispatch(removeUserInfo());
     })

@@ -17,6 +17,7 @@ import BFFConst from './const';
 import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
 import longosService from './services/longosService';
+import loginService from './services/loginService';
 import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
 import sessionConfig from './modules/sessionConfig';
@@ -33,6 +34,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
 Fetchr.registerService(longosService);
+Fetchr.registerService(loginService);
 
 app.get('*', (req: Request, res: Response) => {
     const history = createMemoryHistory({

@@ -1,4 +1,5 @@
 import axios from '../modules/axiosConfig';
+import BFFConst from '../const';
 
 export type Longo = {
     text: string,
@@ -18,7 +19,7 @@ export type deleteParams = {
 }
 
 export default {
-    name: 'Longos',
+    name: BFFConst.LONGOS_SERVICE,
     read: async (req :Express.Request, resource :any, params :any, config :any, callback :any) => {
         const meta = {
             headers: {},
