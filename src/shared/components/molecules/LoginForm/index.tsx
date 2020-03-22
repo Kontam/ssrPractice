@@ -4,22 +4,18 @@ import { User } from 'firebase';
 import firebaseApp from '../../../modules/firebaseAuthUtil';
 import GoogleLoginButton from '../../atoms/GoogleLoginButton';
 
-import { setUserInfo, removeUserInfo, UserInfo } from '../../../redux/modules/userInfo';
+import { setUserInfo, removeUserInfo, UserInfo, convertUserObj } from '../../../redux/modules/userInfo';
 import { RootState } from '../../../redux/store';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const user = useSelector<RootState, UserInfo>(state => state.userInfo);
   
-  
   useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged((user) => {
+    firebaseApp.auth().onAuthStateChanged(async (user) => {
       if(user) {
-        user.getIdToken().then((idToken: any) => {
-        });
-        dispatch(setUserInfo(user));
-
-        console.log(user);
+        const idToken = await user.getIdToken();
+        dispatch(setUserInfo(convertUserObj(user, idToken)));
       }
       else dispatch(removeUserInfo());
     })
