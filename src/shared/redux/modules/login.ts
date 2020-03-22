@@ -27,7 +27,9 @@ export const setLogin = createAction(SET_LOGIN);
 
 function* startLoginSaga(){
   while(true) {
-    const { payload }: Action<UserInfo> = yield take(START_LOGIN);
+    const action = yield take(START_LOGIN);
+    if (!action) return; // TODO: 調査 なぜかSSRで実行されてundefinedになる 
+    const { payload } = action;
     yield put(setUserInfo(payload));
     const result = yield call([fetchr, fetchr.create], BFFConst.LOGIN_SERVICE, {}, payload, {});
     yield put(setLogin(result.data));

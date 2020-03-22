@@ -1,7 +1,7 @@
-import admin from './firebaseAdmin';
+import admin from '../modules/firebaseAdmin';
 import { Longo } from '../index';
 import { Request, Response } from 'firebase-functions';
-import { checkIsEmptyById } from './util';
+import { checkIsEmptyById } from '../modules/util';
 
 async function longoAPIfunc(request: Request, response: Response): Promise<void>{
     const ref = admin.firestore().collection("Longos");

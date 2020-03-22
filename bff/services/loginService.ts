@@ -9,7 +9,7 @@ export default {
       headers: {},
       statusCode: 200,
     };
-
-    callback(null, "request succeed", meta); 
+    const result = await axios.get(BFFConst.API_AUTHORITY);
+    callback(null, result.data, meta); 
   }
 }

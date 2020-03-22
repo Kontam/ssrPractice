@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
-import longoAPIfunc from './modules/LongoAPI';
+import longoAPIfunc from './functions/LongoAPI';
+import authorityAPIfunc from './functions/AuthorityAPI';
 
 export type Longo = {
     id: string,
@@ -8,4 +9,5 @@ export type Longo = {
     comment: string,
 }
 
-export const longoAPI = functions.https.onRequest(longoAPIfunc)
+export const longoAPI = functions.https.onRequest(longoAPIfunc);
+export const authorityAPI = functions.https.onRequest(authorityAPIfunc);
