@@ -3,7 +3,7 @@ import PageTemplate from '../../template/PageTemplate';
 import { useDispatch } from 'react-redux';
 import { setTrueIsMounted } from '../../../redux/modules/isMounted';
 
-import GoogleLoginButton from '../../atoms/GoogleLoginButton';
+import LoginForm from '../../molecules/LoginForm';
 
 const Home: React.FC = () => { 
     const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const Home: React.FC = () => {
     return (
         <PageTemplate>
             Home
-            <GoogleLoginButton />
+            <LoginForm />
         </PageTemplate>
     );
 }
