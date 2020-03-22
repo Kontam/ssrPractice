@@ -12,6 +12,7 @@ import { RemoveDialogState } from './modules/removeDialogState';
 import { IsMounted } from './modules/isMounted';
 import { SnackBarState } from './modules/snackBarState';
 import { Loading } from './modules/loading';
+import { UserInfo } from './modules/userInfo';
 
 export type RootState = {
     router: RouterState,
@@ -22,6 +23,7 @@ export type RootState = {
     snackBarState: SnackBarState,
     loading: Loading,
     isMounted: IsMounted,
+    userInfo: UserInfo,
 };
 export const INITIAL_STATE: Partial<RootState> = {};
 
