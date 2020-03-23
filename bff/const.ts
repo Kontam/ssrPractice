@@ -9,5 +9,7 @@ const BFFConst = {
     
     LONGOS_SERVICE: 'Longos',
     LOGIN_SERVICE: 'Login',
+
+    FIREBASE_ACCOUNT_PATH: '../../serviceAccount.json',
 } as const;
 export default BFFConst;
