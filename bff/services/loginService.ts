@@ -24,7 +24,7 @@ export default {
       email: body.email,
     } };
     const result = await axios.get(BFFConst.API_AUTHORITY, axiosParams);
-
+    console.log("loginService", result.data);
     callback(null, result.data, meta); 
   }
 }

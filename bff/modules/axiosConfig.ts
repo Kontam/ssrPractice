@@ -8,9 +8,4 @@ const axios = axiosFactory.create({
     headers: {},
 });
 
-// export const getRequest = <Paylaod>(endpoint = "") => axios.get<Paylaod>(endpoint)
-// .then((response) => {
-//     return response.data;
-// }).catch((reason) => console.log("getRequest error", reason));
-
 export default axios;

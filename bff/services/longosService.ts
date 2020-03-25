@@ -25,6 +25,7 @@ export default {
             headers: {},
             statusCode: 200,
         };
+        console.log("get", axios);
         const result = await axios.get<Longos>(BFFConst.API_LONGOS)
         console.log("Longos Service Get");
         callback(null, result.data, meta);

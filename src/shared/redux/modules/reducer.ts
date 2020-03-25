@@ -9,6 +9,7 @@ import snackBarState from './snackBarState';
 import loading from './loading';
 import isMounted from '../modules/isMounted';
 import userInfo from '../modules/userInfo';
+import login from '../modules/login';
 
 const createReducer = (history :any) => {
     return combineReducers({
@@ -20,6 +21,7 @@ const createReducer = (history :any) => {
         isMounted,
         loading,
         userInfo,
+        login,
         form: formReducer,
         router: connectRouter(history),
     });

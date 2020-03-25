@@ -19,6 +19,7 @@ const fetchrFactory :FetcherFactory = {
         if (!this.instance) {
             this.instance = new Fetchr({
                 xhrPath: ClientConst.apiBasePath,
+                xhrTimeout: 10000,
                 context: {
                   _csrf: csrf
                 }

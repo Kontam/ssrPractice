@@ -6,12 +6,12 @@ import { setUserInfo, UserInfo } from "./userInfo";
 
 export type Login = {
   loggedIn: boolean,
-  role: "administrator" | "member" | "none",
+  authority: "administrator" | "member" | "none",
 }
 
 export const INITIAL_STATE: Login = {
   loggedIn: false,
-  role: "none"
+  authority: "none"
 }
 
 export const START_LOGIN = "START_LOGIN";
@@ -31,8 +31,13 @@ function* startLoginSaga(){
     if (!action) return; // TODO: 調査 なぜかSSRで実行されてundefinedになる 
     const { payload } = action;
     yield put(setUserInfo(payload));
-    const result = yield call([fetchr, fetchr.create], BFFConst.LOGIN_SERVICE, {}, payload, {});
-    yield put(setLogin(result.data));
+    try {
+      const result = yield call([fetchr, fetchr.create], BFFConst.LOGIN_SERVICE, {}, payload, {});
+      console.log("startLoginSaga", result);
+      yield put(setLogin(result.data));
+    } catch(error) {
+      console.log(error);
+    }
   }
 }
 
@@ -42,6 +47,7 @@ export const loginSaga = [
 
 export default handleActions<Login, any>({
   [SET_LOGIN]: (state, { payload }: Action<Login>) => ({
+    loggedIn: true,
     ...payload,
   }),
   [REMOVE_LOGIN]: (state) => ({
