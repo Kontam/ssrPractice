@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:puppeteer": "JEST_PUPPETEER_CONFIG=.puppeteer/jest-puppeteer.config.js jest --config .puppeteer/jest.config.puppeteer.js",
+    "test:all": "npm run build && npm run test && npm run test:puppeteer:headless",
+    "test:puppeteer": "HEADLESS=false JEST_PUPPETEER_CONFIG=.puppeteer/jest-puppeteer.config.js jest --config .puppeteer/jest.config.puppeteer.js",
+    "test:puppeteer:headless": "HEADLESS=true JEST_PUPPETEER_CONFIG=.puppeteer/jest-puppeteer.config.js jest --config .puppeteer/jest.config.puppeteer.js",
     "build": "webpack --config webpack.config.js --mode=production && webpack --config webpack.config.bff.js --mode=production",
     "build:bff": "webpack --config webpack.config.bff.js --mode=production",
     "dev": "webpack --config webpack.config.js --mode development --watch & webpack --config webpack.config.bff.js --mode development --watch & npx nodemon dist/server.js",

@@ -1,11 +1,11 @@
 
 describe("first puppeteer", () => {
   beforeAll(async() => {
-    await page.goto('https://google.com');
+    await page.goto('http://localhost:3000');
     await page.waitFor(2000);
   });
 
   test('first test', async () => {
-    await expect(page).toMatch('google');
+    await expect(page).toMatch('Longo');
   });
 });
