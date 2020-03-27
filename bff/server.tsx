@@ -22,6 +22,7 @@ import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
 import sessionConfig from './modules/sessionConfig';
 
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyParser.json());
@@ -77,7 +78,7 @@ app.get('*', (req: Request, res: Response) => {
 });
 
 app.listen(
-    3000,
+    port,
     () => {
         console.log("app is listening on port 3000")
     }

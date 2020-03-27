@@ -15,6 +15,7 @@ const BFFConst = {
     // Firebase認証情報
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
     FIREBASE_PROJECT_EMAIL: process.env.FIREBASE_PROJECT_EMAIL,
+    // .envであれば問題ないが、環境変数に改行コードが入っているとパースに失敗するので文字列に置換する
     FIREBASE_PROJECT_KEY: process.env.FIREBASE_PROJECT_KEY && process.env.FIREBASE_PROJECT_KEY.replace(/\\n/g, '\n'),
 } as const;
 export default BFFConst;
