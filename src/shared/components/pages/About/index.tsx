@@ -7,7 +7,7 @@ import { readLongos, promiseReadLongos } from '../../../redux/modules/longos';
 import LongoList from '../../molecules/LongoList';
 import AddDialog from '../../molecules/AddDialog';
 import { AddDialogState, closeAddDialog } from '../../../redux/modules/addDialogState';
-import UpdateDIalog from '../../molecules/UpdateDIalog';
+import UpdateDialog from '../../molecules/UpdateDialog';
 import RemoveDialog from '../../molecules/RemoveDialog';
 import { Store } from 'redux';
 import { setTrueIsMounted } from '../../../redux/modules/isMounted';
@@ -32,7 +32,7 @@ const About: React.FC = () => {
     return (
         <PageTemplate>
             <AddDialog isOpen={addDialogState.isOpen} onClose={onDialogClose}/>
-            <UpdateDIalog />
+            <UpdateDialog />
             <RemoveDialog/>
             <LongoList longos={longos} />
             <SnackBar />

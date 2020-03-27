@@ -12,6 +12,8 @@ import { RemoveDialogState } from './modules/removeDialogState';
 import { IsMounted } from './modules/isMounted';
 import { SnackBarState } from './modules/snackBarState';
 import { Loading } from './modules/loading';
+import { UserInfo } from './modules/userInfo';
+import { loginSaga, Login } from './modules/login';
 
 export type RootState = {
     router: RouterState,
@@ -22,15 +24,18 @@ export type RootState = {
     snackBarState: SnackBarState,
     loading: Loading,
     isMounted: IsMounted,
+    userInfo: UserInfo,
+    login: Login,
 };
 export const INITIAL_STATE: Partial<RootState> = {};
 
 export const initializeStore = (history: any, initialState: Partial<RootState> = {}) => {
 const sagaMiddleware = createSagaMiddleware();
 const rootSaga = function*(){
-    yield all(
-        longosSaga,
-    );
+    yield all([
+        ...longosSaga,
+        ...loginSaga,
+    ]);
 }
     const store = createStore(
         createReducer(history),

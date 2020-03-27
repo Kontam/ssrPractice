@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+require('dotenv').config();
 import React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
@@ -8,22 +9,33 @@ import createMemoryHistory from 'history/createMemoryHistory';
 import bodyParser from 'body-parser';
 import { ServerStyleSheets as MaterialStyleSheets } from '@material-ui/core/styles';
 const Fetchr = require('fetchr');
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
+import csrf from 'csurf';
 
 import BFFConst from './const';
 import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
 import longosService from './services/longosService';
+import loginService from './services/loginService';
 import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
+import sessionConfig from './modules/sessionConfig';
 
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyParser.json());
-Fetchr.registerService(longosService);
-app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
+app.use(session(sessionConfig));
+app.use(cookieParser()); // for csurf
+app.use(csrf({ cookie: true }));
 
 app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
+
+app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
+Fetchr.registerService(longosService);
+Fetchr.registerService(loginService);
 
 app.get('*', (req: Request, res: Response) => {
     const history = createMemoryHistory({
@@ -61,14 +73,12 @@ app.get('*', (req: Request, res: Response) => {
         } finally {
             sheet.seal();
         }
-       res.write(render(content, styleTags, materialStyles.toString() ,store.getState()));
-       res.end(); 
+       res.send(render(content, styleTags, materialStyles.toString() ,store.getState(), req.csrfToken()));
     })
-    
 });
 
 app.listen(
-    3000,
+    port,
     () => {
         console.log("app is listening on port 3000")
     }

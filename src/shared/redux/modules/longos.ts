@@ -58,13 +58,18 @@ function* requestPostLongo({ payload }: Action<Longo>) {
     yield put(openSnackBar("アイテムを作成しました"));
 }
 
+/**
+ * 論語編集処理　キャンセル処理テスト
+ * アクションのキャンセルは正しく動作するが、APIのリクエストは完了してしまう
+ * catchの処理にAPIに対してリセットをかける必要がある
+ */
 function* requestPatchLongo(payload: Longo) {
     try {
         const result = yield call([fetchr, fetchr.update], ClientConst.longosDataName, {}, payload, {});
         yield put(patchLongo(result.data));
         yield put(endLoading());
-        yield put(closeUpdateDialog());
         yield put(openSnackBar("編集が完了しました"));
+        yield put(closeUpdateDialog());
         return "a";
     } catch (error) {
         console.log(error);

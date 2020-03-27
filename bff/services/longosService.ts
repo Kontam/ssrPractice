@@ -1,4 +1,5 @@
 import axios from '../modules/axiosConfig';
+import BFFConst from '../const';
 
 export type Longo = {
     text: string,
@@ -18,13 +19,13 @@ export type deleteParams = {
 }
 
 export default {
-    name: 'Longos',
+    name: BFFConst.LONGOS_SERVICE,
     read: async (req :Express.Request, resource :any, params :any, config :any, callback :any) => {
         const meta = {
             headers: {},
             statusCode: 200,
         };
-        const result = await axios.get<Longos>("")
+        const result = await axios.get<Longos>(BFFConst.API_LONGOS)
         console.log("Longos Service Get");
         callback(null, result.data, meta);
     },
@@ -33,7 +34,7 @@ export default {
             headers: {},
             statusCode: 200,
         };
-        const result = await axios.post<Longo>("", body);
+        const result = await axios.post<Longo>(BFFConst.API_LONGOS, body);
 
         console.log("Longos Service Post");
         callback(null, result.data, meta);
@@ -43,7 +44,7 @@ export default {
             headers: {},
             statusCode: 200,
         };
-        const result = await axios.patch<Longo>("", body)
+        const result = await axios.patch<Longo>(BFFConst.API_LONGOS, body)
         console.log("Longos Servce Patch")
         callback(null, result.data, meta);
     },
@@ -53,7 +54,7 @@ export default {
             headers: {},
             statusCode: 200,
         };
-        const result = await axios.delete<Longo>("", { data: params })
+        const result = await axios.delete<Longo>(BFFConst.API_LONGOS, { data: params })
         console.log("Longos Servce Delete", result.data)
         callback(null, result.data, meta);
     },
