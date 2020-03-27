@@ -4,10 +4,8 @@ orbs:
   puppeteer: threetreeslight/puppeteer@0.1.2
 jobs:
   build-and-test:
-    executors:
-      my-executor:
-      docker:
-        - image: circleci/node:latest-browsers
+    docker:
+      - image: circleci/node:latest-browsers
     steps:
       - checkout
       - node/with-cache:
