@@ -15,6 +15,6 @@ const BFFConst = {
     // Firebase認証情報
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
     FIREBASE_PROJECT_EMAIL: process.env.FIREBASE_PROJECT_EMAIL,
-    FIREBASE_PROJECT_KEY: process.env.FIREBASE_PROJECT_KEY,
+    FIREBASE_PROJECT_KEY: process.env.FIREBASE_PROJECT_KEY && process.env.FIREBASE_PROJECT_KEY.replace(/\\n/g, '\n'),
 } as const;
 export default BFFConst;
