@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "./built/",
+    "sourceMap": true,
+    "strict": true,
+    "module": "esnext",
+    "target": "es6",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "jsx": "react",
+    "allowJs": true,
+    "esModuleInterop": true
+  },
+  "exclude": [
+    "node_modules",
+    "vendor"
+  ],
+  "include": [
+    "tests/Puppeteer/**/*.ts"
+  ]
+}

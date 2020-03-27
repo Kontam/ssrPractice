@@ -1,4 +1,6 @@
 # Suebot Management Console
+動作デモ
+https://longos.herokuapp.com/ 
 
 ## 環境変数
 プロジェクトルートに.envファイルを作成し、以下の環境変数を用意すること  
