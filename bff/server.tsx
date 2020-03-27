@@ -21,6 +21,7 @@ import loginService from './services/loginService';
 import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
 import sessionConfig from './modules/sessionConfig';
+import storeTokenMiddleware from './middleware/storeTokenMiddleware';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -33,6 +34,7 @@ app.use(csrf({ cookie: true }));
 app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
 
+app.use(BFFConst.API_ENDPOINT, storeTokenMiddleware);
 app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
 Fetchr.registerService(longosService);
 Fetchr.registerService(loginService);
