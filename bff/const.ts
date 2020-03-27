@@ -5,8 +5,8 @@ const BFFConst = {
     // パス関連
     API_ENDPOINT: '/api',
     BACKEND_BASE_URL: process.env.BACKEND_BASE_URL || "",
-    API_LONGOS: process.env.API_LONGOS || "",
-    API_AUTHORITY: process.env.API_AUTHORITY || "",
+    API_LONGOS: "/longoAPI",
+    API_AUTHORITY: "/authorityAPI",
     
     // データサービス名
     LONGOS_SERVICE: 'Longos',
