@@ -2,9 +2,14 @@ import * as admin from 'firebase-admin';
 
 import BFFConst from '../const';
 
-const serviceAccount = require('../../serviceAccount.json');
+const credential:admin.ServiceAccount= {
+  projectId: BFFConst.FIREBASE_PROJECT_ID,
+  clientEmail: BFFConst.FIREBASE_PROJECT_EMAIL,
+  privateKey: BFFConst.FIREBASE_PROJECT_KEY,
+}
+
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(credential),
 });
 
 export default admin;
