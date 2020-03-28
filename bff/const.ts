@@ -7,6 +7,9 @@ const BFFConst = {
     BACKEND_BASE_URL: process.env.BACKEND_BASE_URL || "",
     API_LONGOS: "/longoAPI",
     API_AUTHORITY: "/authorityAPI",
+
+    // Cookies
+    TOKEN_COOKIE: 'token',
     
     // データサービス名
     LONGOS_SERVICE: 'Longos',

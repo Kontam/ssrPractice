@@ -10,7 +10,6 @@ const Home: React.FC = () => {
     useEffect(() => { dispatch(setTrueIsMounted()) }, []);
     return (
         <PageTemplate>
-            Home
             <LoginForm />
         </PageTemplate>
     );

@@ -36,7 +36,7 @@ const Header: React.FC = () => {
 
     const NavMenus: NavMenu[] = [
         {
-            text: "home",
+            text: "Top",
             href: "/",
             description: "現状は何もないホーム画面です",
         },

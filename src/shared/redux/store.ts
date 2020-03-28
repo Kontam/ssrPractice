@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
 import createReducer from './modules/reducer';
+import loggerMiddleware from './middlewares/loggerMiddleware';
 import { Longos, longosSaga } from './modules/longos';
 import { AddDialogState } from './modules/addDialogState';
 import { UpdateDialogState } from './modules/updateDialogState';
@@ -40,7 +41,7 @@ const rootSaga = function*(){
     const store = createStore(
         createReducer(history),
         initialState,
-        composeWithDevTools(applyMiddleware(routerMiddleware(history),sagaMiddleware)),
+        composeWithDevTools(applyMiddleware(routerMiddleware(history),sagaMiddleware, loggerMiddleware)),
     );
     sagaMiddleware.run(rootSaga);
 

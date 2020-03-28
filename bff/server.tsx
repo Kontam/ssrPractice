@@ -22,6 +22,9 @@ import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
 import sessionConfig from './modules/sessionConfig';
 import storeTokenMiddleware from './middleware/storeTokenMiddleware';
+import adminApp from './modules/firebaseAdmin';
+import ssAuth from './modules/ssAuth';
+import { promiseStartLogin } from '../src/shared/redux/modules/login';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -34,27 +37,41 @@ app.use(csrf({ cookie: true }));
 app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
 
-app.use(BFFConst.API_ENDPOINT, storeTokenMiddleware);
+app.post(BFFConst.API_ENDPOINT, storeTokenMiddleware);
 app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
 Fetchr.registerService(longosService);
 Fetchr.registerService(loginService);
 
 app.get('*', (req: Request, res: Response) => {
+    console.log("start request",req.body);
     const history = createMemoryHistory({
         initialEntries: [req.url],
         initialIndex: 0,
     })
     const store = initializeStore(history);
-    const prepare = () => {
+    const prepare = async () => {
         // From official example
         // See: https://reacttraining.com/react-router/web/guides/server-rendering
         const promises: Function[] = [];
-        routes.some(route => {
+      
+        // cookieにトークンがある場合はSS認証を行う
+        const authPromise = async () => {
+          const result = await ssAuth(req);
+          console.log("authPromise", result);
+          if (result.isAuthed && result.userInfo) {
+            await promiseStartLogin(result.userInfo, store.dispatch);
+          }
+        }
+       await authPromise();
+
+        routes.some(async route => {
             const match = matchPath(req.path, route);
-            if (match) promises.push(route.loadData(store, match));
+            // if (match) promises.push(route.loadData(store, match));
+            if (match) await route.loadData(store, match);
             return match;
         })
-        return Promise.all(promises);
+
+        //return Promise.all(promises);
     }
     
     const materialStyles = new MaterialStyleSheets()
@@ -63,6 +80,7 @@ app.get('*', (req: Request, res: Response) => {
     let styleTags = "";
 
     prepare().then(() => {
+        console.log("start render", store.getState())
         try {
             content = renderToString(materialStyles.collect(sheet.collectStyles(
                 <StaticRouter location={req.url} context={{}}>
