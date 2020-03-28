@@ -11,7 +11,7 @@ import BFFConst from "../const";
 const storeTokenMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const body: FetchrRequestBody<UserInfo> = req.body;
   if (body.requests.g0.resource !== BFFConst.LOGIN_SERVICE) { return next(); }
-  const expiresIn = 60*60*24*30;
+  const expiresIn = 60 * 6 * 1000;
   const cookieOption = {
     maxAge: expiresIn,
     httpOnly: true,
@@ -22,10 +22,6 @@ const storeTokenMiddleware = async (req: Request, res: Response, next: NextFunct
   const serviceName = body.requests.g0.resource;
   const sessionCookie = await adminApp.auth().createSessionCookie(idToken, { expiresIn });
   res.cookie(BFFConst.TOKEN_COOKIE, sessionCookie);
-
-  // console.log("storeTokenMiddleware", await adminApp.auth().getUser(body.requests.g0.body.uid));
-  // console.log("storeTokenMiddleware", body.requests.g0.resource);
-  // console.log("storeTokenMiddleware", body.requests.g0.body);
   next();
 }
 

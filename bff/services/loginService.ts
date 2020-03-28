@@ -19,19 +19,24 @@ export default {
       headers: {},
       statusCode: 403,
     }
+    const Auth = firebaseAdmin.auth();
     if (!body) { console.log("loginService", "nobody"); return callback(null, "request without payload", errorMeta);}
     if (!body.idToken && !body.cookieToken) callback(null, "invalid request", errorMeta);
     if (body.idToken) { // CSR
-      const decodedToken = await firebaseAdmin.auth().verifyIdToken(body.idToken);
+      const decodedToken = await Auth.verifyIdToken(body.idToken);
     } else if (body.cookieToken) { // SSR
-      const decodedToken = await firebaseAdmin.auth().verifySessionCookie(body.cookieToken);
+      try {
+        const decodedToken = await Auth.verifySessionCookie(body.cookieToken);
+      } catch (error) {
+        console.log("Cookie token expired"); 
+        return callback(null, {loggledIn: false, authority: "none"}, meta);
+      }
     }
     
     const axiosParams: AxiosRequestConfig = { params: {
       email: body.email,
     } };
     const result = await axios.get(BFFConst.API_AUTHORITY, axiosParams);
-    console.log("loginService", result.data);
     callback(null, result.data, meta); 
   }
 }

@@ -25,6 +25,7 @@ import storeTokenMiddleware from './middleware/storeTokenMiddleware';
 import adminApp from './modules/firebaseAdmin';
 import ssAuth from './modules/ssAuth';
 import { promiseStartLogin } from '../src/shared/redux/modules/login';
+import loginResponseFormatter from './modules/loginResponseFormatter';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -38,7 +39,12 @@ app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
 
 app.post(BFFConst.API_ENDPOINT, storeTokenMiddleware);
-app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
+app.use(BFFConst.API_ENDPOINT, Fetchr.middleware({
+  responseFormatter: (req: Request, res: Response, data: any) => {
+    loginResponseFormatter(req, res, data);
+    return data;
+  },
+}));
 Fetchr.registerService(longosService);
 Fetchr.registerService(loginService);
 
@@ -57,21 +63,20 @@ app.get('*', (req: Request, res: Response) => {
         // cookieにトークンがある場合はSS認証を行う
         const authPromise = async () => {
           const result = await ssAuth(req);
-          console.log("authPromise", result);
           if (result.isAuthed && result.userInfo) {
             await promiseStartLogin(result.userInfo, store.dispatch);
           }
         }
-       await authPromise();
-
+        try {
+          await authPromise();
+        } catch (error) {
+          //res.clearCookie(BFFConst.TOKEN_COOKIE);
+        }
         routes.some(async route => {
             const match = matchPath(req.path, route);
-            // if (match) promises.push(route.loadData(store, match));
             if (match) await route.loadData(store, match);
             return match;
         })
-
-        //return Promise.all(promises);
     }
     
     const materialStyles = new MaterialStyleSheets()
