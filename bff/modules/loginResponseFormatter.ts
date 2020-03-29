@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UserInfo } from '../../src/shared/redux/modules/userInfo';
-import BFFConst from '../const';
+import BFFConst from '../../src/shared/modules/const';
 import { Login } from '../../src/shared/redux/modules/login';
 
 

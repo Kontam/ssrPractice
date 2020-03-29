@@ -1,7 +1,7 @@
 import axios from '../modules/axiosConfig';
 import { Request } from 'express';
 import { UserInfo } from '../../src/shared/redux/modules/userInfo';
-import BFFConst from '../const';
+import BFFConst from '../../src/shared/modules/const';
 import firebaseAdmin from '../modules/firebaseAdmin';
 import { AxiosRequestConfig } from 'axios';
 import { SMCCookies } from '../index';

@@ -1,4 +1,4 @@
-import BFFConst from '../../../bff/const';
+import BFFConst from '../modules/const';
 import { AuthorityLevel } from '../redux/modules/login';
 
 export function checkAuthorityLevel(own: AuthorityLevel, required: AuthorityLevel) {

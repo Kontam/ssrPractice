@@ -1,7 +1,7 @@
 import { createAction, handleActions, Action } from "redux-actions";
 import { take, call, put, takeEvery } from "redux-saga/effects";
 import fetchr from "../util/fetchr";
-import BFFConst from "../../../../bff/const";
+import BFFConst from "../../modules/const";
 import { setUserInfo, UserInfo } from "./userInfo";
 import { Dispatch } from "redux";
 import firebaseApp from '../../modules/firebaseAuthUtil';

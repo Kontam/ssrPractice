@@ -11,7 +11,7 @@ import RemoveDialog from '../../molecules/RemoveDialog';
 import { Store } from 'redux';
 import { setTrueIsMounted, IsMounted } from '../../../redux/modules/isMounted';
 import SnackBar from '../../atoms/SnackBar';
-import BFFConst from '../../../../../bff/const';
+import BFFConst from '../../../modules/const';
 import { checkAuthorityLevel } from '../../../routes/checkAuthorityLevel';
 import { Login } from '../../../redux/modules/login';
 

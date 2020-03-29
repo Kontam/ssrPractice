@@ -13,7 +13,7 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
 
-import BFFConst from './const';
+import BFFConst from '../src/shared/modules/const';
 import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
 import longosService from './services/longosService';

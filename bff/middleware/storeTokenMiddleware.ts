@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { UserInfo } from '../../src/shared/redux/modules/userInfo';
 import adminApp from '../modules/firebaseAdmin';
 import { FetchrRequestBody } from '../'
-import BFFConst from "../const";
+import BFFConst from "../../src/shared/modules/const";
 
 /**
  * ログイン要求の場合はクッキーを挿入する

@@ -1,7 +1,7 @@
 import { handleActions, createAction, Action } from 'redux-actions';
 import { takeEvery, put, call, fork, cancelled, take, cancel } from 'redux-saga/effects';
 import fetchr from '../util/fetchr';
-import ClientConst from '../../../ClientConst';
+import ClientConst from '../../modules/const';
 import { closeUpdateDialog, CLOSE_UPDATE_DIALOG } from './updateDialogState';
 import { closeAddDialog } from './addDialogState';
 import { closeRemoveDialog } from './removeDialogState';
@@ -45,13 +45,13 @@ export const updateLongo = createAction<Longo>(UPDATE_LONGO);
 export const deleteLongo = createAction<string>(DELETE_LONGO);
 
 function* requestFetchLongos() {
-    const result = yield fetchr.read(ClientConst.longosDataName).params({id: "aaa"}).end();
+    const result = yield fetchr.read(ClientConst.LONGOS_SERVICE).params({id: "aaa"}).end();
     yield put(setLongos(result.data))
 }
 
 function* requestPostLongo({ payload }: Action<Longo>) {
     yield put(startDialogLoading());
-    const result = yield fetchr.create(ClientConst.longosDataName).body(payload).end();
+    const result = yield fetchr.create(ClientConst.LONGOS_SERVICE).body(payload).end();
     yield put(addLongo(result.data));
     yield put(endDialogLoading());
     yield put(closeAddDialog());
@@ -65,7 +65,7 @@ function* requestPostLongo({ payload }: Action<Longo>) {
  */
 function* requestPatchLongo(payload: Longo) {
     try {
-        const result = yield call([fetchr, fetchr.update], ClientConst.longosDataName, {}, payload, {});
+        const result = yield call([fetchr, fetchr.update], ClientConst.LONGOS_SERVICE, {}, payload, {});
         yield put(patchLongo(result.data));
         yield put(endDialogLoading());
         yield put(openSnackBar("編集が完了しました"));
@@ -90,7 +90,7 @@ function* patchLongoFlow({ payload }: Action<Longo>) {
 
 function* requestDeleteLongo({ payload }: Action<string>) {
     yield put(startDialogLoading());
-    const result = yield fetchr.delete(ClientConst.longosDataName).params({id: payload}).end();
+    const result = yield fetchr.delete(ClientConst.LONGOS_SERVICE).params({id: payload}).end();
     yield put((removeLongo(result.data.id)));
     yield put(endDialogLoading());
     yield put(closeRemoveDialog());
@@ -102,7 +102,7 @@ export const promiseReadLongos = createAction(PROMISE_READ_LONGOS);
 
 function* promiseReadLongosSaga({ payload: { resolve, reject }} :any) {
     console.log("PromiseReadLongosSaga");
-    const result = yield fetchr.read(ClientConst.longosDataName).params({id: "aaa"}).end();
+    const result = yield fetchr.read(ClientConst.LONGOS_SERVICE).params({id: "aaa"}).end();
     yield put(setLongos(result.data)) 
     resolve(result)
 }
