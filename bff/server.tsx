@@ -58,7 +58,6 @@ app.get('*', (req: Request, res: Response) => {
     const prepare = async () => {
         // From official example
         // See: https://reacttraining.com/react-router/web/guides/server-rendering
-        const promises: Function[] = [];
       
         // cookieにトークンがある場合はSS認証を行う
         const authPromise = async () => {
@@ -69,23 +68,19 @@ app.get('*', (req: Request, res: Response) => {
             console.log("promiseStartLogin");
           }
         }
-        // try {
-        /* } catch (error) {
-          console.error(error);
-          res.clearCookie(BFFConst.TOKEN_COOKIE);
-          }
-         */        
-          console.log("afterAuthPropmise");
-          const promisses: any = [];
-          promisses.push(authPromise());
-          const a = routes.some(async route => {
-              const match = matchPath(req.path, route);
-              if (match) promisses.push(route.loadData(store, match));
-              console.log("after loadData");
-              return match;
-          })
-          return Promise.all(promisses);
-          console.log("before Return prepare");
+        await authPromise();
+        const authResult = store.getState().login;
+        console.log("afterAuthPropmise", authResult);
+
+        const promisses: any = [];
+        // promisses.push(authPromise());
+        const a = routes.some(async route => {
+            const match = matchPath(req.path, route);
+            if (match) promisses.push(route.loadData(store, match));
+            console.log("after loadData");
+            return match;
+        })
+        return Promise.all(promisses);
     }
     
     const materialStyles = new MaterialStyleSheets()
@@ -94,7 +89,10 @@ app.get('*', (req: Request, res: Response) => {
     let styleTags = "";
 
     prepare().catch(
-      () => { res.clearCookie(BFFConst.TOKEN_COOKIE)}
+      (error) => { 
+        console.log(error)
+        res.clearCookie(BFFConst.TOKEN_COOKIE)
+      }
     ).then(() => {
         console.log("start render", store.getState())
         try {

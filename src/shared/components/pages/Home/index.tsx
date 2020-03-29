@@ -5,6 +5,7 @@ import { setTrueIsMounted } from '../../../redux/modules/isMounted';
 
 import LoginForm from '../../molecules/LoginForm';
 import ProfileCard from '../../molecules/ProfileCard';
+import BFFConst from '../../../../../bff/const';
 
 const Home: React.FC = () => { 
     const dispatch = useDispatch();
@@ -16,5 +17,7 @@ const Home: React.FC = () => {
         </PageTemplate>
     );
 }
+
+Home.prototype.authorityLevel = BFFConst.AUTHORITY_FREE;
 
 export default Home;

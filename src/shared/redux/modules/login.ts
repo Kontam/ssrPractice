@@ -6,9 +6,15 @@ import { setUserInfo, UserInfo } from "./userInfo";
 import { Dispatch } from "redux";
 import firebaseApp from '../../modules/firebaseAuthUtil';
 
+export type AuthorityLevel =
+    typeof BFFConst.AUTHORITY_ADMIN |
+    typeof BFFConst.AUTHORITY_MEMBER |
+    typeof BFFConst.AUTHORITY_FREE |
+    typeof BFFConst.AUTHORITY_NONE;
+
 export type Login = {
   loggedIn: boolean,
-  authority: "administrator" | "member" | "none",
+  authority: AuthorityLevel,  
 }
 
 export const INITIAL_STATE: Login = {

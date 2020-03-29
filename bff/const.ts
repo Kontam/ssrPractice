@@ -8,6 +8,13 @@ const BFFConst = {
     API_LONGOS: "/longoAPI",
     API_AUTHORITY: "/authorityAPI",
 
+    // 権限レベル(制限が強い順番に並べる)
+    AUTHORITY_ADMIN: "administrator",
+    AUTHORITY_MEMBER: "member",
+    AUTHORITY_FREE: "free",
+    AUTHORITY_NONE: "none",
+
+
     // Cookies
     TOKEN_COOKIE: 'token',
     
