@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import firebase, { User } from 'firebase/app';
+import React from 'react';
 import firebaseApp from '../../../modules/firebaseAuthUtil';
-
-type Props = {
-  onSignIn: (googleUser: any) => void
-};
+import { startLogin } from '../../../redux/modules/login';
+import { useDispatch } from 'react-redux';
+import { convertUserObj } from '../../../redux/modules/userInfo';
 
 const GoogleLoginButton: React.FC = () => {
-  
+  const dispatch = useDispatch();
   
   const handleLoginClick = () => {
     const provider = new firebaseApp.auth.GoogleAuthProvider();
-    firebaseApp.auth().signInWithPopup(provider).then((user) => {
-      user.user?.getIdToken().then((idToken :string) => {
+    firebaseApp.auth().signInWithPopup(provider).then((userCredential) => {
+      if (!userCredential.user) return;
+      userCredential.user.getIdToken().then((idToken :string) => {
+        if (!userCredential.user) return;
+        dispatch(startLogin(convertUserObj(userCredential.user, idToken)));
         console.log("idToken", idToken)
       })
     });

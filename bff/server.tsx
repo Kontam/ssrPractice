@@ -22,7 +22,6 @@ import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
 import sessionConfig from './modules/sessionConfig';
 import storeTokenMiddleware from './middleware/storeTokenMiddleware';
-import adminApp from './modules/firebaseAdmin';
 import ssAuth from './modules/ssAuth';
 import { promiseStartLogin } from '../src/shared/redux/modules/login';
 import loginResponseFormatter from './modules/loginResponseFormatter';
