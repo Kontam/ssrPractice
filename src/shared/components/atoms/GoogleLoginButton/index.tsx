@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@material-ui/core/Button'
 import firebaseApp from '../../../modules/firebaseAuthUtil';
 import { startLogin } from '../../../redux/modules/login';
 import { useDispatch } from 'react-redux';
@@ -21,7 +22,7 @@ const GoogleLoginButton: React.FC = () => {
 
   return (
     <div>
-      <button onClick={handleLoginClick} >Login</button>
+      <Button color="primary" variant="contained" onClick={handleLoginClick} >Login</Button>
     </div>
   );
 };

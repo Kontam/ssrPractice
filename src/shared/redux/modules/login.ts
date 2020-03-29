@@ -84,6 +84,7 @@ function* startLogoutSaga() {
     console.log("before", firebaseApp.auth().currentUser);
     yield firebaseApp.auth().signOut();
     console.log(firebaseApp.auth().currentUser);
+    if (document) document.cookie = "token=; max-age0";
     yield put(setLogin({loggedIn: false, authority: "none"}));
   }
 }
