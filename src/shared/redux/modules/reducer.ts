@@ -6,10 +6,11 @@ import addDialogState from './addDialogState';
 import updateDialogState from './updateDialogState';
 import removeDialogState from './removeDialogState';
 import snackBarState from './snackBarState';
-import loading from './loading';
+import dialogLoading from './dialogLoading';
 import isMounted from '../modules/isMounted';
 import userInfo from '../modules/userInfo';
 import login from '../modules/login';
+import headerLogin from '../modules/login';
 
 const createReducer = (history :any) => {
     return combineReducers({
@@ -19,7 +20,8 @@ const createReducer = (history :any) => {
         updateDialogState,
         snackBarState,
         isMounted,
-        loading,
+        dialogLoading,
+        headerLogin,
         userInfo,
         login,
         form: formReducer,

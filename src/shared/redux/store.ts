@@ -12,7 +12,7 @@ import { UpdateDialogState } from './modules/updateDialogState';
 import { RemoveDialogState } from './modules/removeDialogState';
 import { IsMounted } from './modules/isMounted';
 import { SnackBarState } from './modules/snackBarState';
-import { Loading } from './modules/loading';
+import { DialogLoading } from './modules/dialogLoading';
 import { UserInfo } from './modules/userInfo';
 import { loginSaga, Login } from './modules/login';
 
@@ -23,7 +23,7 @@ export type RootState = {
     updateDialogState: UpdateDialogState,
     removeDialogState: RemoveDialogState,
     snackBarState: SnackBarState,
-    loading: Loading,
+    dialogLoading: DialogLoading,
     isMounted: IsMounted,
     userInfo: UserInfo,
     login: Login,

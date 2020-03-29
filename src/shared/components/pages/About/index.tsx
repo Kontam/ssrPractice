@@ -19,7 +19,6 @@ const About: React.FC = () => {
     const dispatch = useDispatch();
     const longos = useSelector(longosSeletor);
     const isMounted = useSelector<RootState>(state => state.isMounted);
-    const addDialogState = useSelector<RootState, AddDialogState>(state => state.addDialogState);
 
     useEffect(() => {
         if (isMounted) dispatch(readLongos());
@@ -31,7 +30,7 @@ const About: React.FC = () => {
     
     return (
         <PageTemplate>
-            <AddDialog isOpen={addDialogState.isOpen} onClose={onDialogClose}/>
+            <AddDialog />
             <UpdateDialog />
             <RemoveDialog/>
             <LongoList longos={longos} />
@@ -40,11 +39,13 @@ const About: React.FC = () => {
     )
 }
 
-About.prototype.getInitialProps = async (store: Store) => {
+About.prototype.getInitialProps = async (store: Store): Promise<any> => {
+    console.log("About:getInitialProps");
     const fetchPromise = new Promise((resolve, reject) => {
         store.dispatch(promiseReadLongos({resolve, reject}))
     })
     await fetchPromise;
+    console.log("end About:getInitialProps");
     return {}
 }
 

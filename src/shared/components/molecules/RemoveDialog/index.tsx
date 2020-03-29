@@ -5,6 +5,7 @@ import { RemoveDialogState, closeRemoveDialog } from '../../../redux/modules/rem
 import { RootState } from '../../../redux/store';
 import { Longos, removeLongo, Longo, deleteLongo } from '../../../redux/modules/longos';
 import { FormSubmitHandler } from 'redux-form';
+import { DialogLoading } from '../../../redux/modules/dialogLoading';
 
 export type ContainerProps = {
 }
@@ -14,6 +15,7 @@ export default () => {
     const longos = useSelector<RootState, Longos>(state => state.longos);
     const removeDialogState = useSelector<RootState, RemoveDialogState>(state => state.removeDialogState);
     const target = longos.find((longo) => longo.id === removeDialogState.targetId )
+    const dialogLoading = useSelector<RootState, DialogLoading>(state => state.dialogLoading);
     if (!target) return null;
 
     const onClose = () => dispatch(closeRemoveDialog());
@@ -32,6 +34,7 @@ export default () => {
             onClose={onClose}
             onDeleteClick={onDeleteClick}
             onCancelClick={onCancelClick}
+            isDialogLoading={dialogLoading}
         />
     )
 }

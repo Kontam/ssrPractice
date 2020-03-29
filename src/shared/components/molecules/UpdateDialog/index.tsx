@@ -5,6 +5,7 @@ import { UpdateDialogState, closeUpdateDialog } from '../../../redux/modules/upd
 import { RootState } from '../../../redux/store';
 import { Longos, updateLongo, Longo } from '../../../redux/modules/longos';
 import { FormSubmitHandler } from 'redux-form';
+import { DialogLoading } from '../../../redux/modules/dialogLoading';
 
 export type ContainerProps = {
 }
@@ -13,6 +14,7 @@ export default () => {
     const dispatch = useDispatch();
     const longos = useSelector<RootState, Longos>(state => state.longos);
     const updateDialogState = useSelector<RootState, UpdateDialogState>(state => state.updateDialogState);
+    const dialogLoading = useSelector<RootState, DialogLoading>(state => state.dialogLoading);
     const target = longos.find((longo) => longo.id === updateDialogState.targetId )
     if (!target) return null;
 
@@ -31,6 +33,7 @@ export default () => {
             isOpen={updateDialogState.isOpen}
             onClose={onClose}
             onSubmit={onSubmit}
+            isDialogLoading={dialogLoading}
         />
     )
 }

@@ -63,20 +63,29 @@ app.get('*', (req: Request, res: Response) => {
         // cookieにトークンがある場合はSS認証を行う
         const authPromise = async () => {
           const result = await ssAuth(req);
+          console.log("afterAuth");
           if (result.isAuthed && result.userInfo) {
             await promiseStartLogin(result.userInfo, store.dispatch);
+            console.log("promiseStartLogin");
           }
         }
-        try {
-          await authPromise();
-        } catch (error) {
-          //res.clearCookie(BFFConst.TOKEN_COOKIE);
-        }
-        routes.some(async route => {
-            const match = matchPath(req.path, route);
-            if (match) await route.loadData(store, match);
-            return match;
-        })
+        // try {
+        /* } catch (error) {
+          console.error(error);
+          res.clearCookie(BFFConst.TOKEN_COOKIE);
+          }
+         */        
+          console.log("afterAuthPropmise");
+          const promisses: any = [];
+          promisses.push(authPromise());
+          const a = routes.some(async route => {
+              const match = matchPath(req.path, route);
+              if (match) promisses.push(route.loadData(store, match));
+              console.log("after loadData");
+              return match;
+          })
+          return Promise.all(promisses);
+          console.log("before Return prepare");
     }
     
     const materialStyles = new MaterialStyleSheets()
@@ -84,7 +93,9 @@ app.get('*', (req: Request, res: Response) => {
     let content = "";
     let styleTags = "";
 
-    prepare().then(() => {
+    prepare().catch(
+      () => { res.clearCookie(BFFConst.TOKEN_COOKIE)}
+    ).then(() => {
         console.log("start render", store.getState())
         try {
             content = renderToString(materialStyles.collect(sheet.collectStyles(

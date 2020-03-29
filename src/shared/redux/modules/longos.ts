@@ -6,14 +6,14 @@ import { closeUpdateDialog, CLOSE_UPDATE_DIALOG } from './updateDialogState';
 import { closeAddDialog } from './addDialogState';
 import { closeRemoveDialog } from './removeDialogState';
 import { openSnackBar } from './snackBarState';
-import { startLoading, endLoading } from './loading';
+import { startDialogLoading, endDialogLoading } from './dialogLoading';
 
 export type Longo = {
     id: string,
     text: string,
     meaning: string,
     comment: string,
-    loading: boolean,
+    dialogLodaing: boolean,
 };
 
 export type Longos = Longo[];
@@ -50,10 +50,10 @@ function* requestFetchLongos() {
 }
 
 function* requestPostLongo({ payload }: Action<Longo>) {
-    yield put(startLoading());
+    yield put(startDialogLoading());
     const result = yield fetchr.create(ClientConst.longosDataName).body(payload).end();
     yield put(addLongo(result.data));
-    yield put(endLoading());
+    yield put(endDialogLoading());
     yield put(closeAddDialog());
     yield put(openSnackBar("アイテムを作成しました"));
 }
@@ -67,7 +67,7 @@ function* requestPatchLongo(payload: Longo) {
     try {
         const result = yield call([fetchr, fetchr.update], ClientConst.longosDataName, {}, payload, {});
         yield put(patchLongo(result.data));
-        yield put(endLoading());
+        yield put(endDialogLoading());
         yield put(openSnackBar("編集が完了しました"));
         yield put(closeUpdateDialog());
         return "a";
@@ -76,23 +76,23 @@ function* requestPatchLongo(payload: Longo) {
     } finally {
         if (yield cancelled()) {
             console.log("fork cancelled");
-            yield put(endLoading());
+            yield put(endDialogLoading());
         }
     }
 }
 
 function* patchLongoFlow({ payload }: Action<Longo>) {
-    yield put(startLoading());
+    yield put(startDialogLoading());
     const task = yield fork(requestPatchLongo, payload);
     yield take(CLOSE_UPDATE_DIALOG);
     yield cancel(task);
 }
 
 function* requestDeleteLongo({ payload }: Action<string>) {
-    yield put(startLoading());
+    yield put(startDialogLoading());
     const result = yield fetchr.delete(ClientConst.longosDataName).params({id: payload}).end();
     yield put((removeLongo(result.data.id)));
-    yield put(endLoading());
+    yield put(endDialogLoading());
     yield put(closeRemoveDialog());
     yield put(openSnackBar("アイテムを削除しました"));
 }
@@ -101,6 +101,7 @@ export const PROMISE_READ_LONGOS = "PROMISE_READ_LONGOS";
 export const promiseReadLongos = createAction(PROMISE_READ_LONGOS);
 
 function* promiseReadLongosSaga({ payload: { resolve, reject }} :any) {
+    console.log("PromiseReadLongosSaga");
     const result = yield fetchr.read(ClientConst.longosDataName).params({id: "aaa"}).end();
     yield put(setLongos(result.data)) 
     resolve(result)
