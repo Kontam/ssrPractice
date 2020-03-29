@@ -7,6 +7,7 @@ import { closeAddDialog } from './addDialogState';
 import { closeRemoveDialog } from './removeDialogState';
 import { openSnackBar } from './snackBarState';
 import { startDialogLoading, endDialogLoading } from './dialogLoading';
+import { startHeaderLoading, endHeaderLoading } from './headerLoading';
 
 export type Longo = {
     id: string,
@@ -44,9 +45,14 @@ export const readLongos = createAction(FETCH_LONGOS);
 export const updateLongo = createAction<Longo>(UPDATE_LONGO);
 export const deleteLongo = createAction<string>(DELETE_LONGO);
 
+/**
+ * 論語取得処理
+ */
 function* requestFetchLongos() {
+    yield put(startHeaderLoading());
     const result = yield fetchr.read(ClientConst.LONGOS_SERVICE).params({id: "aaa"}).end();
     yield put(setLongos(result.data))
+    yield put(endHeaderLoading());
 }
 
 function* requestPostLongo({ payload }: Action<Longo>) {

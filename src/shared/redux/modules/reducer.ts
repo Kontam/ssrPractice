@@ -10,7 +10,7 @@ import dialogLoading from './dialogLoading';
 import isMounted from '../modules/isMounted';
 import userInfo from '../modules/userInfo';
 import login from '../modules/login';
-import headerLogin from '../modules/login';
+import headerLoading from '../modules/headerLoading';
 
 const createReducer = (history :any) => {
     return combineReducers({
@@ -21,7 +21,7 @@ const createReducer = (history :any) => {
         snackBarState,
         isMounted,
         dialogLoading,
-        headerLogin,
+        headerLoading,
         userInfo,
         login,
         form: formReducer,

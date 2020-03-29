@@ -5,6 +5,7 @@ import BFFConst from "../../modules/const";
 import { setUserInfo, UserInfo } from "./userInfo";
 import { Dispatch } from "redux";
 import firebaseApp from '../../modules/firebaseAuthUtil';
+import { startHeaderLoading, endHeaderLoading } from "./headerLoading";
 
 export type AuthorityLevel =
     typeof BFFConst.AUTHORITY_ADMIN |
@@ -46,6 +47,7 @@ export const promiseStartLogin = (userInfo: UserInfo, dispatch: Dispatch) => new
 export const setLogin = createAction<Login>(SET_LOGIN);
 
 function* loginFlow(payload: UserInfo) {
+    yield put(startHeaderLoading());
     yield put(setUserInfo(payload));
     try {
       const result = yield call([fetchr, fetchr.create], BFFConst.LOGIN_SERVICE, {}, payload, {});
@@ -53,6 +55,8 @@ function* loginFlow(payload: UserInfo) {
       yield put(setLogin(result.data));
     } catch(error) {
       console.log(error);
+    } finally {
+      yield put(endHeaderLoading());
     }
 }
 
@@ -81,11 +85,13 @@ function* promiseStartLoginSaga(action : Action<PromiseStartLoginPayload>) {
 function* startLogoutSaga() {
   while(true) {
     yield take(START_LOGOUT); 
+    yield put(startHeaderLoading());
     console.log("before", firebaseApp.auth().currentUser);
     yield firebaseApp.auth().signOut();
     console.log(firebaseApp.auth().currentUser);
     if (document) document.cookie = "token=; max-age0";
     yield put(setLogin({loggedIn: false, authority: "none"}));
+    yield put(endHeaderLoading());
   }
 }
 

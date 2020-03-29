@@ -15,6 +15,7 @@ import { SnackBarState } from './modules/snackBarState';
 import { DialogLoading } from './modules/dialogLoading';
 import { UserInfo } from './modules/userInfo';
 import { loginSaga, Login } from './modules/login';
+import { HeaderLoading } from './modules/headerLoading';
 
 export type RootState = {
     router: RouterState,
@@ -27,6 +28,7 @@ export type RootState = {
     isMounted: IsMounted,
     userInfo: UserInfo,
     login: Login,
+    headerLoading: HeaderLoading,
 };
 export const INITIAL_STATE: Partial<RootState> = {};
 
