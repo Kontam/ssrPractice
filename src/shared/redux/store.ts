@@ -43,7 +43,11 @@ const rootSaga = function*(){
     const store = createStore(
         createReducer(history),
         initialState,
-        composeWithDevTools(applyMiddleware(routerMiddleware(history),sagaMiddleware, loggerMiddleware)),
+        composeWithDevTools(applyMiddleware(
+            routerMiddleware(history),
+            sagaMiddleware,
+            // loggerMiddleware,
+        )),
     );
     sagaMiddleware.run(rootSaga);
 

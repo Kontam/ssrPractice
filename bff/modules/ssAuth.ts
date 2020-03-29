@@ -20,7 +20,6 @@ const ssAuth = async (req: Request): Promise<SSAuth> => {
   const decodedCookieToken = await adminApp.auth().verifySessionCookie(cookies.token, true);
   const uid = decodedCookieToken.uid;
   const user = await adminApp.auth().getUser(uid);
-  console.log("loginService",uid);
 
   const userInfo: UserInfo = {
     cookieToken: cookies.token,

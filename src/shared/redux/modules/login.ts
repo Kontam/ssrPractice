@@ -40,7 +40,6 @@ export type PromiseStartLoginPayload = {
 }
 const promiseStartLoginActionCreator = createAction<PromiseStartLoginPayload>(PROMISE_START_LOGIN);
 export const promiseStartLogin = (userInfo: UserInfo, dispatch: Dispatch) => new Promise((resolve, reject) => {
-  console.log("inPromise", userInfo);
   dispatch(promiseStartLoginActionCreator({ resolve, reject, userInfo }));
 });
 
@@ -51,7 +50,6 @@ function* loginFlow(payload: UserInfo) {
     yield put(setUserInfo(payload));
     try {
       const result = yield call([fetchr, fetchr.create], BFFConst.LOGIN_SERVICE, {}, payload, {});
-      console.log("startLoginSaga", result);
       yield put(setLogin(result.data));
     } catch(error) {
       console.log(error);
@@ -72,7 +70,6 @@ function* promiseStartLoginSaga(action : Action<PromiseStartLoginPayload>) {
   //while(true) {
    // const action = yield take(PROMISE_START_LOGIN);
     //if (!action) return; // TODO: 調査 なぜかSSRで実行されてundefinedになる 
-    console.log("promiseStart", action);
     yield loginFlow(action.payload.userInfo);
     action.payload.resolve();
   //}
@@ -86,10 +83,8 @@ function* startLogoutSaga() {
   while(true) {
     yield take(START_LOGOUT); 
     yield put(startHeaderLoading());
-    console.log("before", firebaseApp.auth().currentUser);
     yield firebaseApp.auth().signOut();
-    console.log(firebaseApp.auth().currentUser);
-    if (document) document.cookie = "token=; max-age0";
+    if (typeof document !== "undefined") document.cookie = "token=; max-age0";
     yield put(setLogin({loggedIn: false, authority: "none"}));
     yield put(endHeaderLoading());
   }

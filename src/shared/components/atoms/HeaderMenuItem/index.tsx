@@ -2,7 +2,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Link } from 'react-router-dom';
-import { NavMenu } from '../../molecules/Header';
+import { NavMenu } from '../../molecules/Header/Header';
+
 import styled from 'styled-components';
 
 const Item = styled.li`

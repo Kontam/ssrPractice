@@ -15,7 +15,6 @@ const GoogleLoginButton: React.FC = () => {
       userCredential.user.getIdToken().then((idToken :string) => {
         if (!userCredential.user) return;
         dispatch(startLogin(convertUserObj(userCredential.user, idToken)));
-        console.log("idToken", idToken)
       })
     });
   }

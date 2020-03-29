@@ -48,7 +48,6 @@ Fetchr.registerService(longosService);
 Fetchr.registerService(loginService);
 
 app.get('*', (req: Request, res: Response) => {
-    console.log("start request",req.body);
     const history = createMemoryHistory({
         initialEntries: [req.url],
         initialIndex: 0,
@@ -61,22 +60,16 @@ app.get('*', (req: Request, res: Response) => {
         // cookieにトークンがある場合はSS認証を行う
         const authPromise = async () => {
           const result = await ssAuth(req);
-          console.log("afterAuth");
           if (result.isAuthed && result.userInfo) {
             await promiseStartLogin(result.userInfo, store.dispatch);
-            console.log("promiseStartLogin");
           }
         }
         await authPromise();
-        const authResult = store.getState().login;
-        console.log("afterAuthPropmise", authResult);
 
         const promisses: any = [];
-        // promisses.push(authPromise());
         const a = routes.some(async route => {
             const match = matchPath(req.path, route);
             if (match) promisses.push(route.loadData(store, match));
-            console.log("after loadData");
             return match;
         })
         return Promise.all(promisses);
@@ -93,7 +86,6 @@ app.get('*', (req: Request, res: Response) => {
         res.clearCookie(BFFConst.TOKEN_COOKIE)
       }
     ).then(() => {
-        console.log("start render", store.getState())
         try {
             content = renderToString(materialStyles.collect(sheet.collectStyles(
                 <StaticRouter location={req.url} context={{}}>

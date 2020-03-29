@@ -2,7 +2,6 @@ import BFFConst from '../modules/const';
 import { AuthorityLevel } from '../redux/modules/login';
 
 export function checkAuthorityLevel(own: AuthorityLevel, required: AuthorityLevel) {
-    console.log("checkAuthority", own, required);
     switch(required){
         case BFFConst.AUTHORITY_ADMIN:
             if (own === BFFConst.AUTHORITY_ADMIN) return true;

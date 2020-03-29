@@ -24,9 +24,7 @@ export const ProfileCardContainer = () => {
   ];
 
   const handleLogout = () => {
-   // firebaseApp.auth().signOut();
     dispatch(startLogout());
-    console.log("handleLogoutClick");
   }
 
   return (

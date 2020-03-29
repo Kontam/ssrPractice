@@ -107,7 +107,6 @@ export const PROMISE_READ_LONGOS = "PROMISE_READ_LONGOS";
 export const promiseReadLongos = createAction(PROMISE_READ_LONGOS);
 
 function* promiseReadLongosSaga({ payload: { resolve, reject }} :any) {
-    console.log("PromiseReadLongosSaga");
     const result = yield fetchr.read(ClientConst.LONGOS_SERVICE).params({id: "aaa"}).end();
     yield put(setLongos(result.data)) 
     resolve(result)

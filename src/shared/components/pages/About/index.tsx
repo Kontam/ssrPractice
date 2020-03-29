@@ -43,15 +43,12 @@ const About: React.FC = () => {
 }
 
 About.prototype.getInitialProps = async (store: Store<RootState>): Promise<any> => {
-    console.log("About:getInitialProps");
     const own = store.getState().login.authority;
     if (!checkAuthorityLevel(own, About.prototype.authorityLevel)) return {};
-    console.log("getInitialAuth", checkAuthorityLevel(own, About.prototype.authorityLevel));
     const fetchPromise = new Promise((resolve, reject) => {
         store.dispatch(promiseReadLongos({resolve, reject}))
     })
     await fetchPromise;
-    console.log("end About:getInitialProps");
     return {}
 }
 
