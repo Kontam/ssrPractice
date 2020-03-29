@@ -25,7 +25,6 @@ async function authorityAPIfunc(req: Request, res: Response) :Promise<void> {
       let responseData: AuthorityReadResponse = { authority: "none" };
       const result = await userRef.where('email', '==', params.email).get();
       if (!result.empty) {
-        console.log("user matched"); 
         result.forEach(doc => {
           responseData = {
             authority: doc.data().authority,

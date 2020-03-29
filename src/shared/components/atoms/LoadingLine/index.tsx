@@ -1,18 +1,20 @@
 import React from 'react';
-import LoadingLine from './LoadingLine';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
-import { Loading } from '../../../redux/modules/loading';
-import { LinearProgressProps } from '@material-ui/core';
+import { LinearProgress, LinearProgressProps } from '@material-ui/core';
 
-export default () => {
-    const loading = useSelector<RootState, Loading>(state => state.loading)
+type Props = {
+  isLoading: boolean
+} 
 
-    const props: Partial<LinearProgressProps> = {
-        variant: loading ? "indeterminate" : "determinate", 
+const LoadingLine: React.FC<Props> = ({ isLoading }) => {
+
+    const MUIprops: Partial<LinearProgressProps> = {
+        variant: isLoading ? "indeterminate" : "determinate", 
         value: 0
     }
+
     return (
-        <LoadingLine {...props}/>
+        <LinearProgress {...MUIprops} />
     )
 }
+
+export default LoadingLine;

@@ -1,5 +1,5 @@
 const Fetchr = require('fetchr');
-import ClientConst from '../../../ClientConst';
+import ClientConst from '../../modules/const';
 
 type FetcherFactory = {
     instance: any,
@@ -18,7 +18,7 @@ const fetchrFactory :FetcherFactory = {
     getFetchr: function() {
         if (!this.instance) {
             this.instance = new Fetchr({
-                xhrPath: ClientConst.apiBasePath,
+                xhrPath: ClientConst.API_ENDPOINT,
                 xhrTimeout: 10000,
                 context: {
                   _csrf: csrf

@@ -1,30 +1,34 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent } from '@material-ui/core';
-import LongoForm, { LongoFormData } from '../LongoForm';
+import AddDialog from "./AddDialog";
+import { useDispatch, useSelector } from 'react-redux';
+import { AddDialogState, closeAddDialog } from '../../../redux/modules/addDialogState';
+import { RootState } from '../../../redux/store';
+import { Longos, addLongo, Longo } from '../../../redux/modules/longos';
 import { FormSubmitHandler } from 'redux-form';
+import { LongoFormData } from '../LongoForm';
 import { createLongo } from '../../../redux/modules/longos';
-import LoadingLine from '../../atoms/LoadingLine';
+import { DialogLoading } from '../../../redux/modules/dialogLoading';
 
-type Props = {
-    isOpen: boolean,
-    onClose: () => void
+export type ContainerProps = {
 }
 
-const AddDialog: React.FC<Props> = ({ isOpen, onClose }) => {
+export default () => {
+    const dispatch = useDispatch();
+    const addDialogState = useSelector<RootState, AddDialogState>(state => state.addDialogState);
+    const dialogLoading = useSelector<RootState, DialogLoading>(state => state.dialogLoading);
 
-    const handleSubmit: FormSubmitHandler<LongoFormData, {} ,string> = (values, dispatch) => {
+    const onClose = () => dispatch(closeAddDialog());
+    const onSubmit: FormSubmitHandler<LongoFormData, {} ,string> = (values, dispatch) => {
        dispatch(createLongo(values)); 
     };
-    
-    return(
-        <Dialog open={isOpen} onClose={onClose} maxWidth={"lg"} fullWidth={true}>
-            <DialogTitle>新規アイテムを追加</DialogTitle>
-            <LoadingLine />
-            <DialogContent>
-               <LongoForm onSubmit={handleSubmit} /> 
-            </DialogContent>
-        </Dialog>
-    );
-}
 
-export default AddDialog;
+
+    return (
+        <AddDialog
+            isOpen={addDialogState.isOpen}
+            onClose={onClose}
+            onSubmit={onSubmit}
+            isDialogLoading={dialogLoading}
+        />
+    )
+}

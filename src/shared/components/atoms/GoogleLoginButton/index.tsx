@@ -1,32 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import firebase, { User } from 'firebase/app';
+import React from 'react';
+import Button from '@material-ui/core/Button'
 import firebaseApp from '../../../modules/firebaseAuthUtil';
-
-type Props = {
-  onSignIn: (googleUser: any) => void
-};
+import { startLogin } from '../../../redux/modules/login';
+import { useDispatch } from 'react-redux';
+import { convertUserObj } from '../../../redux/modules/userInfo';
 
 const GoogleLoginButton: React.FC = () => {
-  
+  const dispatch = useDispatch();
   
   const handleLoginClick = () => {
     const provider = new firebaseApp.auth.GoogleAuthProvider();
-    firebaseApp.auth().signInWithPopup(provider).then((user) => {
-      user.user?.getIdToken().then((idToken :string) => {
-        console.log("idToken", idToken)
+    firebaseApp.auth().signInWithPopup(provider).then((userCredential) => {
+      if (!userCredential.user) return;
+      userCredential.user.getIdToken().then((idToken :string) => {
+        if (!userCredential.user) return;
+        dispatch(startLogin(convertUserObj(userCredential.user, idToken)));
       })
     });
   }
 
-  const handleLogoutClick = () => {
-    console.log("handleLogoutClick");
-    firebaseApp.auth().signOut();
-  }
-
   return (
     <div>
-      <button onClick={handleLoginClick} >Login</button>
-      <button onClick={handleLogoutClick} >Logout</button>
+      <Button color="primary" variant="contained" onClick={handleLoginClick} >Login</Button>
     </div>
   );
 };

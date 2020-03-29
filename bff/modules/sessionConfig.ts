@@ -1,4 +1,4 @@
-import BFFConst from '../const';
+import BFFConst from '../../src/shared/modules/const';
 import session from 'express-session';
 
 const sessionConfig :session.SessionOptions = {

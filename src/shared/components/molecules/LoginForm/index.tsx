@@ -1,34 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { User } from 'firebase';
-import firebaseApp from '../../../modules/firebaseAuthUtil';
-import GoogleLoginButton from '../../atoms/GoogleLoginButton';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import LoginForm from './LoginForm';
 
-import { setUserInfo, removeUserInfo, UserInfo, convertUserObj } from '../../../redux/modules/userInfo';
-import { startLogin } from '../../../redux/modules/login';
+import { Login } from '../../../redux/modules/login';
 import { RootState } from '../../../redux/store';
 
-const LoginForm = () => {
-  const dispatch = useDispatch();
-  const user = useSelector<RootState, UserInfo>(state => state.userInfo);
-  
-  useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged(async (user) => {
-      if(user) {
-        const idToken = await user.getIdToken();
-        dispatch(startLogin(convertUserObj(user, idToken)));
-      }
-      else dispatch(removeUserInfo());
-    })
-  },[])
+const LoginFormContainer: React.FC = () => {
+  const login = useSelector<RootState, Login>(state => state.login);
 
   return (
-    <div>
-      <p>Name: {user && user.displayName}</p>
-      <p>email: {user && user.email}</p>
-      <GoogleLoginButton />
-    </div>
+    <LoginForm 
+      login={login}
+    />
   );
-}
+} 
 
-export default LoginForm;
+export default LoginFormContainer;

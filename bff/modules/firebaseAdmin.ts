@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 
-import BFFConst from '../const';
+import BFFConst from '../../src/shared/modules/const';
 
 const credential:admin.ServiceAccount= {
   projectId: BFFConst.FIREBASE_PROJECT_ID,

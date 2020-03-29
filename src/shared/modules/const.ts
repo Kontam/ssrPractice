@@ -7,6 +7,17 @@ const BFFConst = {
     BACKEND_BASE_URL: process.env.BACKEND_BASE_URL || "",
     API_LONGOS: "/longoAPI",
     API_AUTHORITY: "/authorityAPI",
+
+    // 権限レベル(制限が強い順番に並べる)
+    AUTHORITY_ADMIN: "administrator",
+    AUTHORITY_MEMBER: "member",
+    AUTHORITY_FREE: "free",
+    AUTHORITY_NONE: "none",
+
+
+    // Cookies
+    COOKIE_EXPIREIN: 60 * 60 * 24 * 5,
+    TOKEN_COOKIE: 'token',
     
     // データサービス名
     LONGOS_SERVICE: 'Longos',

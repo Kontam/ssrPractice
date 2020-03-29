@@ -6,7 +6,9 @@ export type UserInfo = {
     displayName: string,
     uid: string,
     email: string,
-    idToken: string,
+    idToken?: string,
+    cookieToken?: string,
+    photoURL: string,
 }
 
 export const INITIAL_STATE :UserInfo = {
@@ -14,14 +16,23 @@ export const INITIAL_STATE :UserInfo = {
     uid: "",
     email: "",
     idToken: "",
+    cookieToken: "",
+    photoURL: "",
 }
 
+/**
+ * CSの認証で取得できるUserオブジェクトをアプリで使用するデータに絞り込む
+ * @params {User} user firebase-authのUserオブジェクト
+ * @params {idToken} string firebase-authのidToken
+ * @return {UserInfo} アプリケーションで利用するユーザー情報
+ * */
 export function convertUserObj(user :User, idToken: string): UserInfo{
   return {
     displayName: user.displayName || "",
     uid: user.uid || "",
     email: user.email || "",
     idToken,
+    photoURL: user.photoURL || "",
   }
 }
 

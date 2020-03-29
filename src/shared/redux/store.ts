@@ -5,15 +5,17 @@ import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 
 import createReducer from './modules/reducer';
+import loggerMiddleware from './middlewares/loggerMiddleware';
 import { Longos, longosSaga } from './modules/longos';
 import { AddDialogState } from './modules/addDialogState';
 import { UpdateDialogState } from './modules/updateDialogState';
 import { RemoveDialogState } from './modules/removeDialogState';
 import { IsMounted } from './modules/isMounted';
 import { SnackBarState } from './modules/snackBarState';
-import { Loading } from './modules/loading';
+import { DialogLoading } from './modules/dialogLoading';
 import { UserInfo } from './modules/userInfo';
 import { loginSaga, Login } from './modules/login';
+import { HeaderLoading } from './modules/headerLoading';
 
 export type RootState = {
     router: RouterState,
@@ -22,10 +24,11 @@ export type RootState = {
     updateDialogState: UpdateDialogState,
     removeDialogState: RemoveDialogState,
     snackBarState: SnackBarState,
-    loading: Loading,
+    dialogLoading: DialogLoading,
     isMounted: IsMounted,
     userInfo: UserInfo,
     login: Login,
+    headerLoading: HeaderLoading,
 };
 export const INITIAL_STATE: Partial<RootState> = {};
 
@@ -40,7 +43,11 @@ const rootSaga = function*(){
     const store = createStore(
         createReducer(history),
         initialState,
-        composeWithDevTools(applyMiddleware(routerMiddleware(history),sagaMiddleware)),
+        composeWithDevTools(applyMiddleware(
+            routerMiddleware(history),
+            sagaMiddleware,
+            // loggerMiddleware,
+        )),
     );
     sagaMiddleware.run(rootSaga);
 

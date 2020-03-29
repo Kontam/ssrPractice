@@ -13,7 +13,7 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
 
-import BFFConst from './const';
+import BFFConst from '../src/shared/modules/const';
 import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
 import longosService from './services/longosService';
@@ -21,6 +21,10 @@ import loginService from './services/loginService';
 import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
 import sessionConfig from './modules/sessionConfig';
+import storeTokenMiddleware from './middleware/storeTokenMiddleware';
+import ssAuth from './modules/ssAuth';
+import { promiseStartLogin } from '../src/shared/redux/modules/login';
+import loginResponseFormatter from './modules/loginResponseFormatter';
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -33,7 +37,13 @@ app.use(csrf({ cookie: true }));
 app.use(ssrLoger);
 app.use(express.static(__dirname + '/public'));
 
-app.use(BFFConst.API_ENDPOINT, Fetchr.middleware());
+app.post(BFFConst.API_ENDPOINT, storeTokenMiddleware);
+app.use(BFFConst.API_ENDPOINT, Fetchr.middleware({
+  responseFormatter: (req: Request, res: Response, data: any) => {
+    loginResponseFormatter(req, res, data);
+    return data;
+  },
+}));
 Fetchr.registerService(longosService);
 Fetchr.registerService(loginService);
 
@@ -43,16 +53,26 @@ app.get('*', (req: Request, res: Response) => {
         initialIndex: 0,
     })
     const store = initializeStore(history);
-    const prepare = () => {
+    const prepare = async () => {
         // From official example
         // See: https://reacttraining.com/react-router/web/guides/server-rendering
-        const promises: Function[] = [];
-        routes.some(route => {
+      
+        // cookieにトークンがある場合はSS認証を行う
+        const authPromise = async () => {
+          const result = await ssAuth(req);
+          if (result.isAuthed && result.userInfo) {
+            await promiseStartLogin(result.userInfo, store.dispatch);
+          }
+        }
+        await authPromise();
+
+        const promisses: any = [];
+        const a = routes.some(async route => {
             const match = matchPath(req.path, route);
-            if (match) promises.push(route.loadData(store, match));
+            if (match) promisses.push(route.loadData(store, match));
             return match;
         })
-        return Promise.all(promises);
+        return Promise.all(promisses);
     }
     
     const materialStyles = new MaterialStyleSheets()
@@ -60,7 +80,12 @@ app.get('*', (req: Request, res: Response) => {
     let content = "";
     let styleTags = "";
 
-    prepare().then(() => {
+    prepare().catch(
+      (error) => { 
+        console.log(error)
+        res.clearCookie(BFFConst.TOKEN_COOKIE)
+      }
+    ).then(() => {
         try {
             content = renderToString(materialStyles.collect(sheet.collectStyles(
                 <StaticRouter location={req.url} context={{}}>

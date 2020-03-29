@@ -1,5 +1,5 @@
 import axios from '../modules/axiosConfig';
-import BFFConst from '../const';
+import BFFConst from '../../src/shared/modules/const';
 
 export type Longo = {
     text: string,
