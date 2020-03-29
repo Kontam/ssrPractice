@@ -10,7 +10,7 @@ export default (content: string, style: string, materialStyles: string, state: R
             <meta name="google-signin-cookiepolicy" content="single_host_origin">
             <meta name="google-signin-scope" content="profile email">
             <style id="jss-server-side">${materialStyles}</style>
-            <title>Document</title>
+            <title>Suebot Management Console</title>
         </head>
         ${style}
         <body>

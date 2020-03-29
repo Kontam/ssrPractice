@@ -27,6 +27,7 @@ const ssAuth = async (req: Request): Promise<SSAuth> => {
     email: user.email || "",
     displayName: user.displayName || "",
     uid,
+    photoURL: user.photoURL || "",
   }
 
   return { isAuthed: true, userInfo };

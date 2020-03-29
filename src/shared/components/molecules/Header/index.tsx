@@ -50,7 +50,7 @@ const Header: React.FC = () => {
     const handleAddIconClick: React.MouseEventHandler = () => { dispatch(addDialogState.isOpen ? closeAddDialog() : openAddDialog())};
     
     return (
-        <AppBar position="static">
+        <AppBar position="sticky">
             <Toolbar>
             {/* <Nav> */}
                 {/* <MenuList> */}

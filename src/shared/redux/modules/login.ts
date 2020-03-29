@@ -4,6 +4,7 @@ import fetchr from "../util/fetchr";
 import BFFConst from "../../../../bff/const";
 import { setUserInfo, UserInfo } from "./userInfo";
 import { Dispatch } from "redux";
+import firebaseApp from '../../modules/firebaseAuthUtil';
 
 export type Login = {
   loggedIn: boolean,
@@ -23,6 +24,7 @@ export const SET_LOGIN = "SET_LOGIN";
 export const REMOVE_LOGIN = "REMOVE_LOGIN";
 
 export const startLogin = createAction<UserInfo>(START_LOGIN);
+export const startLogout = createAction(START_LOGOUT);
 
 export type PromiseStartLoginPayload = {
   resolve: () => void
@@ -35,7 +37,7 @@ export const promiseStartLogin = (userInfo: UserInfo, dispatch: Dispatch) => new
   dispatch(promiseStartLoginActionCreator({ resolve, reject, userInfo }));
 });
 
-export const setLogin = createAction(SET_LOGIN);
+export const setLogin = createAction<Login>(SET_LOGIN);
 
 function* loginFlow(payload: UserInfo) {
     yield put(setUserInfo(payload));
@@ -66,8 +68,23 @@ function* promiseStartLoginSaga(action : Action<PromiseStartLoginPayload>) {
   //}
 }
 
+/**
+ * ログアウト処理フローのSaga
+ * loginStateに未ログイン時の値を挿入する
+ * */
+function* startLogoutSaga() {
+  while(true) {
+    yield take(START_LOGOUT); 
+    console.log("before", firebaseApp.auth().currentUser);
+    yield firebaseApp.auth().signOut();
+    console.log(firebaseApp.auth().currentUser);
+    yield put(setLogin({loggedIn: false, authority: "none"}));
+  }
+}
+
 export const loginSaga = [
   startLoginSaga(),
+  startLogoutSaga(),
   //promiseStartLoginSaga(),
   takeEvery(PROMISE_START_LOGIN, promiseStartLoginSaga),
 ];

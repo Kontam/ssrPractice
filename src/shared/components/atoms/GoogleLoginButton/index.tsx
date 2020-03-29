@@ -18,15 +18,9 @@ const GoogleLoginButton: React.FC = () => {
     });
   }
 
-  const handleLogoutClick = () => {
-    console.log("handleLogoutClick");
-    firebaseApp.auth().signOut();
-  }
-
   return (
     <div>
       <button onClick={handleLoginClick} >Login</button>
-      <button onClick={handleLogoutClick} >Logout</button>
     </div>
   );
 };

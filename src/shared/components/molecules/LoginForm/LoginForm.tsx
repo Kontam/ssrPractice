@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import GoogleLoginButton from '../../atoms/GoogleLoginButton';
 
 import { UserInfo } from '../../../redux/modules/userInfo';
+import { Login } from '../../../redux/modules/login';
 
 export type LoginFormProps = {
-  userInfo: UserInfo; 
+  login: Login; 
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ userInfo }) => {
+const FormContainer = styled.div<{loggedIn: boolean}>`
+  display: ${props => props.loggedIn ? "none" : "block"}
+`;
+
+const LoginForm: React.FC<LoginFormProps> = ({ login }) => {
 
   return (
-    <div>
-      <p>Name: {userInfo && userInfo.displayName}</p>
-      <p>email: {userInfo && userInfo.email}</p>
+    <FormContainer loggedIn={login.loggedIn}>
       <GoogleLoginButton />
-    </div>
+    </FormContainer>
   );
 }
 

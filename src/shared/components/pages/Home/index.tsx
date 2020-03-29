@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setTrueIsMounted } from '../../../redux/modules/isMounted';
 
 import LoginForm from '../../molecules/LoginForm';
+import ProfileCard from '../../molecules/ProfileCard';
 
 const Home: React.FC = () => { 
     const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const Home: React.FC = () => {
     return (
         <PageTemplate>
             <LoginForm />
+            <ProfileCard />
         </PageTemplate>
     );
 }

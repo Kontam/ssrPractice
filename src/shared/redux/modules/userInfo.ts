@@ -8,6 +8,7 @@ export type UserInfo = {
     email: string,
     idToken?: string,
     cookieToken?: string,
+    photoURL: string,
 }
 
 export const INITIAL_STATE :UserInfo = {
@@ -16,6 +17,7 @@ export const INITIAL_STATE :UserInfo = {
     email: "",
     idToken: "",
     cookieToken: "",
+    photoURL: "",
 }
 
 /**
@@ -30,6 +32,7 @@ export function convertUserObj(user :User, idToken: string): UserInfo{
     uid: user.uid || "",
     email: user.email || "",
     idToken,
+    photoURL: user.photoURL || "",
   }
 }
 
