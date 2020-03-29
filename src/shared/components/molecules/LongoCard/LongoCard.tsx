@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActions, IconButton, CardContent, Typography } from '@material-ui/core';
+import { Card, CardActions, IconButton, CardContent, Typography, Tooltip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -26,15 +26,18 @@ const LongoCard: React.FC<Props> = ({ longo, handleEditClickCreator, handleDelet
     return (
         <Card className={classes.root}>
             <CardActions>
-                <IconButton aria-label="Edit Item" onClick={handleEditClick}>
-                    <EditIcon />
-                </IconButton>
-                <IconButton aria-label="Delete Item" onClick={handleDeleteClick}>
-                    <DeleteIcon />
-                </IconButton>
+                <Tooltip title="編集">
+                    <IconButton aria-label="Edit Item" onClick={handleEditClick}>
+                        <EditIcon />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="削除">
+                    <IconButton aria-label="Delete Item" onClick={handleDeleteClick}>
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip>
             </CardActions>
             <CardContent>
-                {/* <Typography>ID: {longo.id}</Typography> */}
                 <Typography>Text: {longo.text}</Typography>
                 <Typography>Meaning: {longo.meaning}</Typography>
                 <Typography>Comment: {longo.comment}</Typography>

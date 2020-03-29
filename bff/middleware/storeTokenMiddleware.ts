@@ -11,7 +11,7 @@ import BFFConst from "../../src/shared/modules/const";
 const storeTokenMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const body: FetchrRequestBody<UserInfo> = req.body;
   if (body.requests.g0.resource !== BFFConst.LOGIN_SERVICE) { return next(); }
-  const expiresIn = 60 * 6 * 1000;
+  const expiresIn = BFFConst.COOKIE_EXPIREIN;
   const cookieOption = {
     maxAge: expiresIn,
     httpOnly: true,
