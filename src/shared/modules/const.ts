@@ -14,6 +14,11 @@ const BFFConst = {
     AUTHORITY_FREE: "free",
     AUTHORITY_NONE: "none",
 
+    // 認証ステータス
+    AUTHSTATUS_UNAUTHRIZED: "unauthrized",
+    AUTHSTATUS_ENOUGH: "enough",
+    AUTHSTATUS_NOT_ENOUGH: "not_enough",
+
 
     // Cookies
     COOKIE_EXPIREIN: 60 * 60 * 24 * 5,

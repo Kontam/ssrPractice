@@ -14,6 +14,9 @@ import SnackBar from '../../atoms/SnackBar';
 import BFFConst from '../../../modules/const';
 import { checkAuthorityLevel } from '../../../routes/checkAuthorityLevel';
 import { Login } from '../../../redux/modules/login';
+import getAuthStatus from '../../../modules/getAuthStatus';
+import Const from '../../../modules/const';
+import UnAuthrizedMessage from '../../molecules/UnauthrizedMessage';
 
 const longosSeletor = (state: RootState) => state.longos;
 
@@ -22,6 +25,8 @@ const About: React.FC = () => {
     const longos = useSelector(longosSeletor);
     const isMounted = useSelector<RootState, IsMounted>(state => state.isMounted);
     const login = useSelector<RootState, Login>(state => state.login);
+    const authStatus = getAuthStatus(login, About.prototype.authorityLevel);
+    //const authStatus = Const.AUTHSTATUS_NOT_ENOUGH;
 
     useEffect(() => {
         if (isMounted) {
@@ -33,11 +38,17 @@ const About: React.FC = () => {
 
     return (
         <PageTemplate>
-            <AddDialog />
-            <UpdateDialog />
-            <RemoveDialog/>
-            <LongoList longos={longos} />
-            <SnackBar />
+          { authStatus === Const.AUTHSTATUS_ENOUGH 
+            ? (
+            <>
+              <AddDialog />
+              <UpdateDialog />
+              <RemoveDialog/>
+              <LongoList longos={longos} />
+              <SnackBar />
+            </>
+          ) : <UnAuthrizedMessage authStatus={authStatus}/>
+             }
         </PageTemplate>
     )
 }
