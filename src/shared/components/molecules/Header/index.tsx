@@ -7,7 +7,7 @@ import { HeaderLoading } from '../../../redux/modules/headerLoading';
 
 const HeaderContainer: React.FC = () => {
     const dispatch = useDispatch();
-    const addDialogState = useSelector<RootState, AddDialogState>(state => state.addDialogState);
+    const addDialogState = useSelector<RootState, AddDialogState>(state => state.dialog.addDialogState);
     const headerLoading = useSelector<RootState, HeaderLoading>(state => state.headerLoading);
     const navMenus: NavMenu[] = [
         {

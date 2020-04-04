@@ -18,15 +18,14 @@ import getAuthStatus from '../../../modules/getAuthStatus';
 import Const from '../../../modules/const';
 import UnAuthrizedMessage from '../../molecules/UnauthrizedMessage';
 
-const longosSeletor = (state: RootState) => state.longos;
+const longosSeletor = (state: RootState) => state.app.longos;
 
 const About: React.FC = () => {
     const dispatch = useDispatch();
     const longos = useSelector(longosSeletor);
     const isMounted = useSelector<RootState, IsMounted>(state => state.isMounted);
-    const login = useSelector<RootState, Login>(state => state.login);
+    const login = useSelector<RootState, Login>(state => state.user.login);
     const authStatus = getAuthStatus(login, About.prototype.authorityLevel);
-    //const authStatus = Const.AUTHSTATUS_NOT_ENOUGH;
 
     useEffect(() => {
         if (isMounted) {
@@ -54,7 +53,7 @@ const About: React.FC = () => {
 }
 
 About.prototype.getInitialProps = async (store: Store<RootState>): Promise<any> => {
-    const own = store.getState().login.authority;
+    const own = store.getState().user.login.authority;
     if (!checkAuthorityLevel(own, About.prototype.authorityLevel)) return {};
     const fetchPromise = new Promise((resolve, reject) => {
         store.dispatch(promiseReadLongos({resolve, reject}))

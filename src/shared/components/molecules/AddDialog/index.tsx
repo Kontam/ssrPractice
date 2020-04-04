@@ -14,8 +14,8 @@ export type ContainerProps = {
 
 export default () => {
     const dispatch = useDispatch();
-    const addDialogState = useSelector<RootState, AddDialogState>(state => state.addDialogState);
-    const dialogLoading = useSelector<RootState, DialogLoading>(state => state.dialogLoading);
+    const addDialogState = useSelector<RootState, AddDialogState>(state => state.dialog.addDialogState);
+    const dialogLoading = useSelector<RootState, DialogLoading>(state => state.dialog.dialogLoading);
 
     const onClose = () => dispatch(closeAddDialog());
     const onSubmit: FormSubmitHandler<LongoFormData, {} ,string> = (values, dispatch) => {

@@ -9,8 +9,8 @@ import { Login, startLogout } from '../../../redux/modules/login';
 
 export const ProfileCardContainer = () => {
   const dispatch = useDispatch();
-  const userInfo = useSelector<RootState, UserInfo>(state => state.userInfo);
-  const login = useSelector<RootState, Login>(state => state.login);
+  const userInfo = useSelector<RootState, UserInfo>(state => state.user.userInfo);
+  const login = useSelector<RootState, Login>(state => state.user.login);
 
   const tableData = [
     {

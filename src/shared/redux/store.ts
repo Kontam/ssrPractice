@@ -18,16 +18,22 @@ import { loginSaga, Login } from './modules/login';
 import { HeaderLoading } from './modules/headerLoading';
 
 export type RootState = {
+    app: {
+      longos: Longos,
+    },
+    dialog: {
+      addDialogState: AddDialogState,
+      updateDialogState: UpdateDialogState,
+      removeDialogState: RemoveDialogState,
+      dialogLoading: DialogLoading,
+    },
+    user: {
+      userInfo: UserInfo,
+      login: Login,
+    },
     router: RouterState,
-    longos: Longos,
-    addDialogState: AddDialogState,
-    updateDialogState: UpdateDialogState,
-    removeDialogState: RemoveDialogState,
     snackBarState: SnackBarState,
-    dialogLoading: DialogLoading,
     isMounted: IsMounted,
-    userInfo: UserInfo,
-    login: Login,
     headerLoading: HeaderLoading,
 };
 export const INITIAL_STATE: Partial<RootState> = {};

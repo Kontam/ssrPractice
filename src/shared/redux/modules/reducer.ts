@@ -14,16 +14,22 @@ import headerLoading from '../modules/headerLoading';
 
 const createReducer = (history :any) => {
     return combineReducers({
-        longos,
-        addDialogState,
-        removeDialogState,
-        updateDialogState,
+        dialog: combineReducers({
+          addDialogState,
+          removeDialogState,
+          updateDialogState,
+          dialogLoading,
+        }),
         snackBarState,
         isMounted,
-        dialogLoading,
         headerLoading,
-        userInfo,
-        login,
+        app: combineReducers({
+          longos,
+        }),
+        user: combineReducers({
+          userInfo,
+          login,
+        }),
         form: formReducer,
         router: connectRouter(history),
     });
