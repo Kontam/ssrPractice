@@ -161,10 +161,26 @@ export default async function choiseGroupsAPI(request: Request, response: Respon
       response.send(patchResponseGroup);
       break;
 
+    case "DELETE":
+      if (!request.query.groupId) {
+        response.send("invalid request");
+        return;
+      }
+      const deleteTargetId: string = request.query.groupId;
+      const deleteDocRef = groupRef.doc(deleteTargetId);
+      const docId = deleteDocRef.id;
+
+      const deleteBatch = firestore.batch();
+      deleteBatch.delete(deleteDocRef);
+
+      const deleteOptionsSnap = await optionRef.where("groupId", "==", docId).get();
+      deleteOptionsSnap.forEach((docSnap) => {
+         deleteBatch.delete(docSnap.ref);
+      });
+      deleteBatch.commit();
+      response.send(docId);
+      break;
     default:
       response.send("default");
   }
-
-   
-
 }
