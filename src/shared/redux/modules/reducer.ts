@@ -11,6 +11,7 @@ import isMounted from '../modules/isMounted';
 import userInfo from '../modules/userInfo';
 import login from '../modules/login';
 import headerLoading from '../modules/headerLoading';
+import choiceGroups from '../modules/choiceGroups';
 
 const createReducer = (history :any) => {
     return combineReducers({
@@ -25,6 +26,7 @@ const createReducer = (history :any) => {
         headerLoading,
         app: combineReducers({
           longos,
+          choiceGroups,          
         }),
         user: combineReducers({
           userInfo,

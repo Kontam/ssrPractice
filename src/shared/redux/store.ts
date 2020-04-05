@@ -16,10 +16,12 @@ import { DialogLoading } from './modules/dialogLoading';
 import { UserInfo } from './modules/userInfo';
 import { loginSaga, Login } from './modules/login';
 import { HeaderLoading } from './modules/headerLoading';
+import { ChoiceGroups, choiceGroupsSaga } from './modules/choiceGroups';
 
 export type RootState = {
     app: {
       longos: Longos,
+      choiceGroups: ChoiceGroups,
     },
     dialog: {
       addDialogState: AddDialogState,
@@ -44,6 +46,7 @@ const rootSaga = function*(){
     yield all([
         ...longosSaga,
         ...loginSaga,
+        ...choiceGroupsSaga,
     ]);
 }
     const store = createStore(
