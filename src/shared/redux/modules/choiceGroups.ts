@@ -2,7 +2,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 
 import fetchr from '../util/fetchr';
 import { Action, createAction, handleActions } from 'redux-actions';
-import { ChoiceGroup, ChoiceOption } from '../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import { ChoiceGroup } from '../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
 import { startHeaderLoading, endHeaderLoading } from './headerLoading';
 import { AxiosResponse } from "axios";
 import Const from '../../modules/const';
@@ -23,8 +23,7 @@ export const INITIAL_STATE: ChoiceGroups = [];
 
 function* requestFetchChoiceGroup() {
   yield startHeaderLoading(); 
-  // const result: AxiosResponse<ChoiceGroups> = yield call([fetchr, fetchr.read], Const.CHOICEGROUPS_SERVICE, {}, {});
-  const result: AxiosResponse<ChoiceGroups> = yield fetchr.read(Const.CHOICEGROUPS_SERVICE).params({id: "aaa"}).end();
+  const result: AxiosResponse<ChoiceGroups> = yield call([fetchr, fetchr.read], Const.CHOICEGROUPS_SERVICE, {}, {});
   yield put(setChoiceGroups(result.data))
   yield endHeaderLoading(); 
 }
@@ -34,7 +33,7 @@ export const choiceGroupsSaga = [
 ];
 
 export default handleActions<ChoiceGroups, any>({
-  [SET_CHOICEGROUPS]: (state: ChoiceGroups, { payload }: Action<ChoiceGroups>) => ({
+  [SET_CHOICEGROUPS]: (state: ChoiceGroups, { payload }: Action<ChoiceGroups>) => ([
     ...payload,
-  }),
+  ]),
 }, INITIAL_STATE)

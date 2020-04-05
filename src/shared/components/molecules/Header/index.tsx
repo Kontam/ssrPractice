@@ -4,8 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { closeAddDialog, AddDialogState, openAddDialog } from '../../../redux/modules/addDialogState';
 import { HeaderLoading } from '../../../redux/modules/headerLoading';
+import { AppFAB } from '../AppButtonContainer';
 
-const HeaderContainer: React.FC = () => {
+type Props = {
+    appButtons?: AppFAB[],
+}
+
+const HeaderContainer: React.FC<Props> = ({ appButtons }) => {
     const dispatch = useDispatch();
     const addDialogState = useSelector<RootState, AddDialogState>(state => state.dialog.addDialogState);
     const headerLoading = useSelector<RootState, HeaderLoading>(state => state.headerLoading);
@@ -19,6 +24,11 @@ const HeaderContainer: React.FC = () => {
             text: "LongoList",
             href: "/about",
             description: "論語の一覧が見られます",
+        },
+        {
+            text: "Choice",
+            href: "/choice",
+            description: "ランダム選別機能のデータを管理します",
         }
     ];
 
@@ -26,6 +36,7 @@ const HeaderContainer: React.FC = () => {
     
     return (
         <Header
+            appButtons={appButtons}
             navMenus={navMenus} 
             handleAddIconClick={handleAddIconClick}
             headerLoading={headerLoading}

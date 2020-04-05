@@ -4,6 +4,7 @@ import PageTemplate from '../../template/PageTemplate';
 import { fetchChoiceGroups, ChoiceGroups } from '../../../redux/modules/choiceGroups';
 import { RootState } from '../../../redux/store';
 import Const from '../../../modules/const';
+import ChoiceGroupManager from '../../organisms/ChoiceGroupManager';
 
 const Choice: React.FC = () => {
   const dispatch = useDispatch();
@@ -11,12 +12,12 @@ const Choice: React.FC = () => {
     dispatch(fetchChoiceGroups()); 
   },[]);
 
-  const choiceGroups = useSelector<RootState, ChoiceGroups>(state => state.app.choiceGroups);
 
   return (
     <PageTemplate>
       <>
         <h1>ChoiceGroups</h1>  
+        <ChoiceGroupManager />
       </>
     </PageTemplate>
   );

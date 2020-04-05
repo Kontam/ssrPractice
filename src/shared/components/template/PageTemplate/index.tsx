@@ -1,7 +1,7 @@
-
-import React, { ReactChildren } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Header from '../../molecules/Header';
+import { AppFAB } from '../../molecules/AppButtonContainer';
 
 const Container = styled.div`
   width: 100%; 
@@ -16,12 +16,13 @@ const Wrapper = styled.div`
 
 type Props = {
     children: any,
+    appButtons?: AppFAB[],
 }
 
-const PageTemplate: React.FC<Props> = ({ children }) => {
+const PageTemplate: React.FC<Props> = ({ children, appButtons }) => {
     return (
       <div>
-        <Header />
+        <Header appButtons={appButtons && appButtons}/>
         <Container>
           <Wrapper>
             {children}

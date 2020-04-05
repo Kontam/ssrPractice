@@ -17,6 +17,8 @@ import { Login } from '../../../redux/modules/login';
 import getAuthStatus from '../../../modules/getAuthStatus';
 import Const from '../../../modules/const';
 import UnAuthrizedMessage from '../../molecules/UnauthrizedMessage';
+import { AppFAB } from '../../molecules/AppButtonContainer';
+import AddIcon from '@material-ui/icons/Add';
 
 const longosSeletor = (state: RootState) => state.app.longos;
 
@@ -26,6 +28,15 @@ const About: React.FC = () => {
     const isMounted = useSelector<RootState, IsMounted>(state => state.isMounted);
     const login = useSelector<RootState, Login>(state => state.user.login);
     const authStatus = getAuthStatus(login, About.prototype.authorityLevel);
+    const appButtons: AppFAB[] = [
+        {
+            name: '追加',
+            color: 'default',
+            onClick: (e) => {},
+            IconComponent: <AddIcon />,
+            description: "新しいアイテムを作成",
+        }
+    ]
 
     useEffect(() => {
         if (isMounted) {
@@ -36,7 +47,7 @@ const About: React.FC = () => {
     useEffect(() => {dispatch(setTrueIsMounted())}, [])
 
     return (
-        <PageTemplate>
+        <PageTemplate appButtons={appButtons}>
           { authStatus === Const.AUTHSTATUS_ENOUGH 
             ? (
             <>
