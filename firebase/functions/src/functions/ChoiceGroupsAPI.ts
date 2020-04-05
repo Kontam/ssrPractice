@@ -121,7 +121,7 @@ export default async function choiseGroupsAPI(request: Request, response: Respon
     case "PATCH" :
       const patchPost: ChoiceGroup = request.body;
       const groupDoc = groupRef.doc(patchPost.groupId);
-      groupDoc.update({groupName: patchPost.groupName});
+      await groupDoc.update({groupName: patchPost.groupName});
 
       const patchOptionBatch = firestore.batch();
       // Optionsの数は減少する可能性があるのでDelete then insert
@@ -129,7 +129,7 @@ export default async function choiseGroupsAPI(request: Request, response: Respon
       optionQuerySnapshot.forEach((docSnap) => {
         patchOptionBatch.delete(docSnap.ref);
       });
-      patchOptionBatch.commit();
+      await patchOptionBatch.commit();
       
       const patchInsertedData = await Promise.all(patchPost.choiceOptions.map((option) => {
         const insertData: ChoiceOptionDB = {
@@ -177,7 +177,7 @@ export default async function choiseGroupsAPI(request: Request, response: Respon
       deleteOptionsSnap.forEach((docSnap) => {
          deleteBatch.delete(docSnap.ref);
       });
-      deleteBatch.commit();
+      await deleteBatch.commit();
       response.send(docId);
       break;
     default:

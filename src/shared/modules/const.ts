@@ -7,6 +7,7 @@ const BFFConst = {
     BACKEND_BASE_URL: process.env.BACKEND_BASE_URL || "",
     API_LONGOS: "/longoAPI",
     API_AUTHORITY: "/authorityAPI",
+    API_CHOICEGROUPS: "/choiceGroupAPI",
 
     // 権限レベル(制限が強い順番に並べる)
     AUTHORITY_ADMIN: "administrator",
@@ -27,6 +28,7 @@ const BFFConst = {
     // データサービス名
     LONGOS_SERVICE: 'Longos',
     LOGIN_SERVICE: 'Login',
+    CHOICEGROUPS_SERVICE: 'ChoiceGroups',
 
     // Firebase認証情報
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
