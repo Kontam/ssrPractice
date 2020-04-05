@@ -3,7 +3,7 @@ import { Store } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import AddIcon from '@material-ui/icons/Add';
 
-import About from './About';
+import AboutComponent from './About';
 import { RootState } from '../../../redux/store';
 import { readLongos, promiseReadLongos } from '../../../redux/modules/longos';
 import { setTrueIsMounted, IsMounted } from '../../../redux/modules/isMounted';
@@ -12,20 +12,21 @@ import { checkAuthorityLevel } from '../../../routes/checkAuthorityLevel';
 import getAuthStatus from '../../../modules/getAuthStatus';
 import { AppFAB } from '../../molecules/AppButtonContainer';
 import BFFConst from '../../../modules/const';
+import { openAddDialog } from '../../../redux/modules/addDialogState';
 
 const longosSeletor = (state: RootState) => state.app.longos;
 
-const AboutContainer: React.FC = () => {
+const About: React.FC = () => {
     const dispatch = useDispatch();
     const longos = useSelector(longosSeletor);
     const isMounted = useSelector<RootState, IsMounted>(state => state.isMounted);
     const login = useSelector<RootState, Login>(state => state.user.login);
-    const authStatus = getAuthStatus(login, AboutContainer.prototype.authorityLevel);
+    const authStatus = getAuthStatus(login, About.prototype.authorityLevel);
     const appButtons: AppFAB[] = [
         {
             name: '追加',
             color: 'default',
-            onClick: (e) => {},
+            onClick: (e) => { dispatch(openAddDialog())},
             IconComponent: <AddIcon />,
             description: "新しいアイテムを作成",
         }
@@ -33,14 +34,14 @@ const AboutContainer: React.FC = () => {
 
     useEffect(() => {
         if (isMounted) {
-            if (!checkAuthorityLevel(login.authority, AboutContainer.prototype.authorityLevel)) return;
+            if (!checkAuthorityLevel(login.authority, About.prototype.authorityLevel)) return;
             dispatch(readLongos());
         } 
     }, [])
     useEffect(() => {dispatch(setTrueIsMounted())}, [])
 
     return (
-        <About
+        <AboutComponent
             longos={longos}
             authStatus={authStatus}
             appButtons={appButtons}
@@ -48,7 +49,8 @@ const AboutContainer: React.FC = () => {
     )
 }
 
-AboutContainer.prototype.getInitialProps = async (store: Store<RootState>): Promise<any> => {
+About.prototype.getInitialProps = async (store: Store<RootState>): Promise<any> => {
+    console.log("getInitialProps");
     const own = store.getState().user.login.authority;
     if (!checkAuthorityLevel(own, About.prototype.authorityLevel)) return {};
     const fetchPromise = new Promise((resolve, reject) => {
@@ -58,6 +60,6 @@ AboutContainer.prototype.getInitialProps = async (store: Store<RootState>): Prom
     return {}
 }
 
-AboutContainer.prototype.authorityLevel = BFFConst.AUTHORITY_ADMIN;
+About.prototype.authorityLevel = BFFConst.AUTHORITY_ADMIN;
 
-export default AboutContainer;
+export default About;

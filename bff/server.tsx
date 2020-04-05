@@ -69,7 +69,7 @@ app.get('*', (req: Request, res: Response) => {
         await authPromise();
 
         const promisses: any = [];
-        const a = routes.some(async route => {
+        routes.some(route => {
             const match = matchPath(req.path, route);
             if (match) promisses.push(route.loadData(store, match));
             return match;
