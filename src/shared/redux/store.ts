@@ -28,6 +28,7 @@ export type RootState = {
       updateDialogState: UpdateDialogState,
       removeDialogState: RemoveDialogState,
       dialogLoading: DialogLoading,
+      addChoiceDialogState: AddDialogState,
     },
     user: {
       userInfo: UserInfo,

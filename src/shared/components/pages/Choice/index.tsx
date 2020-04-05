@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import PageTemplate from '../../template/PageTemplate';
-import { fetchChoiceGroups, ChoiceGroups } from '../../../redux/modules/choiceGroups';
-import { RootState } from '../../../redux/store';
+import { useDispatch } from 'react-redux';
+import { fetchChoiceGroups } from '../../../redux/modules/choiceGroups';
 import Const from '../../../modules/const';
-import ChoiceGroupManager from '../../organisms/ChoiceGroupManager';
+import ChoiceComponent from './Choice';
+import { AppFAB } from '../../molecules/AppButtonContainer';
+import AddIcon from '@material-ui/icons/Add';
+import { openAddChoiceDialog } from '../../../redux/modules/addChoiceDialogState';
 
 const Choice: React.FC = () => {
   const dispatch = useDispatch();
@@ -12,14 +13,18 @@ const Choice: React.FC = () => {
     dispatch(fetchChoiceGroups()); 
   },[]);
 
+  const appButtons: AppFAB[] = [
+      {
+          name: 'チョイス追加',
+          color: 'default',
+          onClick: (e) => { dispatch(openAddChoiceDialog())},
+          IconComponent: <AddIcon />,
+          description: "新しいグループを作成",
+      }
+  ]
 
   return (
-    <PageTemplate>
-      <>
-        <h1>ChoiceGroups</h1>  
-        <ChoiceGroupManager />
-      </>
-    </PageTemplate>
+    <ChoiceComponent appButtons={appButtons}/>
   );
 }
 
