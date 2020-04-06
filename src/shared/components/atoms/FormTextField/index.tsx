@@ -1,5 +1,5 @@
-import React from "react";
-import { Field } from "redux-form";
+import React, { FocusEvent, ChangeEvent } from "react";
+import { Field, EventWithDataHandler } from "redux-form";
 import { TextField } from "@material-ui/core";
 
 const renderTextField = ({
@@ -21,14 +21,18 @@ export type Props = {
     name: string,
     label: string,
     className?: string,
+    onChange?: EventWithDataHandler<ChangeEvent<any>>,
+    onFocus?: EventWithDataHandler<FocusEvent<any>>
 }
 
-const FormTextField: React.FC<Props> = ({ className, name, label }) => (
+const FormTextField: React.FC<Props> = ({ className, name, label, onChange, onFocus }) => (
     <Field 
         name={name}
         label={label}
         component={renderTextField}
         className={className}
+        onChange={onChange}
+        onFocus={onFocus}
     />
 ) 
 

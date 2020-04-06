@@ -1,9 +1,15 @@
-import React from 'react';
-import { InjectedFormProps, Form, reduxForm } from 'redux-form';
+import React, { FocusEvent, useState } from 'react';
+import styled from 'styled-components';
+import { InjectedFormProps, Form, reduxForm, FieldArray, Field, Fields, WrappedFieldArrayProps, EventWithDataHandler } from 'redux-form';
 import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import FieldArrayText from '../../atoms/FieldArrayText';
 import FormTextField from '../../atoms/FormTextField';
 
 export type ChoiceFormData = ChoiceGroup;
+
+
+
+
 
 const ChoiceForm: React.FC<InjectedFormProps<ChoiceFormData>> = ({
     handleSubmit,
@@ -18,6 +24,7 @@ const ChoiceForm: React.FC<InjectedFormProps<ChoiceFormData>> = ({
                     label="グループ名"
                 />
             </div>
+            <FieldArray name="choiceOptions" component={FieldArrayText} />
         </Form>
     );
 }

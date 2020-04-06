@@ -12,11 +12,19 @@ type Props = {
 }
 
 const AddChoiceDialog: React.FC<Props> = ({ isOpen, onClose, onSubmit, isDialogLoading }) => {
+    const formInitialValues = {
+        groupName:"anko",
+        choiceOptions: [{
+            choiceName: "hello",
+            choiceEnabled: true,
+            choiceId: "",
+        }],
+    }
     return (
         <Dialog open={isOpen} onClose={onClose} maxWidth={"lg"} fullWidth={true}>
             <DialogTitle>新規グループを追加</DialogTitle>
             <DialogContent>
-                <ChoiceForm onSubmit={onSubmit} />
+                <ChoiceForm onSubmit={onSubmit} initialValues={formInitialValues} />
             </DialogContent>
         </Dialog>
     );
