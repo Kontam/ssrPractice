@@ -68,12 +68,18 @@ export default async function choiseGroupsAPI(request: Request, response: Respon
         }));
 
       const data = await Promise.all(promises);
+      const responseData:ChoiceGroup[] = data.map((group) => ({
+        groupId: group.groupId,
+        groupName: group.groupName,
+        choiceOptions: group.choiceOptions,
+      }));
 
-      response.send(data);
+      response.send(responseData);
       break;
 
     case "POST" :
       const newPost: Partial<ChoiceGroup> = request.body;
+      console.log("got post request", newPost);
       // choiceOptionsとchoiceGroupは別のコレクション
       // groupとoptionの紐付きはoption側で親のIDを保持して実現する
       const newGroupRef = await groupRef.add(

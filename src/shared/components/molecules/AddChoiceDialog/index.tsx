@@ -13,9 +13,9 @@ type Props = {
 
 const AddChoiceDialog: React.FC<Props> = ({ isOpen, onClose, onSubmit, isDialogLoading }) => {
     const formInitialValues = {
-        groupName:"anko",
+        groupName:"",
         choiceOptions: [{
-            choiceName: "hello",
+            choiceName: "",
             choiceEnabled: true,
             choiceId: "",
         }],

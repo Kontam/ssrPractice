@@ -6,18 +6,24 @@ import { ChoiceGroup } from '../../../../firebase/functions/src/functions/Choice
 import { startHeaderLoading, endHeaderLoading } from './headerLoading';
 import { AxiosResponse } from "axios";
 import Const from '../../modules/const';
+import { startDialogLoading, endDialogLoading } from "./dialogLoading";
 
 export type ChoiceGroups = ChoiceGroup[];
 
 export const SET_CHOICEGROUPS = "SET_CHOICEGROUPS" as const;
 export const REMOVE_CHOICEGROUP = "SER_CHOICEGROUP" as const;
+export const ADD_CHOICEGROUP = "SER_CHOICEGROUP" as const;
+
 
 export const FETCH_CHOICEGROUPS = "FETCH_CHOICEGROUPS" as const; 
+export const POST_CHOICEGROUP = "POST_CHOICEGROUP" as const;
 
 export const setChoiceGroups = createAction<ChoiceGroups>(SET_CHOICEGROUPS);
+export const addChoiceGroup = createAction<ChoiceGroup>(ADD_CHOICEGROUP);
 
 // sagaAction
 export const fetchChoiceGroups = createAction(FETCH_CHOICEGROUPS); 
+export const postChoiceGroup = createAction<ChoiceGroup>(POST_CHOICEGROUP); 
 
 export const INITIAL_STATE: ChoiceGroups = []; 
 
@@ -28,12 +34,24 @@ function* requestFetchChoiceGroup() {
   yield endHeaderLoading(); 
 }
 
+function* requestPostChoiceGroup({ payload }: Action<ChoiceGroup>) {
+  yield startDialogLoading();
+  const result: AxiosResponse<ChoiceGroup> = yield call([fetchr, fetchr.create], Const.CHOICEGROUPS_SERVICE, {}, payload, {});
+  yield put(addChoiceGroup(result.data));
+  yield endDialogLoading();
+}
+
 export const choiceGroupsSaga = [
   takeEvery(FETCH_CHOICEGROUPS, requestFetchChoiceGroup), 
+  takeEvery(POST_CHOICEGROUP, requestPostChoiceGroup), 
 ];
 
 export default handleActions<ChoiceGroups, any>({
   [SET_CHOICEGROUPS]: (state: ChoiceGroups, { payload }: Action<ChoiceGroups>) => ([
     ...payload,
   ]),
+  [ADD_CHOICEGROUP]: (state: ChoiceGroups, { payload }: Action<ChoiceGroup>) => ([
+    ...state,
+    payload,
+  ])
 }, INITIAL_STATE)

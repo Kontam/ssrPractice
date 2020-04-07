@@ -1,4 +1,4 @@
-import React, { FocusEvent, useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { WrappedFieldArrayProps, EventWithDataHandler } from 'redux-form';
 import FormTextField from '../FormTextField';
