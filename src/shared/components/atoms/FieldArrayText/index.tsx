@@ -31,7 +31,8 @@ const FieldArrayText = ({ fields, meta: { error }}: WrappedFieldArrayProps<Choic
                 } 
                 const data = fields.get(index);
                 return ( 
-                  <ChoiceOptionItem 
+                  <ChoiceOptionItem
+                    key={index} 
                     objectName={option}
                     index={index}
                     onTextChange={onChange}

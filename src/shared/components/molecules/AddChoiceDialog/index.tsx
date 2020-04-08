@@ -3,6 +3,7 @@ import ChoiceForm, { ChoiceFormData } from '../ChoiceForm';
 import { DialogLoading } from '../../../redux/modules/dialogLoading';
 import { FormSubmitHandler } from 'redux-form';
 import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
+import LoadingLine from '../../atoms/LoadingLine';
 
 type Props = {
     isOpen: boolean,
@@ -23,6 +24,7 @@ const AddChoiceDialog: React.FC<Props> = ({ isOpen, onClose, onSubmit, isDialogL
     return (
         <Dialog open={isOpen} onClose={onClose} maxWidth={"lg"} fullWidth={true}>
             <DialogTitle>新規グループを追加</DialogTitle>
+            <LoadingLine isLoading={isDialogLoading} />
             <DialogContent>
                 <ChoiceForm onSubmit={onSubmit} initialValues={formInitialValues} />
             </DialogContent>
