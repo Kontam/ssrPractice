@@ -6,6 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { ChoiceFormData } from '../../molecules/ChoiceForm';
 import { ChoiceOption } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import FormCheckboxField from '../FormCheckboxField';
 
 const OptionList = styled.ul``;
 const OptionItem = styled.li``;
@@ -38,7 +39,7 @@ const FieldArrayText = ({ fields, meta: { error }}: WrappedFieldArrayProps<Choic
                         />
                         <FormControlLabel
                             value="有効"
-                            control={<Checkbox color="primary" checked={data.choiceEnabled}/>}
+                            control={<FormCheckboxField color="primary" name={`${option}.choiceEnabled`}/>}
                             label="有効"
                             labelPlacement="start"
                         />
