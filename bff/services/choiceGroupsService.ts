@@ -27,10 +27,19 @@ export default {
       headers: {},
       statusCode: 200,
     };
-    console.log("create", body);
     const result = await axios.post<ChoiceGroup>(BFFConst.API_CHOICEGROUPS, body);
     console.log("ChoiceGroups Service Post");
     callback(null, result.data, meta);
-  }
+  },
+  
+  update: async (req:Request, resource:any, params: any, body: ChoiceGroup, config: any, callback: Function) => {
+    const meta = {
+      headers: {},
+      statusCode: 200,
+    };
+    const result = await axios.patch<ChoiceGroup>(BFFConst.API_CHOICEGROUPS, body);
+    console.log("ChoiceGroups Service Post");
+    callback(null, result.data, meta);
+  },
 }
 

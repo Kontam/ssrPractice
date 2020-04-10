@@ -9,7 +9,7 @@ export const getOptionsByGroupId = async (groupId: string, groupRef:admin.firest
     return ({
       choiceId: doc.id,
       choiceName: data.choiceName,
-      choiceEnabled: data.choiceEnable,
+      choiceEnabled: data.choiceEnabled,
     });
   });
 

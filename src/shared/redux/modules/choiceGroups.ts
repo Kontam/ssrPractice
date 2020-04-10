@@ -62,7 +62,7 @@ function* requestPatchChoiceGroup({ payload }: Action<ChoiceGroup>) {
 export const choiceGroupsSaga = [
   takeEvery(FETCH_CHOICEGROUPS, requestFetchChoiceGroup), 
   takeEvery(POST_CHOICEGROUP, requestPostChoiceGroup), 
-  takeEvery(UPDATE_CHOICEGROUP, requestPatchChoiceGroup), 
+  takeEvery(PATCH_CHOICEGROUP, requestPatchChoiceGroup), 
 ];
 
 export default handleActions<ChoiceGroups, any>({
