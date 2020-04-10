@@ -1,4 +1,5 @@
 import React from 'react';
+import { makeStyles, createStyles } from '@material-ui/styles';
 import ExpantionPanel from '@material-ui/core/ExpansionPanel';
 import ExpantionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -9,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography';
 import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
 import { openUpdateChoiceDialog } from '../../../redux/modules/updateChoiceDialogState';
+import { Theme } from '@material-ui/core';
 
 type Props = {
   choiceGroup: ChoiceGroup,
@@ -16,13 +18,30 @@ type Props = {
   onRemoveChoiceDialogOpen: (groupId: string) => void,
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 500,
+    },
+    heading: {
+      fontSize: 18,
+    },
+    LabelContainer: {
+      display: "flex",
+      alignItems: "center",
+      paddingLeft: 10,
+    },
+  })
+);
+
 const ChoiceGroupCard :React.FC<Props> = ({
  choiceGroup,
  onUpdateChoiceDialogOpen,
  onRemoveChoiceDialogOpen,
 }) => {
+  const classes = useStyles();
   return(
-    <div>
+    <div className={classes.root}>
       <ExpantionPanel>
         <ExpantionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -33,11 +52,13 @@ const ChoiceGroupCard :React.FC<Props> = ({
             </IconButton>
           </Tooltip>
           <Tooltip title="削除"> 
-            <IconButton area-label="Edit group" onClick={() => {onRemoveChoiceDialogOpen(choiceGroup.groupId)}}>
+            <IconButton area-label="Delete group" onClick={() => {onRemoveChoiceDialogOpen(choiceGroup.groupId)}}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
-          <Typography>{choiceGroup.groupName}</Typography>
+          <div className={classes.LabelContainer}>
+            <Typography className={classes.heading}>{choiceGroup.groupName}</Typography>
+          </div>
         </ExpantionPanelSummary>
       </ExpantionPanel>
       
