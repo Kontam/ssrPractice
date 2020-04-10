@@ -9,9 +9,10 @@ const List = styled.li`
 
 export type Props = {
   choiceGroups: ChoiceGroups,
+  onUpdateChoiceDialogOpen: (groupId: string) => void,
 }
 
-const ChoiceGroupList: React.FC<Props> = ({ choiceGroups }) => {
+const ChoiceGroupList: React.FC<Props> = ({ choiceGroups, onUpdateChoiceDialogOpen }) => {
   return (
     <List>
       {
@@ -19,6 +20,7 @@ const ChoiceGroupList: React.FC<Props> = ({ choiceGroups }) => {
           <ChoiceGroupCard
             key={choiceGroup.groupId}  
             choiceGroup={choiceGroup}
+            onUpdateChoiceDialogOpen={onUpdateChoiceDialogOpen}
           />
         ))
       }

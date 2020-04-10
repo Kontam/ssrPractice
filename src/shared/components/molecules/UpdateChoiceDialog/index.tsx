@@ -12,7 +12,7 @@ type Props = {
     isDialogLoading: DialogLoading,
 }
 
-const AddChoiceDialog: React.FC<Props> = ({ isOpen, onClose, onSubmit, isDialogLoading }) => {
+const UpdateChoiceDialog: React.FC<Props> = ({ isOpen, onClose, onSubmit, isDialogLoading }) => {
     const formInitialValues = {
         groupName:"",
         choiceOptions: [{
@@ -23,7 +23,7 @@ const AddChoiceDialog: React.FC<Props> = ({ isOpen, onClose, onSubmit, isDialogL
     }
     return (
         <Dialog open={isOpen} onClose={onClose} maxWidth={"lg"} fullWidth={true}>
-            <DialogTitle>新規グループを追加</DialogTitle>
+            <DialogTitle>グループを更新</DialogTitle>
             <LoadingLine isLoading={isDialogLoading} />
             <DialogContent>
                 <ChoiceForm onSubmit={onSubmit} initialValues={formInitialValues} />
@@ -32,4 +32,4 @@ const AddChoiceDialog: React.FC<Props> = ({ isOpen, onClose, onSubmit, isDialogL
     );
 }
 
-export default AddChoiceDialog;
+export default UpdateChoiceDialog;

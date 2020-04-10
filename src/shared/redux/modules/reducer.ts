@@ -13,6 +13,7 @@ import login from '../modules/login';
 import headerLoading from '../modules/headerLoading';
 import choiceGroups from '../modules/choiceGroups';
 import addChoiceDialogState from './addChoiceDialogState'
+import updateChoiceDialogState from './updateChoiceDialogState'
 
 const createReducer = (history :any) => {
     return combineReducers({
@@ -21,6 +22,7 @@ const createReducer = (history :any) => {
           removeDialogState,
           updateDialogState,
           addChoiceDialogState,
+          updateChoiceDialogState,
           dialogLoading,
         }),
         snackBarState,
