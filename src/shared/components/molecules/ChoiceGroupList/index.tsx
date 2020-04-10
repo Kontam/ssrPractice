@@ -10,9 +10,14 @@ const List = styled.li`
 export type Props = {
   choiceGroups: ChoiceGroups,
   onUpdateChoiceDialogOpen: (groupId: string) => void,
+  onRemoveChoiceDialogOpen: (groupId: string) => void,
 }
 
-const ChoiceGroupList: React.FC<Props> = ({ choiceGroups, onUpdateChoiceDialogOpen }) => {
+const ChoiceGroupList: React.FC<Props> = ({
+  choiceGroups,
+  onUpdateChoiceDialogOpen,
+  onRemoveChoiceDialogOpen,
+}) => {
   return (
     <List>
       {
@@ -21,6 +26,7 @@ const ChoiceGroupList: React.FC<Props> = ({ choiceGroups, onUpdateChoiceDialogOp
             key={choiceGroup.groupId}  
             choiceGroup={choiceGroup}
             onUpdateChoiceDialogOpen={onUpdateChoiceDialogOpen}
+            onRemoveChoiceDialogOpen={onRemoveChoiceDialogOpen}
           />
         ))
       }

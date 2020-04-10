@@ -17,6 +17,7 @@ import { UserInfo } from './modules/userInfo';
 import { loginSaga, Login } from './modules/login';
 import { HeaderLoading } from './modules/headerLoading';
 import { ChoiceGroups, choiceGroupsSaga } from './modules/choiceGroups';
+import { RemoveChoiceDialogState } from './modules/removeChoiceDialogState';
 
 export type RootState = {
     app: {
@@ -30,6 +31,7 @@ export type RootState = {
       dialogLoading: DialogLoading,
       addChoiceDialogState: AddDialogState,
       updateChoiceDialogState: UpdateDialogState,
+      removeChoiceDialogState: RemoveChoiceDialogState,
     },
     user: {
       userInfo: UserInfo,

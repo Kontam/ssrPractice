@@ -4,12 +4,13 @@ import { DialogTitle, DialogContent, Typography, DialogActions, Button, makeStyl
 import { Longo } from '../../../redux/modules/longos';
 import LoadingLine from '../../atoms/LoadingLine';
 import { DialogLoading } from '../../../redux/modules/dialogLoading';
+import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
 
 type Props = {
     isOpen: boolean 
     onClose: () => void
-    longo: Longo
-    onDeleteClick: React.MouseEventHandler
+    choiceGroup?: ChoiceGroup,
+    onDeleteClick: (groupId: string) => void 
     onCancelClick: React.MouseEventHandler
     isDialogLoading: DialogLoading
 }
@@ -20,27 +21,37 @@ const useStyles = makeStyles({
         }
     })
 
-const RemoveDialog: React.FC<Props> = ({
+const RemoveChoiceDialog: React.FC<Props> = ({
   isOpen,
   onClose,
-  longo,
+  choiceGroup,
   onDeleteClick,
   onCancelClick,
   isDialogLoading,
 }) => {
     const classes = useStyles();
+    const choiceInfo = choiceGroup
+      ? (
+          <>
+            <Typography>{choiceGroup.groupName}</Typography>
+            {
+                choiceGroup.choiceOptions.map((option) => (
+                  <Typography key={option.choiceId}>{option.choiceName}</Typography>
+               ))
+            }
+          </>
+      )
+      : "";
     return (
         <Dialog open={isOpen} onClose={onClose} maxWidth={"lg"} fullWidth={true}>
-            <DialogTitle>アイテムの削除</DialogTitle>
+            <DialogTitle>グループの削除</DialogTitle>
             <LoadingLine isLoading={isDialogLoading} />
             <DialogContent dividers>
-                <Typography className={classes.heading} variant="h6">以下のアイテムを削除します。よろしいですか？</Typography>
-                <Typography variant="body1">{longo.text}</Typography>
-                <Typography variant="body1">{longo.meaning}</Typography>
-                <Typography variant="body1">{longo.comment}</Typography>
+              <Typography className={classes.heading} variant="h6">以下のグループを削除します。よろしいですか？</Typography>
+              {choiceInfo}
             </DialogContent>
             <DialogActions>
-                <Button color="primary" onClick={onDeleteClick}>
+                <Button color="primary" onClick={() => { choiceGroup && onDeleteClick(choiceGroup.groupId)} }>
                     削除
                 </Button>
                 <Button color="inherit" onClick={onCancelClick}>
@@ -51,4 +62,4 @@ const RemoveDialog: React.FC<Props> = ({
     )
 }
 
-export default RemoveDialog;
+export default RemoveChoiceDialog;

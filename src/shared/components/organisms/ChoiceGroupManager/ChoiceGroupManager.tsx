@@ -7,6 +7,9 @@ import ChoiceDialog from '../../molecules/ChoiceDialog';
 import { FormSubmitHandler } from 'redux-form';
 import { ChoiceFormData } from '../../molecules/ChoiceForm';
 import { DialogLoading } from '../../../redux/modules/dialogLoading';
+import RemoveChoiceDialog from '../../molecules/RemoveChoiceDialog';
+import { RemoveChoiceDialogState } from '../../../redux/modules/removeChoiceDialogState';
+import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
 
 export type ChoiceGroupManagerProps = {
   choiceGroups: ChoiceGroups,
@@ -14,11 +17,16 @@ export type ChoiceGroupManagerProps = {
   onAddChoiceDialogClose: () => void,
   onAddChoiceDialogSubmit: FormSubmitHandler<ChoiceFormData, {}, string>
   onUpdateChoiceDialogOpen: (groupId: string) => void,
-  updateChoiceDialogState: UpdateChoiceDialogState,
   onUpdateChoiceDialogClose: () => void,
   onUpdateChoiceDialogSubmit: FormSubmitHandler<ChoiceFormData, {}, string>,
-  isDialogLoading: DialogLoading,
+  updateChoiceDialogState: UpdateChoiceDialogState,
   updateChoiceDialogInitialValues?: ChoiceFormData,
+  onRemoveChoiceDialogOpen: (groupId: string) => void,
+  onRemoveChoiceDialogClose: () => void,
+  onRemoveChoiceGroup: (groupId: string) => void,
+  removeChoiceDialogState: RemoveChoiceDialogState,
+  removeTargetChoice?: ChoiceGroup,
+  isDialogLoading: DialogLoading,
 }
 
 const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
@@ -30,8 +38,13 @@ const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
   onUpdateChoiceDialogOpen, 
   onUpdateChoiceDialogClose,
   onUpdateChoiceDialogSubmit,
+  onRemoveChoiceDialogClose,
+  onRemoveChoiceDialogOpen,
+  onRemoveChoiceGroup,
   isDialogLoading,
   updateChoiceDialogInitialValues,
+  removeChoiceDialogState,
+  removeTargetChoice,
 }) => {
   return (
     <div>
@@ -49,9 +62,18 @@ const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
         isDialogLoading={isDialogLoading}
         initialValues={updateChoiceDialogInitialValues}
       />  
+      <RemoveChoiceDialog
+        isOpen={removeChoiceDialogState.isOpen}
+        onClose={onRemoveChoiceDialogClose}
+        choiceGroup={removeTargetChoice}
+        onDeleteClick={onRemoveChoiceGroup}
+        isDialogLoading={isDialogLoading}
+        onCancelClick={onRemoveChoiceDialogClose}
+      />
       <ChoiceGroupList 
         choiceGroups={choiceGroups}
         onUpdateChoiceDialogOpen={onUpdateChoiceDialogOpen}
+        onRemoveChoiceDialogOpen={onRemoveChoiceDialogOpen}
       />
     </div>
   )

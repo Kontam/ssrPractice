@@ -38,7 +38,17 @@ export default {
       statusCode: 200,
     };
     const result = await axios.patch<ChoiceGroup>(BFFConst.API_CHOICEGROUPS, body);
-    console.log("ChoiceGroups Service Post");
+    console.log("ChoiceGroups Service Update");
+    callback(null, result.data, meta);
+  },
+
+  delete: async (req:Request, resource:any, params: ChoiceGroup, config: any, callback: Function) => {
+    const meta = {
+      headers: {},
+      statusCode: 200,
+    };
+    const result = await axios.delete<ChoiceGroup>(BFFConst.API_CHOICEGROUPS, { params });
+    console.log("ChoiceGroups Service Delete");
     callback(null, result.data, meta);
   },
 }

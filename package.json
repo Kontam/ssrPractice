@@ -11,6 +11,7 @@
     "build": "webpack --config webpack.config.js --mode=production && webpack --config webpack.config.bff.js --mode=production",
     "build:bff": "webpack --config webpack.config.bff.js --mode=production",
     "dev": "webpack --config webpack.config.js --mode development --watch & webpack --config webpack.config.bff.js --mode development --watch & npx nodemon dist/server.js",
+    "dev:front": "webpack --config webpack.config.js --mode development --watch & node dist/server.js",
     "start": "node dist/server.js"
   },
   "author": "",
