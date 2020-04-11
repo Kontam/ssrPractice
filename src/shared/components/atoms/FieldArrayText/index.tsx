@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { WrappedFieldArrayProps, EventWithDataHandler } from 'redux-form';
-import { ChoiceOption } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import { ChoiceOption } from '../../../../../firebase/functions/src/types';
 import ChoiceOptionItem from '../../molecules/ChoiceOptionItem';
 
 const useStyles = makeStyles(

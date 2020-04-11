@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import styled from 'styled-components';
 import { InjectedFormProps, Form, reduxForm, FieldArray, Field, Fields, WrappedFieldArrayProps, EventWithDataHandler } from 'redux-form';
-import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import { ChoiceGroup } from '../../../../../firebase/functions/src/types';
 import FieldArrayText from '../../atoms/FieldArrayText';
 import FormTextField from '../../atoms/FormTextField';
 

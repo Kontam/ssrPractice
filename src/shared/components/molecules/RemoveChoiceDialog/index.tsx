@@ -4,7 +4,7 @@ import { DialogTitle, DialogContent, Typography, DialogActions, Button, makeStyl
 import { Longo } from '../../../redux/modules/longos';
 import LoadingLine from '../../atoms/LoadingLine';
 import { DialogLoading } from '../../../redux/modules/dialogLoading';
-import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import { ChoiceGroup } from '../../../../../firebase/functions/src/types';
 
 type Props = {
     isOpen: boolean 

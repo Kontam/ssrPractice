@@ -7,7 +7,7 @@ import { AddChoiceDialogState, closeAddChoiceDialog } from '../../../redux/modul
 import { DialogLoading } from '../../../redux/modules/dialogLoading';
 import { FormSubmitHandler } from 'redux-form';
 import { ChoiceFormData } from '../../molecules/ChoiceForm';
-import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import { ChoiceGroup } from '../../../../../firebase/functions/src/types';
 import { openUpdateChoiceDialog, closeUpdateChoiceDialog, UpdateChoiceDialogState } from '../../../redux/modules/updateChoiceDialogState';
 import { openRemoveChoiceDialog, closeRemoveChoiceDialog, RemoveChoiceDialogState } from '../../../redux/modules/removeChoiceDialogState';
 import removeDialogState from '../../../redux/modules/removeDialogState';

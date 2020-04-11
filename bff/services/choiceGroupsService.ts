@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 
 import axios from '../modules/axiosConfig';
 import BFFConst from '../../src/shared/modules/const';
-import { ChoiceGroup } from '../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import { ChoiceGroup } from '../../firebase/functions/src/types';
 
 type ChoiceGroups = ChoiceGroup[];
 

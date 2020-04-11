@@ -2,7 +2,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 
 import fetchr from '../util/fetchr';
 import { Action, createAction, handleActions } from 'redux-actions';
-import { ChoiceGroup } from '../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import { ChoiceGroup } from '../../../../firebase/functions/src/types';
 import { startHeaderLoading, endHeaderLoading } from './headerLoading';
 import { AxiosResponse } from "axios";
 import Const from '../../modules/const';

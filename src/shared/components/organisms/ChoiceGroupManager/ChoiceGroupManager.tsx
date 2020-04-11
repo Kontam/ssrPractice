@@ -9,7 +9,7 @@ import { ChoiceFormData } from '../../molecules/ChoiceForm';
 import { DialogLoading } from '../../../redux/modules/dialogLoading';
 import RemoveChoiceDialog from '../../molecules/RemoveChoiceDialog';
 import { RemoveChoiceDialogState } from '../../../redux/modules/removeChoiceDialogState';
-import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
+import { ChoiceGroup } from '../../../../../firebase/functions/src/types';
 
 export type ChoiceGroupManagerProps = {
   choiceGroups: ChoiceGroups,

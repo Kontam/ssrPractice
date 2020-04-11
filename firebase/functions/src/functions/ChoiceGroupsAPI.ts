@@ -1,43 +1,7 @@
 import admin from '../modules/firebaseAdmin';
-import * as firebase from 'firebase-admin';
 import { Request, Response } from 'firebase-functions';
 import { getOptionsByGroupId } from './ChoiceOptionsAPI';
-
-/**
- * 選択肢グループテーブルのDBレコード
- * */
-export type ChoiceGroupDB = {
-  groupName: string,
-  createdAt: string,
-}
-
-/**
- * 選択肢テーブルのDBレコード
- * */
-export type ChoiceOptionDB = {
-  groupId: string,
-  choiceEnabled: boolean,
-  createdAt: firebase.firestore.FieldValue,
-  choiceName: string,
-}
-
-/**
- * クライアントで扱う選択肢データ
- * */
-export type ChoiceOption = {
-  choiceName: string,
-  choiceEnabled: boolean,
-  choiceId: string,
-}
-
-/**
- * クライアントで扱う選択肢グループデータ
- * */
-export type ChoiceGroup = {
-  groupId: string,
-  groupName: string,
-  choiceOptions: ChoiceOption[], 
-}
+import { ChoiceGroup, ChoiceGroupDB, ChoiceOption, ChoiceOptionDB } from '../types';
 
 
 const CHOICE_GROUPS = "ChoiceGroups" as const;
