@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../../molecules/Header';
 import { AppFAB } from '../../molecules/AppButtonContainer';
+import { useDispatch } from 'react-redux';
+import { setTrueIsMounted } from '../../../redux/modules/isMounted';
 
 const Container = styled.div`
   width: 100%; 
@@ -20,6 +22,10 @@ type Props = {
 }
 
 const PageTemplate: React.FC<Props> = ({ children, appButtons }) => {
+    // このフラグがTrue = CSRとなり、dataFetchをCSで行うかの判定が可能になる 
+    const dispatch = useDispatch();
+    useEffect(() => {dispatch(setTrueIsMounted())}, [])
+    
     return (
       <div>
         <Header appButtons={appButtons && appButtons}/>

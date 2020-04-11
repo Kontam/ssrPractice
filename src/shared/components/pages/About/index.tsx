@@ -38,7 +38,6 @@ const About: React.FC = () => {
             dispatch(readLongos());
         } 
     }, [])
-    useEffect(() => {dispatch(setTrueIsMounted())}, [])
 
     return (
         <AboutComponent

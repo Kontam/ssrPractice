@@ -10,7 +10,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography';
 import { ChoiceGroup } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
-import { openUpdateChoiceDialog } from '../../../redux/modules/updateChoiceDialogState';
 import { Theme } from '@material-ui/core';
 
 type Props = {
