@@ -1,12 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { WrappedFieldArrayProps, EventWithDataHandler } from 'redux-form';
-import FormTextField from '../FormTextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { ChoiceFormData } from '../../molecules/ChoiceForm';
 import { ChoiceOption } from '../../../../../firebase/functions/src/functions/ChoiceGroupsAPI';
-import FormCheckboxField from '../FormCheckboxField';
 import ChoiceOptionItem from '../../molecules/ChoiceOptionItem';
 
 const useStyles = makeStyles(
@@ -38,7 +33,6 @@ const FieldArrayText = ({ fields, meta: { error }}: WrappedFieldArrayProps<Choic
                         setAdded(newAdded)
                     }
                 } 
-                const data = fields.get(index);
                 return ( 
                   <div className={classes.fieldWrapper} key={index}>
                     <ChoiceOptionItem

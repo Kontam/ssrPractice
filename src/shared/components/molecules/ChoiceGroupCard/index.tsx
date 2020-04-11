@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import ExpantionPanel from '@material-ui/core/ExpansionPanel';
 import ExpantionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpantionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
@@ -23,6 +24,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: 500,
     },
+    exPanel: {
+      margin: 2,
+    },
     heading: {
       fontSize: 18,
     },
@@ -31,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       paddingLeft: 10,
     },
+    optionList: {
+      paddingLeft: 105,
+    }
   })
 );
 
@@ -45,6 +52,7 @@ const ChoiceGroupCard :React.FC<Props> = ({
       <ExpantionPanel>
         <ExpantionPanelSummary
           expandIcon={<ExpandMoreIcon />}
+          className={classes.exPanel}
         > 
           <Tooltip title="編集"> 
             <IconButton area-label="Edit group" onClick={() => {onUpdateChoiceDialogOpen(choiceGroup.groupId)}}>
@@ -60,6 +68,15 @@ const ChoiceGroupCard :React.FC<Props> = ({
             <Typography className={classes.heading}>{choiceGroup.groupName}</Typography>
           </div>
         </ExpantionPanelSummary>
+        <ExpantionPanelDetails>
+          <ul className={classes.optionList}>
+            {
+              choiceGroup.choiceOptions.map((option) => (
+                <li key={option.choiceId}><Typography>{option.choiceName}</Typography></li>
+              ))
+            }
+          </ul>
+        </ExpantionPanelDetails>
       </ExpantionPanel>
       
     </div>
