@@ -11,19 +11,33 @@ import isMounted from '../modules/isMounted';
 import userInfo from '../modules/userInfo';
 import login from '../modules/login';
 import headerLoading from '../modules/headerLoading';
+import choiceGroups from '../modules/choiceGroups';
+import addChoiceDialogState from './addChoiceDialogState'
+import updateChoiceDialogState from './updateChoiceDialogState'
+import removeChoiceDialogState from './removeChoiceDialogState'
 
 const createReducer = (history :any) => {
     return combineReducers({
-        longos,
-        addDialogState,
-        removeDialogState,
-        updateDialogState,
+        dialog: combineReducers({
+          addDialogState,
+          removeDialogState,
+          updateDialogState,
+          addChoiceDialogState,
+          updateChoiceDialogState,
+          removeChoiceDialogState,
+          dialogLoading,
+        }),
         snackBarState,
         isMounted,
-        dialogLoading,
         headerLoading,
-        userInfo,
-        login,
+        app: combineReducers({
+          longos,
+          choiceGroups,          
+        }),
+        user: combineReducers({
+          userInfo,
+          login,
+        }),
         form: formReducer,
         router: connectRouter(history),
     });

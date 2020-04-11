@@ -1,7 +1,9 @@
 import About from "../components/pages/About";
+import Choice from "../components/pages/Choice";
 import { Store } from "redux";
 import Home from "../components/pages/Home";
 import { AuthorityLevel } from "../redux/modules/login";
+
 
 type RouteProps = {
     path: string,
@@ -11,6 +13,12 @@ type RouteProps = {
 }
 
 const routes: RouteProps[] = [
+    {
+        path: "/choice",
+        component: Choice,
+        loadData: (store: Store, match: any) => Choice.prototype.getInitialProps(store),
+        authorityLevel: About.prototype.authorityLevel,
+    },
     {
         path: "/about",
         component: About,

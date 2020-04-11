@@ -18,6 +18,7 @@ import render from './components/HTML';
 import { initializeStore } from '../src/shared/redux/store';
 import longosService from './services/longosService';
 import loginService from './services/loginService';
+import choiceGroupsService from './services/choiceGroupsService';
 import App from '../src/shared/components/pages/App';
 import routes from '../src/shared/routes/routes';
 import sessionConfig from './modules/sessionConfig';
@@ -46,6 +47,7 @@ app.use(BFFConst.API_ENDPOINT, Fetchr.middleware({
 }));
 Fetchr.registerService(longosService);
 Fetchr.registerService(loginService);
+Fetchr.registerService(choiceGroupsService);
 
 app.get('*', (req: Request, res: Response) => {
     const history = createMemoryHistory({
@@ -67,7 +69,7 @@ app.get('*', (req: Request, res: Response) => {
         await authPromise();
 
         const promisses: any = [];
-        const a = routes.some(async route => {
+        routes.some(route => {
             const match = matchPath(req.path, route);
             if (match) promisses.push(route.loadData(store, match));
             return match;

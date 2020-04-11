@@ -1,8 +1,10 @@
 import React from "react";
-import { Form, Field, reduxForm, InjectedFormProps } from "redux-form";
+import { Form, reduxForm, InjectedFormProps } from "redux-form";
 import { Longo } from "../../../redux/modules/longos";
-import { TextField, makeStyles, Theme, Button } from "@material-ui/core";
+import { makeStyles, Theme, Button } from "@material-ui/core";
 import SendIcon from '@material-ui/icons/Send';
+
+import FormTextField from '../../atoms/FormTextField';
 
 export type LongoFormData = Longo;
 
@@ -24,21 +26,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }))
 
-const renderTextField = ({
-    input,
-    label,
-    className,
-    meta,
-}: any) => (
-    <TextField
-        className={className}
-        rowsMax={2}
-        label={label}
-        variant="outlined"
-        {...input}
-    />
-)
-
 const LongoForm: React.FC<InjectedFormProps<LongoFormData>> = ({
   handleSubmit
 }) => {
@@ -46,26 +33,23 @@ const LongoForm: React.FC<InjectedFormProps<LongoFormData>> = ({
   return (
     <Form onSubmit={handleSubmit} className={classes.root}>
         <div className={classes.topFieldWrapper}>
-            <Field 
+            <FormTextField
                 name="text"
                 label="論語テキスト"
-                component={renderTextField}
                 className={classes.textField}
             />
         </div>
         <div className={classes.fieldWapper}>
-            <Field
+            <FormTextField
                 name="meaning"
                 label="論語の意味"
-                component={renderTextField}
                 className={classes.textField}
             />
         </div>
         <div className={classes.fieldWapper}>
-            <Field
+            <FormTextField
                 name="comment"
                 label="コメント"
-                component={renderTextField}
                 className={classes.textField}
             />
         </div>

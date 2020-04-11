@@ -16,18 +16,30 @@ import { DialogLoading } from './modules/dialogLoading';
 import { UserInfo } from './modules/userInfo';
 import { loginSaga, Login } from './modules/login';
 import { HeaderLoading } from './modules/headerLoading';
+import { ChoiceGroups, choiceGroupsSaga } from './modules/choiceGroups';
+import { RemoveChoiceDialogState } from './modules/removeChoiceDialogState';
 
 export type RootState = {
+    app: {
+      longos: Longos,
+      choiceGroups: ChoiceGroups,
+    },
+    dialog: {
+      addDialogState: AddDialogState,
+      updateDialogState: UpdateDialogState,
+      removeDialogState: RemoveDialogState,
+      dialogLoading: DialogLoading,
+      addChoiceDialogState: AddDialogState,
+      updateChoiceDialogState: UpdateDialogState,
+      removeChoiceDialogState: RemoveChoiceDialogState,
+    },
+    user: {
+      userInfo: UserInfo,
+      login: Login,
+    },
     router: RouterState,
-    longos: Longos,
-    addDialogState: AddDialogState,
-    updateDialogState: UpdateDialogState,
-    removeDialogState: RemoveDialogState,
     snackBarState: SnackBarState,
-    dialogLoading: DialogLoading,
     isMounted: IsMounted,
-    userInfo: UserInfo,
-    login: Login,
     headerLoading: HeaderLoading,
 };
 export const INITIAL_STATE: Partial<RootState> = {};
@@ -38,6 +50,7 @@ const rootSaga = function*(){
     yield all([
         ...longosSaga,
         ...loginSaga,
+        ...choiceGroupsSaga,
     ]);
 }
     const store = createStore(

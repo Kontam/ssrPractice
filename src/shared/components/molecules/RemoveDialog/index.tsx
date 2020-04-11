@@ -12,10 +12,10 @@ export type ContainerProps = {
 
 export default () => {
     const dispatch = useDispatch();
-    const longos = useSelector<RootState, Longos>(state => state.longos);
-    const removeDialogState = useSelector<RootState, RemoveDialogState>(state => state.removeDialogState);
+    const longos = useSelector<RootState, Longos>(state => state.app.longos);
+    const removeDialogState = useSelector<RootState, RemoveDialogState>(state => state.dialog.removeDialogState);
     const target = longos.find((longo) => longo.id === removeDialogState.targetId )
-    const dialogLoading = useSelector<RootState, DialogLoading>(state => state.dialogLoading);
+    const dialogLoading = useSelector<RootState, DialogLoading>(state => state.dialog.dialogLoading);
     if (!target) return null;
 
     const onClose = () => dispatch(closeRemoveDialog());
