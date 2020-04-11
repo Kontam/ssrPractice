@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import longoAPIfunc from './functions/LongoAPI';
 import authorityAPIfunc from './functions/AuthorityAPI';
 import choiseGroupAPIfunc from './functions/ChoiceGroupsAPI';
+import choiseOptionAPIfunc from './functions/ChoiceOptionsAPI';
 
 export type Longo = {
     id: string,
@@ -13,3 +14,4 @@ export type Longo = {
 export const longoAPI = functions.https.onRequest(longoAPIfunc);
 export const authorityAPI = functions.https.onRequest(authorityAPIfunc);
 export const choiceGroupAPI = functions.https.onRequest(choiseGroupAPIfunc);
+export const choiceOptionAPI = functions.https.onRequest(choiseOptionAPIfunc);
