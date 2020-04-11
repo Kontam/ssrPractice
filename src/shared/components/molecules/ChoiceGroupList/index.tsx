@@ -1,11 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
+import { makeStyles, createStyles } from '@material-ui/styles';
 import { ChoiceGroups } from '../../../redux/modules/choiceGroups';
 import ChoiceGroupCard from '../ChoiceGroupCard';
 
-const List = styled.li`
-  
-`;
+const useStyles = makeStyles(
+  createStyles({
+    list: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+    },
+    item: {
+      marginBottom: 30,
+    } 
+  })
+);
 
 export type Props = {
   choiceGroups: ChoiceGroups,
@@ -18,19 +27,23 @@ const ChoiceGroupList: React.FC<Props> = ({
   onUpdateChoiceDialogOpen,
   onRemoveChoiceDialogOpen,
 }) => {
+
+  const classes = useStyles();
+
   return (
-    <List>
+    <ul className={classes.list}>
       {
         choiceGroups.map((choiceGroup) => (
-          <ChoiceGroupCard
-            key={choiceGroup.groupId}  
-            choiceGroup={choiceGroup}
-            onUpdateChoiceDialogOpen={onUpdateChoiceDialogOpen}
-            onRemoveChoiceDialogOpen={onRemoveChoiceDialogOpen}
-          />
+          <li className={classes.item} key={choiceGroup.groupId}>
+            <ChoiceGroupCard
+              choiceGroup={choiceGroup}
+              onUpdateChoiceDialogOpen={onUpdateChoiceDialogOpen}
+              onRemoveChoiceDialogOpen={onRemoveChoiceDialogOpen}
+            />
+          </li>
         ))
       }
-    </List>
+    </ul>
   )
 }
 

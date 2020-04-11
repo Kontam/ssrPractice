@@ -3,9 +3,15 @@ import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
     ${reset}
+    * {
+      box-sizing: border-box;
+    }
     a {
         color: inherit;
         text-decoration: none;
+    }
+    li {
+      list-style: none;
     }
 `;
 

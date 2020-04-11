@@ -50,6 +50,7 @@ const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
     <div>
       <ChoiceDialog 
         isOpen={addChoiceDialogState.isOpen}
+        title={"新規グループを追加"}
         onClose={onAddChoiceDialogClose}
         onSubmit={onAddChoiceDialogSubmit}
         isDialogLoading={isDialogLoading}
@@ -57,6 +58,7 @@ const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
       />  
       <ChoiceDialog 
         isOpen={updateChoiceDialogState.isOpen}
+        title={"グループを編集"}
         onClose={onUpdateChoiceDialogClose}
         onSubmit={onUpdateChoiceDialogSubmit}
         isDialogLoading={isDialogLoading}

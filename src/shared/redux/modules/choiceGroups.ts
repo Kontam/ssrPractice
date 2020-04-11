@@ -43,10 +43,10 @@ export const INITIAL_STATE: ChoiceGroups = [];
  * チョイスグループのreadをサーバーにリクエストし、結果をStateに格納する
  * */
 function* requestFetchChoiceGroup() {
-  yield startHeaderLoading(); 
+  yield put(startHeaderLoading()); 
   const result: AxiosResponse<ChoiceGroups> = yield call([fetchr, fetchr.read], Const.CHOICEGROUPS_SERVICE, {}, {});
   yield put(setChoiceGroups(result.data))
-  yield endHeaderLoading(); 
+  yield put(endHeaderLoading()); 
 }
 
 /**

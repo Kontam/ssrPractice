@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import { createStyles, makeStyles } from '@material-ui/styles';
 import styled from 'styled-components';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { EventWithDataHandler } from 'redux-form';
@@ -11,23 +12,43 @@ type Props = {
   onTextChange: EventWithDataHandler<ChangeEvent<any>>
 }
 
-const OptionItem = styled.li``;
+const useStyles = makeStyles(
+  createStyles({
+    itemContainer: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+      paddingLeft: 15,
+      paddingRight: 15,
+    },
+    textField: {
+      width: 300,
+    },
+
+    checkboxLabel: {
+      fontSize: 10,
+    }
+  })
+)
 
 const ChoiceOptionItem: React.FC<Props> = ({ objectName, index, onTextChange }) => {
+  const classes = useStyles();
   return (
-    <OptionItem>
+    <li className={classes.itemContainer} >
         <FormTextField 
             name={`${objectName}.choiceName`}
+            className={classes.textField}
             label={`名前${index + 1}`}
             onChange={onTextChange}
         />
         <FormControlLabel
             value="有効"
-            control={<FormCheckboxField color="primary" name={`${objectName}.choiceEnabled`}/>}
+            className={classes.checkboxLabel}
+            control={<FormCheckboxField color="primary" size="small" name={`${objectName}.choiceEnabled`}/>}
             label="有効"
             labelPlacement="start"
         />
-    </OptionItem>
+    </li>
   );
 }
 

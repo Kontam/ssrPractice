@@ -7,12 +7,13 @@ const renderTextField = ({
     label,
     className,
     meta,
+    variant,
 }: any) => (
     <TextField
         className={className}
         rowsMax={2}
         label={label}
-        variant="outlined"
+        variant={variant}
         {...input}
     />
 )
@@ -23,9 +24,10 @@ export type Props = {
     className?: string,
     onChange?: EventWithDataHandler<ChangeEvent<any>>,
     onFocus?: EventWithDataHandler<FocusEvent<any>>
+    variant?: string,
 }
 
-const FormTextField: React.FC<Props> = ({ className, name, label, onChange, onFocus }) => (
+const FormTextField: React.FC<Props> = ({ className, name, label, onChange, onFocus, variant }) => (
     <Field 
         name={name}
         label={label}
@@ -33,6 +35,7 @@ const FormTextField: React.FC<Props> = ({ className, name, label, onChange, onFo
         className={className}
         onChange={onChange}
         onFocus={onFocus}
+        variant={variant}
     />
 ) 
 

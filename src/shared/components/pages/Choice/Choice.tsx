@@ -13,7 +13,6 @@ const Choice: React.FC<Props> = ({ appButtons }) => {
   return (
     <PageTemplate appButtons={appButtons}>
       <>
-        <h1>ChoiceGroups</h1>  
         <ChoiceGroupManager />
         <SnackBar />
       </>

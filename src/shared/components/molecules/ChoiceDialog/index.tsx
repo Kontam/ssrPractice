@@ -1,12 +1,22 @@
 import React from 'react';
+import { createStyles, makeStyles } from '@material-ui/styles';
 import ChoiceForm, { ChoiceFormData } from '../ChoiceForm';
 import { DialogLoading } from '../../../redux/modules/dialogLoading';
 import { FormSubmitHandler } from 'redux-form';
 import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
 import LoadingLine from '../../atoms/LoadingLine';
 
+const useStyles = makeStyles(
+  createStyles({
+    contentWrapper: {
+      padding: 10,
+    },
+  })
+);
+
 type Props = {
     isOpen: boolean,
+    title?: string,
     onClose: () => void,
     onSubmit: FormSubmitHandler<ChoiceFormData, {}, string>
     isDialogLoading: DialogLoading,
@@ -15,11 +25,13 @@ type Props = {
 
 const AddChoiceDialog: React.FC<Props> = ({ 
   isOpen,
+  title,
   onClose,
   onSubmit,
   isDialogLoading,
   initialValues,
 }) => {
+    const classes = useStyles();
     const formInitialValues = initialValues
       ? initialValues
       : {
@@ -31,10 +43,10 @@ const AddChoiceDialog: React.FC<Props> = ({
             }],
         }
     return (
-        <Dialog open={isOpen} onClose={onClose} maxWidth={"lg"} fullWidth={true}>
-            <DialogTitle>新規グループを追加</DialogTitle>
+        <Dialog open={isOpen} onClose={onClose}>
+            <DialogTitle>{title}</DialogTitle>
             <LoadingLine isLoading={isDialogLoading} />
-            <DialogContent>
+            <DialogContent className={classes.contentWrapper} >
                 <ChoiceForm onSubmit={onSubmit} initialValues={formInitialValues} />
             </DialogContent>
         </Dialog>

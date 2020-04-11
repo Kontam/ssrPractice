@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import styled from 'styled-components';
+import { makeStyles, createStyles } from '@material-ui/styles';
 import { WrappedFieldArrayProps, EventWithDataHandler } from 'redux-form';
 import FormTextField from '../FormTextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -9,16 +9,25 @@ import { ChoiceOption } from '../../../../../firebase/functions/src/functions/Ch
 import FormCheckboxField from '../FormCheckboxField';
 import ChoiceOptionItem from '../../molecules/ChoiceOptionItem';
 
-const OptionList = styled.ul``;
+const useStyles = makeStyles(
+  createStyles({
+    fieldWrapper: {
+      paddingTop: 5,
+      paddingBottom: 5,
+    }
+  })
+);
 
 const FieldArrayText = ({ fields, meta: { error }}: WrappedFieldArrayProps<ChoiceOption>) => { 
+    const classes = useStyles();
     const [added, setAdded] = useState<boolean[]>([]);
 
     return (
-        <OptionList>
+        <ul>
             {fields.map((option, index) => {
                 const onChange: EventWithDataHandler<ChangeEvent<any>> = (e, newValue, previewsValue) => {
-                    if (!previewsValue && !added[index]) {
+                    // 最下行の空欄が埋められた時に自動で枠追加する
+                    if (fields.length-1 === index && !previewsValue && !added[index]) {
                         fields.push({
                             choiceName: "",
                             choiceEnabled: true,
@@ -31,14 +40,15 @@ const FieldArrayText = ({ fields, meta: { error }}: WrappedFieldArrayProps<Choic
                 } 
                 const data = fields.get(index);
                 return ( 
-                  <ChoiceOptionItem
-                    key={index} 
-                    objectName={option}
-                    index={index}
-                    onTextChange={onChange}
-                  />
+                  <div className={classes.fieldWrapper} key={index}>
+                    <ChoiceOptionItem
+                      objectName={option}
+                      index={index}
+                      onTextChange={onChange}
+                    />
+                  </div>
             )})}
-        </OptionList>
+        </ul>
     );
 }
 

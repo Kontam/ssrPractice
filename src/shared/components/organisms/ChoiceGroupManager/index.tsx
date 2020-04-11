@@ -48,6 +48,14 @@ const ChoiceGroupManagerContainer = () => {
   };
   // update
   const updateChoiceDialogInitialValues: ChoiceFormData | undefined = choiceGroups.find((group) => group.groupId === updateChoiceDialogState.targetId); 
+    const formOptions = updateChoiceDialogInitialValues && updateChoiceDialogInitialValues.choiceOptions;
+    if (formOptions && formOptions[formOptions.length - 1].choiceName) {
+      formOptions.push({
+      choiceName: "",
+      choiceEnabled: true,
+      choiceId: "",
+    });
+  }
   const onUpdateChoiceDialogOpen = (groupId: string) => {dispatch(openUpdateChoiceDialog(groupId))}
   const onUpdateChoiceDialogClose = () => {dispatch(closeUpdateChoiceDialog())};
   const onUpdateChoiceDialogSubmit: FormSubmitHandler<ChoiceFormData, {}, string> = (values, dispatch) => {
