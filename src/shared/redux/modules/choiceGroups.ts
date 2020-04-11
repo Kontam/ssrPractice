@@ -7,7 +7,6 @@ import { startHeaderLoading, endHeaderLoading } from './headerLoading';
 import { AxiosResponse } from "axios";
 import Const from '../../modules/const';
 import { startDialogLoading, endDialogLoading } from "./dialogLoading";
-import { closeAddDialog } from "./addDialogState";
 import { openSnackBar } from "./snackBarState";
 import { closeAddChoiceDialog } from "./addChoiceDialogState";
 import { closeUpdateChoiceDialog } from "./updateChoiceDialogState";
@@ -22,6 +21,7 @@ export const UPDATE_CHOICEGROUP = "UPDATE_CHOICEGROUP " as const;
 
 // sagaAction
 export const FETCH_CHOICEGROUPS = "FETCH_CHOICEGROUPS" as const; 
+export const PROMISE_FETCH_CHOICEGROUPS = "PROMISE_FETCH_CHOICEGROUPS" as const; 
 export const POST_CHOICEGROUP = "POST_CHOICEGROUP" as const;
 export const PATCH_CHOICEGROUP = "PATCH_CHOICEGROUP " as const;
 export const DELETE_CHOICEGROUP = "DELETE_CHOICEGROUP" as const;
@@ -33,6 +33,7 @@ export const removeChoiceGroup = createAction<string>(REMOVE_CHOICEGROUP);
 
 // sagaAction
 export const fetchChoiceGroups = createAction(FETCH_CHOICEGROUPS); 
+export const promiseFetchChoiceGroups = createAction(PROMISE_FETCH_CHOICEGROUPS); 
 export const postChoiceGroup = createAction<ChoiceGroup>(POST_CHOICEGROUP); 
 export const patchChoiceGroup = createAction<ChoiceGroup>(PATCH_CHOICEGROUP); 
 export const deleteChoiceGroup = createAction<string>(DELETE_CHOICEGROUP);
@@ -47,6 +48,15 @@ function* requestFetchChoiceGroup() {
   const result: AxiosResponse<ChoiceGroups> = yield call([fetchr, fetchr.read], Const.CHOICEGROUPS_SERVICE, {}, {});
   yield put(setChoiceGroups(result.data))
   yield put(endHeaderLoading()); 
+}
+
+/**
+ * PromiseでWrapして使用するChoiceGroupsのFetch処理
+ */
+function* promiseRequestFetchChoiceGroup({ payload : {resolve, reject} } :any) {
+  const result: AxiosResponse<ChoiceGroups> = yield call([fetchr, fetchr.read], Const.CHOICEGROUPS_SERVICE, {}, {});
+  yield put(setChoiceGroups(result.data))
+  resolve(result);
 }
 
 /**
@@ -91,6 +101,7 @@ export const choiceGroupsSaga = [
   takeEvery(POST_CHOICEGROUP, requestPostChoiceGroup), 
   takeEvery(PATCH_CHOICEGROUP, requestPatchChoiceGroup), 
   takeEvery(DELETE_CHOICEGROUP, requestDeleteChoiceGroup),
+  takeEvery(PROMISE_FETCH_CHOICEGROUPS, promiseRequestFetchChoiceGroup),
 ];
 
 export default handleActions<ChoiceGroups, any>({

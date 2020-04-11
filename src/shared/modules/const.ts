@@ -22,7 +22,7 @@ const BFFConst = {
 
 
     // Cookies
-    COOKIE_EXPIREIN: 60 * 60 * 24 * 5,
+    COOKIE_EXPIREIN: 60 * 60 * 24 * 5 * 1000,
     TOKEN_COOKIE: 'token',
     
     // データサービス名

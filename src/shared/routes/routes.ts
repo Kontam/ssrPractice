@@ -16,7 +16,7 @@ const routes: RouteProps[] = [
     {
         path: "/choice",
         component: Choice,
-        loadData: () => {},
+        loadData: (store: Store, match: any) => Choice.prototype.getInitialProps(store),
         authorityLevel: About.prototype.authorityLevel,
     },
     {

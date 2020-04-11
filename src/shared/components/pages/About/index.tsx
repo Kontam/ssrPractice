@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AboutComponent from './About';
 import { RootState } from '../../../redux/store';
 import { readLongos, promiseReadLongos } from '../../../redux/modules/longos';
-import { setTrueIsMounted, IsMounted } from '../../../redux/modules/isMounted';
+import { IsMounted } from '../../../redux/modules/isMounted';
 import { Login } from '../../../redux/modules/login';
 import { checkAuthorityLevel } from '../../../routes/checkAuthorityLevel';
 import getAuthStatus from '../../../modules/getAuthStatus';
@@ -35,6 +35,7 @@ const About: React.FC = () => {
     useEffect(() => {
         if (isMounted) {
             if (!checkAuthorityLevel(login.authority, About.prototype.authorityLevel)) return;
+            if (longos.length > 0) return;
             dispatch(readLongos());
         } 
     }, [])
@@ -49,7 +50,7 @@ const About: React.FC = () => {
 }
 
 About.prototype.getInitialProps = async (store: Store<RootState>): Promise<any> => {
-    console.log("getInitialProps");
+    console.log("About getInitialProps");
     const own = store.getState().user.login.authority;
     if (!checkAuthorityLevel(own, About.prototype.authorityLevel)) return {};
     const fetchPromise = new Promise((resolve, reject) => {

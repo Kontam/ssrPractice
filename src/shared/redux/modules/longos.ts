@@ -27,6 +27,7 @@ export const REMOVE_LONGO = "REMOVE_LONGO" as const;
 
 // Saga
 export const FETCH_LONGOS = "FETCH_LONGOS" as const;
+export const PROMISE_READ_LONGOS = "PROMISE_READ_LONGOS"; 
 export const POST_LONGO = "POST_LONGO" as const;
 export const UPDATE_LONGO = "UPDATE_LONGO" as const;
 export const DELETE_LONGO = "DELETE_LONGO" as const;
@@ -44,6 +45,7 @@ export const createLongo = createAction<Longo>(POST_LONGO);
 export const readLongos = createAction(FETCH_LONGOS);
 export const updateLongo = createAction<Longo>(UPDATE_LONGO);
 export const deleteLongo = createAction<string>(DELETE_LONGO);
+export const promiseReadLongos = createAction(PROMISE_READ_LONGOS);
 
 /**
  * 論語取得処理
@@ -102,9 +104,6 @@ function* requestDeleteLongo({ payload }: Action<string>) {
     yield put(closeRemoveDialog());
     yield put(openSnackBar("アイテムを削除しました"));
 }
-
-export const PROMISE_READ_LONGOS = "PROMISE_READ_LONGOS"; 
-export const promiseReadLongos = createAction(PROMISE_READ_LONGOS);
 
 function* promiseReadLongosSaga({ payload: { resolve, reject }} :any) {
     const result = yield fetchr.read(ClientConst.LONGOS_SERVICE).params({id: "aaa"}).end();

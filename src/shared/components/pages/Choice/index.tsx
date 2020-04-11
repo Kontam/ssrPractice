@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchChoiceGroups } from '../../../redux/modules/choiceGroups';
+import { fetchChoiceGroups, promiseFetchChoiceGroups, ChoiceGroups } from '../../../redux/modules/choiceGroups';
 import Const from '../../../modules/const';
 import ChoiceComponent from './Choice';
 import { AppFAB } from '../../molecules/AppButtonContainer';
@@ -11,16 +11,18 @@ import { Login } from '../../../redux/modules/login';
 import getAuthStatus from '../../../modules/getAuthStatus';
 import { IsMounted } from '../../../redux/modules/isMounted';
 import { checkAuthorityLevel } from '../../../routes/checkAuthorityLevel';
+import { Store } from 'redux';
 
 const Choice: React.FC = () => {
   const dispatch = useDispatch();
+  const choiceGroups = useSelector<RootState, ChoiceGroups>(state => state.app.choiceGroups)
   const login = useSelector<RootState, Login>(state => state.user.login)
   const isMounted = useSelector<RootState, IsMounted>(state => state.isMounted);
   const authStatus = getAuthStatus(login, Choice.prototype.authorityLevel)
-  useEffect(() => { dispatch(fetchChoiceGroups()); },[]);
   useEffect(() => { 
     if (isMounted) {
       if (!checkAuthorityLevel(login.authority, Choice.prototype.authorityLevel)) return;
+      if (choiceGroups.length > 0) return; 
       dispatch(fetchChoiceGroups());
     }
   }, [])
@@ -44,5 +46,16 @@ const Choice: React.FC = () => {
 }
 
 Choice.prototype.authorityLevel = Const.AUTHORITY_MEMBER;
+
+Choice.prototype.getInitialProps = async (store: Store<RootState>): Promise<any> => {
+    console.log("Choice getInitialProps");
+    const own = store.getState().user.login.authority;
+    if (!checkAuthorityLevel(own, Choice.prototype.authorityLevel)) return {};
+    const fetchPromise = new Promise((resolve, reject) => {
+        store.dispatch(promiseFetchChoiceGroups({resolve, reject}))
+    })
+    await fetchPromise;
+  return {}
+}
 
 export default Choice;

@@ -10,7 +10,7 @@ export type LoginFormProps = {
 }
 
 const FormContainer = styled.div<{loggedIn: boolean}>`
-  display: ${props => props.loggedIn ? "none" : "block"}
+  display: ${props => props.loggedIn ? "none" : "block"};
 `;
 
 const LoginForm: React.FC<LoginFormProps> = ({ login }) => {
