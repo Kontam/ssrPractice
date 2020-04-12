@@ -61,9 +61,11 @@ export default async function ChoiceOptionAPI(req: Request, res: Response) {
         amount = parseInt(req.query.amount);
       }
 
+      //TODO: choiceEnabledを考慮する
       const Options = await getOptionsByGroupName(groupName, groupRef, optionRef); 
       console.log("Options", Options);
-      const choosenOptions = chooseItemsRandomly(Options, amount);
+      const enableOptions = Options.filter((option) => option.choiceEnabled);
+      const choosenOptions = chooseItemsRandomly(enableOptions, amount);
       
       res.send(choosenOptions);
   }
