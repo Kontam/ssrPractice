@@ -4,8 +4,8 @@ import { getOptionsByGroupId } from './ChoiceOptionsAPI';
 import { ChoiceGroup, ChoiceGroupDB, ChoiceOption, ChoiceOptionDB } from '../types';
 
 
-const CHOICE_GROUPS = "ChoiceGroups" as const;
-const CHOICE_OPTIONS = "ChoiceOptions" as const;
+export const CHOICE_GROUPS = "ChoiceGroups" as const;
+export const CHOICE_OPTIONS = "ChoiceOptions" as const;
 
 /**
  * choiceGroupを操作するAPI
