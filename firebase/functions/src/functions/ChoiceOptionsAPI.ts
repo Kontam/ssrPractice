@@ -1,5 +1,5 @@
 import * as firebase from 'firebase-admin';
-import { Request, Response } from 'express';
+import { Request, Response } from 'firebase-functions';
 import { ChoiceOption } from '../types';
 import admin from '../modules/firebaseAdmin';
 import { CHOICE_GROUPS, CHOICE_OPTIONS } from './ChoiceGroupsAPI';
@@ -30,8 +30,9 @@ export const getOptionsByGroupName = async (
   groupName: string,
   groupRef:firebase.firestore.CollectionReference,
   optionRef:firebase.firestore.CollectionReference
-): Promise<ChoiceOption[]> => {
+): Promise<ChoiceOption[] | null> => {
   const snapshot = await groupRef.where('groupName', '==', groupName).get(); 
+  if (snapshot.empty) return null;
   const groupIds = await snapshot.docs.map((doc) => doc.id);
   const optionSnap = await optionRef.where('groupId', '==', groupIds[0]).get();
   const choiceOptions :ChoiceOption[] = optionSnap.docs.map((doc) => {
@@ -55,19 +56,25 @@ export default async function ChoiceOptionAPI(req: Request, res: Response) {
   switch(req.method) {
     case "GET":
       if (!req.query.groupName) res.send("invalid request");
-      let groupName: string = req.query.groupName;
+      const groupName: string = req.query.groupName;
       let amount = 0
       if (req.query.amount) {
         amount = parseInt(req.query.amount);
       }
 
-      //TODO: choiceEnabledを考慮する
       const Options = await getOptionsByGroupName(groupName, groupRef, optionRef); 
-      console.log("Options", Options);
+      if (!Options) {
+        res.send({
+          error: true,
+          reason: "invalid groupName",
+        })
+        return;
+      }
       const enableOptions = Options.filter((option) => option.choiceEnabled);
       const choosenOptions = chooseItemsRandomly(enableOptions, amount);
+      const response: string[] = choosenOptions.map(option => option.choiceName);
       
-      res.send(choosenOptions);
+      res.send(response);
   }
 
 }

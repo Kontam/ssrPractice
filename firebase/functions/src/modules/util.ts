@@ -25,8 +25,9 @@ export function getRandomNumber(min: number, max: number){
 export function chooseItemsRandomly<T = any>(options: T[], amount?: number) {
     const leftOptions = [...options];
     const choosenOptions = [];
-    if (!amount) amount = leftOptions.length;
-    while (leftOptions.length !== 0 && choosenOptions.length !== amount) {
+    let limit = leftOptions.length;
+    if (amount) limit = amount;
+    while (leftOptions.length !== 0 && choosenOptions.length !== limit) {
         const num = getRandomNumber(0, leftOptions.length-1);
         choosenOptions.push(leftOptions[num]);
         leftOptions.splice(num, 1);
