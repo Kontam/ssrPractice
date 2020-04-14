@@ -30,6 +30,7 @@ async function authorityAPIfunc(req: Request, res: Response) :Promise<void> {
             authority: doc.data().authority,
         }});
         res.send(responseData);
+        return;
       }
 
       // ドメインマッチチェック

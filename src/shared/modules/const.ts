@@ -1,10 +1,11 @@
 const BFFConst = {
     SESSION_SECRET: process.env.SESSION_SECRET,
     CSRF_SECRET: process.env.CSRF_SECRET,
-
     // パス関連
     API_ENDPOINT: '/api',
-    BACKEND_BASE_URL: process.env.BACKEND_BASE_URL || "",
+    BACKEND_BASE_URL: process.env.FIREBASE_ENV === "development"
+      ? process.env.BACKEND_BASE_URL_DEV || ""
+      : process.env.BACKEND_BASE_URL || "",
     API_LONGOS: "/longoAPI",
     API_AUTHORITY: "/authorityAPI",
     API_CHOICEGROUPS: "/choiceGroupAPI",

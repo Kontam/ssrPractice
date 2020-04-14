@@ -1,5 +1,6 @@
 node_modules
 dist
 serviceAccount.json
+serviceAccountDev.json
 .env
 .DS_store

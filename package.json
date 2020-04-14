@@ -12,6 +12,7 @@
     "build:bff": "webpack --config webpack.config.bff.js --mode=production",
     "dev": "webpack --config webpack.config.js --mode development --watch & webpack --config webpack.config.bff.js --mode development --watch & npx nodemon dist/server.js",
     "dev:front": "webpack --config webpack.config.js --mode development --watch & node dist/server.js",
+    "dev:functions": "FIREBASE_ENV=development npm run dev",
     "start": "node dist/server.js"
   },
   "author": "",

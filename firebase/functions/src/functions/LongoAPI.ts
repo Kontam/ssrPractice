@@ -10,6 +10,7 @@ async function longoAPIfunc(request: Request, response: Response): Promise<void>
             const snapshot = await ref.get();
             if (snapshot.empty) {
                 response.send({});
+                return;
             }
             const longos :Longo[] = [];
             snapshot.forEach(doc => {
