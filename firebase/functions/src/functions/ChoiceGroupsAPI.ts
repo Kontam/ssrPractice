@@ -2,6 +2,7 @@ import admin from '../modules/firebaseAdmin';
 import { Request, Response } from 'firebase-functions';
 import { getOptionsByGroupId } from './ChoiceOptionsAPI';
 import { ChoiceGroup, ChoiceGroupDB, ChoiceOption, ChoiceOptionDB } from '../types';
+import { checkHttpHeaders } from '../modules/checkHttpHeaders';
 
 
 export const CHOICE_GROUPS = "ChoiceGroups" as const;
@@ -12,6 +13,8 @@ export const CHOICE_OPTIONS = "ChoiceOptions" as const;
  * 主にグループの編集で利用される想定
  * */
 export default async function choiseGroupsAPI(request: Request, response: Response): Promise<void>{
+  if (!checkHttpHeaders(request, response)) return;
+
   const firestore = admin.firestore();
   const timeStamp = admin.firestore.FieldValue.serverTimestamp();
   const groupRef = firestore.collection(CHOICE_GROUPS);
