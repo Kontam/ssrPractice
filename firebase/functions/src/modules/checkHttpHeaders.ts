@@ -17,8 +17,9 @@ export function checkHttpHeaders(request: functions.Request, response: functions
   }
   try {
     const apisecret = functions.config().general.apisecret;
-    console.log("secret",apisecret);
-    jwt.verify(apiToken, apisecret);
+    const decoded = jwt.verify(apiToken, apisecret);
+    if (!decoded === functions.config().general.apikey) throw new Error("invalid apiKey"); 
+    return true;
   } catch {
     throw new HttpsError("invalid-argument", "Invalid Argument")
     response.send({
@@ -28,5 +29,4 @@ export function checkHttpHeaders(request: functions.Request, response: functions
     console.error("invalid api token");
     return false;
   }
-  return true;
 }
