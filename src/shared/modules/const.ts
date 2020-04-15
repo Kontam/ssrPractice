@@ -25,6 +25,10 @@ const BFFConst = {
     // Cookies
     COOKIE_EXPIREIN: 60 * 60 * 24 * 5 * 1000,
     TOKEN_COOKIE: 'token',
+
+    // 通信関連
+    API_SECRET: process.env.API_SECRET,
+    API_KEY: process.env.API_KEY,
     
     // データサービス名
     LONGOS_SERVICE: 'Longos',

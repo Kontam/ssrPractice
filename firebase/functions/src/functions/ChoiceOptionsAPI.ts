@@ -4,6 +4,7 @@ import { ChoiceOption } from '../types';
 import admin from '../modules/firebaseAdmin';
 import { CHOICE_GROUPS, CHOICE_OPTIONS } from './ChoiceGroupsAPI';
 import { chooseItemsRandomly } from '../modules/util';
+import { checkHttpHeaders } from '../modules/checkHttpHeaders';
 
 export const getOptionsByGroupId = async (groupId: string, optionRef:firebase.firestore.CollectionReference): Promise<ChoiceOption[]> => {
   const snapshot = await optionRef.where('groupId', '==', groupId).get(); 
@@ -48,6 +49,8 @@ export const getOptionsByGroupName = async (
 }
 
 export default async function ChoiceOptionAPI(req: Request, res: Response) {
+  if (!checkHttpHeaders(req, res)) return;
+
   const firestore = admin.firestore();
   const groupRef = firestore.collection(CHOICE_GROUPS);
   const optionRef = firestore.collection(CHOICE_OPTIONS)

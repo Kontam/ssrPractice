@@ -2,8 +2,11 @@ import admin from '../modules/firebaseAdmin';
 import { Longo } from '../index';
 import { Request, Response } from 'firebase-functions';
 import { checkIsEmptyById } from '../modules/util';
+import { checkHttpHeaders } from '../modules/checkHttpHeaders';
 
 async function longoAPIfunc(request: Request, response: Response): Promise<void>{
+    if (!checkHttpHeaders(request, response)) return;
+
     const ref = admin.firestore().collection("Longos");
     switch (request.method) {
         case "GET" :
