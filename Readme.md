@@ -16,4 +16,5 @@ Googleアカウントによる認証により権限を制御しています。
 |FIREBASE_PROJECT_ID|string|Firebase ServiceAccount.jsonからコピーで良い|
 |FIREBASE_PROJECT_EMAIL|string|Firebase ServiceAccount.jsonからコピーで良い|
 |FIREBASE_PROJECT_KEY|string|Firebase ServiceAccount.jsonからコピーで良い|
-|API_SECRET|string|APIとの通信に利用するsecret文字列|
+|API_KEY|string|Console APIとの通信に利用するsecret文字列|
+|API_SECRET|string|Console APIとの通信に利用するsecret文字列|
