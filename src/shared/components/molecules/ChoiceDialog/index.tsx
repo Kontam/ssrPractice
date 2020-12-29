@@ -1,7 +1,7 @@
 import React from "react";
 import { createStyles, makeStyles } from "@material-ui/styles";
-import GetAppIcon from '@material-ui/icons/GetApp';
-import PublishIcon from '@material-ui/icons/Publish';
+import GetAppIcon from "@material-ui/icons/GetApp";
+import PublishIcon from "@material-ui/icons/Publish";
 import ChoiceForm, { ChoiceFormData } from "../ChoiceForm";
 import { DialogLoading } from "../../../redux/modules/dialogLoading";
 import { FormSubmitHandler } from "redux-form";
@@ -24,9 +24,12 @@ const useStyles = makeStyles(
     dialogHeader: {
       display: "flex",
     },
+    uploader: {
+      display: "none",
+    },
     title: {
       flexGrow: 1,
-    }
+    },
   })
 );
 
@@ -37,6 +40,8 @@ export type ChoiceDialogProps = {
   onSubmit: FormSubmitHandler<ChoiceFormData, {}, string>;
   isDialogLoading: DialogLoading;
   initialValues?: ChoiceFormData;
+  onFileUpload: any;
+  onClickDownload: React.MouseEventHandler;
 };
 
 const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
@@ -46,6 +51,8 @@ const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
   onSubmit,
   isDialogLoading,
   initialValues,
+  onFileUpload,
+  onClickDownload,
 }) => {
   const classes = useStyles();
   const formInitialValues: Omit<ChoiceFormData, "groupId"> = initialValues
@@ -66,12 +73,25 @@ const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
         <DialogTitle className={classes.title}>{title}</DialogTitle>
         <DialogActions>
           <Tooltip title="CSVで登録する" aria-label="Send CSV">
-            <IconButton area-label="Send CSV" onClick={() => {}}>
-              <PublishIcon />
-            </IconButton>
+            <>
+              <input
+                id="choiceDialog--uploadFile"
+                className={classes.uploader}
+                type="file"
+                onChange={onFileUpload}
+              />
+              <label htmlFor="choiceDialog--uploadFile">
+                <IconButton
+                  area-label="Send CSV"
+                  component="span"
+                >
+                  <PublishIcon />
+                </IconButton>
+              </label>
+            </>
           </Tooltip>
           <Tooltip title="CSVをダウンロードする" aria-label="Download CSV">
-            <IconButton area-label="Download CSV" onClick={() => {}}>
+            <IconButton area-label="Download CSV" onClick={onClickDownload}>
               <GetAppIcon />
             </IconButton>
           </Tooltip>
