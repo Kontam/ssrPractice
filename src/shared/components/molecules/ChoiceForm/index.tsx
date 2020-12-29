@@ -35,7 +35,9 @@ const useStyles = makeStyles(
 
 export type ChoiceFormData = ChoiceGroup;
 
-const ChoiceForm: React.FC<InjectedFormProps<ChoiceFormData>> = ({
+export type ChoiceFormProps = InjectedFormProps<ChoiceFormData>; 
+
+const ChoiceForm: React.FC<ChoiceFormProps> = ({
     handleSubmit,
 }) => {
     const classes = useStyles();

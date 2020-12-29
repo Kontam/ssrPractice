@@ -1,10 +1,10 @@
-import React from 'react';
-import { createStyles, makeStyles } from '@material-ui/styles';
-import ChoiceForm, { ChoiceFormData } from '../ChoiceForm';
-import { DialogLoading } from '../../../redux/modules/dialogLoading';
-import { FormSubmitHandler } from 'redux-form';
-import { Dialog, DialogContent, DialogTitle } from '@material-ui/core';
-import LoadingLine from '../../atoms/LoadingLine';
+import React from "react";
+import { createStyles, makeStyles } from "@material-ui/styles";
+import ChoiceForm, { ChoiceFormData } from "../ChoiceForm";
+import { DialogLoading } from "../../../redux/modules/dialogLoading";
+import { FormSubmitHandler } from "redux-form";
+import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import LoadingLine from "../../atoms/LoadingLine";
 
 const useStyles = makeStyles(
   createStyles({
@@ -15,15 +15,15 @@ const useStyles = makeStyles(
 );
 
 type Props = {
-    isOpen: boolean,
-    title?: string,
-    onClose: () => void,
-    onSubmit: FormSubmitHandler<ChoiceFormData, {}, string>
-    isDialogLoading: DialogLoading,
-    initialValues?: ChoiceFormData,
-}
+  isOpen: boolean;
+  title?: string;
+  onClose: () => void;
+  onSubmit: FormSubmitHandler<ChoiceFormData, {}, string>;
+  isDialogLoading: DialogLoading;
+  initialValues?: ChoiceFormData;
+};
 
-const AddChoiceDialog: React.FC<Props> = ({ 
+const AddChoiceDialog: React.FC<Props> = ({
   isOpen,
   title,
   onClose,
@@ -31,26 +31,28 @@ const AddChoiceDialog: React.FC<Props> = ({
   isDialogLoading,
   initialValues,
 }) => {
-    const classes = useStyles();
-    const formInitialValues = initialValues
-      ? initialValues
-      : {
-            groupName:"",
-            choiceOptions: [{
-                choiceName: "",
-                choiceEnabled: true,
-                choiceId: "",
-            }],
-        }
-    return (
-        <Dialog open={isOpen} onClose={onClose}>
-            <DialogTitle>{title}</DialogTitle>
-            <LoadingLine isLoading={isDialogLoading} />
-            <DialogContent className={classes.contentWrapper} >
-                <ChoiceForm onSubmit={onSubmit} initialValues={formInitialValues} />
-            </DialogContent>
-        </Dialog>
-    );
-}
+  const classes = useStyles();
+  const formInitialValues: Omit<ChoiceFormData, "groupId"> = initialValues
+    ? initialValues
+    : {
+        groupName: "",
+        choiceOptions: [
+          {
+            choiceName: "",
+            choiceEnabled: true,
+            choiceId: "",
+          },
+        ],
+      };
+  return (
+    <Dialog open={isOpen} onClose={onClose}>
+      <DialogTitle>{title}</DialogTitle>
+      <LoadingLine isLoading={isDialogLoading} />
+      <DialogContent className={classes.contentWrapper}>
+        <ChoiceForm onSubmit={onSubmit} initialValues={formInitialValues} />
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default AddChoiceDialog;

@@ -10,6 +10,7 @@ export default {
   component: HeaderMenuItem,
 } as Meta;
 
+// TODO: 他のRN依存のコンポーネントをstoryにする時にDecoratorを共通化する
 const Template: Story<HeaderMenuItemProps> = (args) => (
   <Router history={createBrowserhistory()}>
     <HeaderMenuItem {...args} />
