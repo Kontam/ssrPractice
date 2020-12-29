@@ -14,7 +14,7 @@ const useStyles = makeStyles(
   })
 );
 
-type Props = {
+export type ChoiceDialogProps = {
   isOpen: boolean;
   title?: string;
   onClose: () => void;
@@ -23,7 +23,7 @@ type Props = {
   initialValues?: ChoiceFormData;
 };
 
-const AddChoiceDialog: React.FC<Props> = ({
+const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
   isOpen,
   title,
   onClose,
@@ -55,4 +55,4 @@ const AddChoiceDialog: React.FC<Props> = ({
   );
 };
 
-export default AddChoiceDialog;
+export default ChoiceDialog;
