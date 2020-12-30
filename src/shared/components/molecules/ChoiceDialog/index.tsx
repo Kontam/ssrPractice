@@ -67,30 +67,35 @@ const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
           },
         ],
       };
-  const CSVDownloadURL = handleDownloadCreator('content,content');
+  const CSVDownloadURL = initialValues
+    ? handleDownloadCreator(initialValues)
+    : "";
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <Box className={classes.dialogHeader}>
         <DialogTitle className={classes.title}>{title}</DialogTitle>
         <DialogActions>
-            <>
-              <input
-                id="choiceDialog--uploadFile"
-                className={classes.uploader}
-                type="file"
-                onChange={onFileUploadCreator(initialValues?.groupId)}
-                accept=".csv"
-              />
-              <label htmlFor="choiceDialog--uploadFile">
-                <Tooltip title="CSVで登録する" aria-label="Send CSV">
-                  <IconButton area-label="Send CSV" component="span">
-                    <PublishIcon />
-                  </IconButton>
-                </Tooltip>
-              </label>
-            </>
+          <>
+            <input
+              id="choiceDialog--uploadFile"
+              className={classes.uploader}
+              type="file"
+              onChange={onFileUploadCreator(initialValues?.groupId)}
+              accept=".csv"
+            />
+            <label htmlFor="choiceDialog--uploadFile">
+              <Tooltip title="CSVで登録する" aria-label="Send CSV">
+                <IconButton area-label="Send CSV" component="span">
+                  <PublishIcon />
+                </IconButton>
+              </Tooltip>
+            </label>
+          </>
           <Tooltip title="CSVをダウンロードする" aria-label="Download CSV">
-            <a download="test.txt" href={CSVDownloadURL} onClick={handleDownloadCreator}>
+            <a
+              download={`${initialValues?.groupName}.csv`}
+              href={CSVDownloadURL}
+            >
               <IconButton area-label="Download CSV">
                 <GetAppIcon />
               </IconButton>

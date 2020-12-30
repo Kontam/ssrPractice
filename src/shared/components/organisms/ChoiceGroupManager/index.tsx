@@ -27,6 +27,7 @@ import {
   RemoveChoiceDialogState,
 } from "../../../redux/modules/removeChoiceDialogState";
 import { convertCSVToChoiseGroup } from "../../../modules/util/convertCSVToChoiseGroup";
+import { convertChoiseGroupToCSV } from "../../../modules/util/convertChoiseGroupToCSV";
 
 /**
  * フォーム最下に自動追加される空欄が空オブジェクトとして渡ってくる
@@ -123,8 +124,8 @@ const ChoiceGroupManagerContainer = () => {
   };
 
   /**
-  * ファイルアップロード後のハンドラ生成 updateならIDが指定されて更新処理
-  */
+   * ファイルアップロード後のハンドラ生成 updateならIDが指定されて更新処理
+   */
   const onFileUploadCreator = (groupId?: string) => (event: any) => {
     const target: HTMLInputElement | null = event.target;
     const file = target?.files?.item(0);
@@ -142,22 +143,24 @@ const ChoiceGroupManagerContainer = () => {
       );
       if (!parsed) return console.error("dispatch error action here");
       console.log("dispatch api aciton here", parsed);
-      parsed.groupId 
+      parsed.groupId
         ? dispatch(patchChoiceGroup(parsed))
-        : dispatch(postChoiceGroup(parsed))
+        : dispatch(postChoiceGroup(parsed));
     };
     reader.onload = onLoad;
   };
 
   // CSVコンテンツを渡すとダウンロードURLを返す
-  const handleDownloadCreator = (content: string) => {
-    const blob = new Blob([content], {"type": "text/plain" });
+  const handleDownloadCreator = (choiceGroup: ChoiceGroup) => {
+    const blob = new Blob([convertChoiseGroupToCSV(choiceGroup)], {
+      type: "text/plain",
+    });
     if (window.navigator.msSaveBlob) {
-      window.navigator.msSaveBlob(blob, "test.txt");
-      window.navigator.msSaveOrOpenBlob(blob, "test.txt");
-    } 
+      window.navigator.msSaveBlob(blob, 'blobname');
+      window.navigator.msSaveOrOpenBlob(blob, 'blobname');
+    }
     return window.URL.createObjectURL(blob);
-  }
+  };
 
   return (
     <ChoiceGroupManager
