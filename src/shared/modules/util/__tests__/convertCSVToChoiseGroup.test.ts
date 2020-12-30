@@ -1,5 +1,5 @@
 import assert from "power-assert";
-import { convertCSVToChoiseGroup } from '../convertCSVToChoiseGroup';
+import { convertCSVToChoiseGroup } from "../convertCSVToChoiseGroup";
 
 describe("CSVで渡されたデータをChoiceGroupオブジェクトに変換する関数", () => {
   let name: string;
@@ -8,38 +8,48 @@ describe("CSVで渡されたデータをChoiceGroupオブジェクトに変換�
   describe("想定通りのCSVファイルが渡された時", () => {
     describe("ファイルが改行を含む時", () => {
       beforeEach(() => {
-        name = 'test file name';
-        value = 'Kontam\r,\nHoge,\r\nFuga';
+        name = "test file name.csv";
+        value = "Kontam\r,\nHoge,\r\nFuga";
       });
-      test("グループ名がname引数の値になっている", () => {
-        assert.strictEqual(convertCSVToChoiseGroup(name, value)?.groupName, name);
+      test("グループ名がfilename引数の拡張子を除去した文字列の値になっている", () => {
+        assert.strictEqual(
+          convertCSVToChoiseGroup(name, value)?.groupName,
+          "test file name"
+        );
       });
       test("CSVの値全てがグループメンバーとして反映されている", () => {
-        const actual = convertCSVToChoiseGroup(name, value)?.choiceOptions.map(choice => choice.choiceName);
-        const expected = ['Kontam', 'Hoge', 'Fuga'];
+        const actual = convertCSVToChoiseGroup(name, value)?.choiceOptions.map(
+          (choice) => choice.choiceName
+        );
+        const expected = ["Kontam", "Hoge", "Fuga"];
         assert.deepStrictEqual(actual, expected);
       });
     });
 
     describe("ファイルが改行を含まない時", () => {
       beforeEach(() => {
-        name = 'test file name';
-        value = 'Kontam,Hoge,Fuga';
+        name = "test file name.csv";
+        value = "Kontam,Hoge,Fuga";
       });
-      test("グループ名がname引数の値になっている", () => {
-        assert.strictEqual(convertCSVToChoiseGroup(name, value)?.groupName, name);
+      test("グループ名がfilename引数の拡張子を除去した文字列の値になっている", () => {
+        assert.strictEqual(
+          convertCSVToChoiseGroup(name, value)?.groupName,
+          "test file name"
+        );
       });
       test("CSVの値全てがグループメンバーとして反映されている", () => {
-        const actual = convertCSVToChoiseGroup(name, value)?.choiceOptions.map(choice => choice.choiceName);
-        const expected = ['Kontam', 'Hoge', 'Fuga'];
+        const actual = convertCSVToChoiseGroup(name, value)?.choiceOptions.map(
+          (choice) => choice.choiceName
+        );
+        const expected = ["Kontam", "Hoge", "Fuga"];
         assert.deepStrictEqual(actual, expected);
       });
     });
 
     describe("groupIdが渡された時(update)", () => {
       beforeEach(() => {
-        name = 'test file name';
-        value = 'Kontam,\nHoge,\nFuga';
+        name = "test file name.csv";
+        value = "Kontam,\nHoge,\nFuga";
       });
       test("グループIDが空文字列になっている", () => {
         assert.strictEqual(convertCSVToChoiseGroup(name, value)?.groupId, "");
@@ -48,12 +58,15 @@ describe("CSVで渡されたデータをChoiceGroupオブジェクトに変換�
 
     describe("groupIdが渡されない時(post)", () => {
       beforeEach(() => {
-        name = 'test file name';
-        value = 'Kontam,\nHoge,\nFuga';
-        groupId = '0001'
+        name = "test file name.csv";
+        value = "Kontam,\nHoge,\nFuga";
+        groupId = "0001";
       });
       test("グループIDがgroupId引数の値になっている", () => {
-        assert.strictEqual(convertCSVToChoiseGroup(name, value, groupId)?.groupId, groupId);
+        assert.strictEqual(
+          convertCSVToChoiseGroup(name, value, groupId)?.groupId,
+          groupId
+        );
       });
     });
   });
@@ -61,23 +74,23 @@ describe("CSVで渡されたデータをChoiceGroupオブジェクトに変換�
   describe("想定外のファイルが渡された時", () => {
     describe("空のファイルが渡された時", () => {
       beforeEach(() => {
-        name = 'test file name';
-        value = '';
-        groupId = '0001'
+        name = "test file name.csv";
+        value = "";
+        groupId = "0001";
       });
-      test('nullが返却される', () => {
+      test("nullが返却される", () => {
         assert.strictEqual(convertCSVToChoiseGroup(name, value, groupId), null);
-      })
+      });
     });
     describe("CSV形式ではないファイルが渡された時", () => {
       beforeEach(() => {
-        name = 'test file name';
+        name = "test file name.csv";
         value = '12jf!!";# #?k46a/sd123';
-        groupId = '0001'
+        groupId = "0001";
       });
-      test('nullが返却される', () => {
+      test("nullが返却される", () => {
         assert.strictEqual(convertCSVToChoiseGroup(name, value, groupId), null);
-      })
+      });
     });
   });
 });

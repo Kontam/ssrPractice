@@ -27,6 +27,7 @@ import {
   RemoveChoiceDialogState,
 } from "../../../redux/modules/removeChoiceDialogState";
 import removeDialogState from "../../../redux/modules/removeDialogState";
+import { convertCSVToChoiseGroup } from "../../../modules/util/convertCSVToChoiseGroup";
 
 /**
  * フォーム最下に自動追加される空欄が空オブジェクトとして渡ってくる
@@ -130,8 +131,16 @@ const ChoiceGroupManagerContainer = () => {
     if (!file) return;
     const reader = new FileReader();
     reader.readAsText(file);
-    reader.onload = (event) => console.log('onload', event?.target?.result);
+
+    const onLoad: FileReader['onload'] = (event) => {
+      if (!event?.target?.result) return;
+      const parsed = convertCSVToChoiseGroup(file.name, event?.target?.result.toString())
+      if (!parsed) return console.error('dispatch error action here');
+      console.log('dispatch api aciton here', parsed);
+    }
+    reader.onload = onLoad;
   };
+
   const onCSVDownload = () => {
     console.log("download");
   };
