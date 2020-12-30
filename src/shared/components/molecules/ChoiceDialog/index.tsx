@@ -79,12 +79,10 @@ const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
                 className={classes.uploader}
                 type="file"
                 onChange={onFileUpload}
+                accept=".csv"
               />
               <label htmlFor="choiceDialog--uploadFile">
-                <IconButton
-                  area-label="Send CSV"
-                  component="span"
-                >
+                <IconButton area-label="Send CSV" component="span">
                   <PublishIcon />
                 </IconButton>
               </label>

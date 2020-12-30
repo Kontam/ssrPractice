@@ -26,7 +26,6 @@ import {
   closeRemoveChoiceDialog,
   RemoveChoiceDialogState,
 } from "../../../redux/modules/removeChoiceDialogState";
-import removeDialogState from "../../../redux/modules/removeDialogState";
 import { convertCSVToChoiseGroup } from "../../../modules/util/convertCSVToChoiseGroup";
 
 /**
@@ -127,17 +126,21 @@ const ChoiceGroupManagerContainer = () => {
   const onFileUpload = (event: any) => {
     const target: HTMLInputElement | null = event.target;
     const file = target?.files?.item(0);
-    console.log('onFileUpload', event, target, file);
+    console.log("onFileUpload", event, target, file);
     if (!file) return;
     const reader = new FileReader();
     reader.readAsText(file);
 
-    const onLoad: FileReader['onload'] = (event) => {
+    const onLoad: FileReader["onload"] = (event) => {
       if (!event?.target?.result) return;
-      const parsed = convertCSVToChoiseGroup(file.name, event?.target?.result.toString())
-      if (!parsed) return console.error('dispatch error action here');
-      console.log('dispatch api aciton here', parsed);
-    }
+      const parsed = convertCSVToChoiseGroup(
+        file.name,
+        event?.target?.result.toString()
+      );
+      if (!parsed) return console.error("dispatch error action here");
+      console.log("dispatch api aciton here", parsed);
+      dispatch(postChoiceGroup(parsed));
+    };
     reader.onload = onLoad;
   };
 
