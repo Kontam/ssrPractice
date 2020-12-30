@@ -122,11 +122,13 @@ const ChoiceGroupManagerContainer = () => {
     dispatch(deleteChoiceGroup(groupId));
   };
 
-  // csv
-  const onFileUpload = (event: any) => {
+  /**
+  * ファイルアップロード後のハンドラ生成 updateならIDが指定されて更新処理
+  */
+  const onFileUploadCreator = (groupId?: string) => (event: any) => {
     const target: HTMLInputElement | null = event.target;
     const file = target?.files?.item(0);
-    console.log("onFileUpload", event, target, file);
+    console.log("onFileUploadCreator", event, target, file);
     if (!file) return;
     const reader = new FileReader();
     reader.readAsText(file);
@@ -135,18 +137,27 @@ const ChoiceGroupManagerContainer = () => {
       if (!event?.target?.result) return;
       const parsed = convertCSVToChoiseGroup(
         file.name,
-        event?.target?.result.toString()
+        event?.target?.result.toString(),
+        groupId
       );
       if (!parsed) return console.error("dispatch error action here");
       console.log("dispatch api aciton here", parsed);
-      dispatch(postChoiceGroup(parsed));
+      parsed.groupId 
+        ? dispatch(patchChoiceGroup(parsed))
+        : dispatch(postChoiceGroup(parsed))
     };
     reader.onload = onLoad;
   };
 
-  const onCSVDownload = () => {
-    console.log("download");
-  };
+  // CSVコンテンツを渡すとダウンロードURLを返す
+  const handleDownloadCreator = (content: string) => {
+    const blob = new Blob([content], {"type": "text/plain" });
+    if (window.navigator.msSaveBlob) {
+      window.navigator.msSaveBlob(blob, "test.txt");
+      window.navigator.msSaveOrOpenBlob(blob, "test.txt");
+    } 
+    return window.URL.createObjectURL(blob);
+  }
 
   return (
     <ChoiceGroupManager
@@ -165,8 +176,8 @@ const ChoiceGroupManagerContainer = () => {
       onRemoveChoiceGroup={onRemoveChoiceGroup}
       removeChoiceDialogState={removeChoiceDialogState}
       removeTargetChoice={removeTargetChoice}
-      onFileUpload={onFileUpload}
-      onCSVDownload={onCSVDownload}
+      onFileUploadCreator={onFileUploadCreator}
+      handleDownloadCreator={handleDownloadCreator}
     />
   );
 };

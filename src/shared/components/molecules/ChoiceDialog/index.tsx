@@ -40,8 +40,8 @@ export type ChoiceDialogProps = {
   onSubmit: FormSubmitHandler<ChoiceFormData, {}, string>;
   isDialogLoading: DialogLoading;
   initialValues?: ChoiceFormData;
-  onFileUpload: any;
-  onClickDownload: React.MouseEventHandler;
+  onFileUploadCreator: any;
+  handleDownloadCreator: any;
 };
 
 const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
@@ -51,8 +51,8 @@ const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
   onSubmit,
   isDialogLoading,
   initialValues,
-  onFileUpload,
-  onClickDownload,
+  onFileUploadCreator,
+  handleDownloadCreator,
 }) => {
   const classes = useStyles();
   const formInitialValues: Omit<ChoiceFormData, "groupId"> = initialValues
@@ -67,31 +67,34 @@ const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
           },
         ],
       };
+  const CSVDownloadURL = handleDownloadCreator('content,content');
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <Box className={classes.dialogHeader}>
         <DialogTitle className={classes.title}>{title}</DialogTitle>
         <DialogActions>
-          <Tooltip title="CSVで登録する" aria-label="Send CSV">
             <>
               <input
                 id="choiceDialog--uploadFile"
                 className={classes.uploader}
                 type="file"
-                onChange={onFileUpload}
+                onChange={onFileUploadCreator(initialValues?.groupId)}
                 accept=".csv"
               />
               <label htmlFor="choiceDialog--uploadFile">
-                <IconButton area-label="Send CSV" component="span">
-                  <PublishIcon />
-                </IconButton>
+                <Tooltip title="CSVで登録する" aria-label="Send CSV">
+                  <IconButton area-label="Send CSV" component="span">
+                    <PublishIcon />
+                  </IconButton>
+                </Tooltip>
               </label>
             </>
-          </Tooltip>
           <Tooltip title="CSVをダウンロードする" aria-label="Download CSV">
-            <IconButton area-label="Download CSV" onClick={onClickDownload}>
-              <GetAppIcon />
-            </IconButton>
+            <a download="test.txt" href={CSVDownloadURL} onClick={handleDownloadCreator}>
+              <IconButton area-label="Download CSV">
+                <GetAppIcon />
+              </IconButton>
+            </a>
           </Tooltip>
         </DialogActions>
       </Box>

@@ -27,8 +27,8 @@ export type ChoiceGroupManagerProps = {
   removeChoiceDialogState: RemoveChoiceDialogState,
   removeTargetChoice?: ChoiceGroup,
   isDialogLoading: DialogLoading,
-  onFileUpload: any,
-  onCSVDownload: React.MouseEventHandler,
+  onFileUploadCreator: any,
+  handleDownloadCreator: any,
 }
 
 const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
@@ -47,8 +47,8 @@ const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
   updateChoiceDialogInitialValues,
   removeChoiceDialogState,
   removeTargetChoice,
-  onFileUpload,
-  onCSVDownload,
+  onFileUploadCreator,
+  handleDownloadCreator,
 }) => {
   return (
     <div>
@@ -58,8 +58,8 @@ const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
         onClose={onAddChoiceDialogClose}
         onSubmit={onAddChoiceDialogSubmit}
         isDialogLoading={isDialogLoading}
-        onClickDownload={onCSVDownload}
-        onFileUpload={onFileUpload}
+        handleDownloadCreator={handleDownloadCreator}
+        onFileUploadCreator={onFileUploadCreator}
       />  
       <ChoiceDialog 
         isOpen={updateChoiceDialogState.isOpen}
@@ -68,8 +68,8 @@ const ChoiceGroupManager: React.FC<ChoiceGroupManagerProps> = ({
         onSubmit={onUpdateChoiceDialogSubmit}
         isDialogLoading={isDialogLoading}
         initialValues={updateChoiceDialogInitialValues}
-        onClickDownload={onCSVDownload}
-        onFileUpload={onFileUpload}
+        handleDownloadCreator={handleDownloadCreator}
+        onFileUploadCreator={onFileUploadCreator}
       />  
       <RemoveChoiceDialog
         isOpen={removeChoiceDialogState.isOpen}
