@@ -31,7 +31,7 @@ describe("配列分割関数 x人組を作成する", () => {
         assert.deepStrictEqual(splitArray(array, amount), [
           [1, 1, 1],
           [1, 1],
-          [1, 1],
+          [1, 1]
         ]);
       });
     });
@@ -87,6 +87,43 @@ describe("配列分割関数 x人組を作成する", () => {
     });
     test("元の配列を１グループとして返却する", () => {
       assert.deepStrictEqual(splitArray(array, amount), [[1, 1, 1, 1]]);
+    });
+  });
+
+  describe("階層の深いデータが渡された時", () => {
+    beforeEach(() => {
+      amount = 1;
+      array = [
+        {
+          id: "0001",
+          members: [
+            {
+              name: "name1",
+              tool: ["spoon"]
+            },
+            {
+              name: "name1",
+              tool: ["fork"]
+            }
+          ]
+        },
+        {
+          id: "0002",
+          members: [
+            {
+              name: "name2-1",
+              tool: ["spoon2"]
+            },
+            {
+              name: "name2-2",
+              tool: ["fork3"]
+            }
+          ]
+        }
+      ];
+    });
+    test("返り値がディープコピーされた値になっている", () => {
+      assert.deepStrictEqual(splitArray(array, amount), [[array[1]], [array[0]]]);
     });
   });
 });
