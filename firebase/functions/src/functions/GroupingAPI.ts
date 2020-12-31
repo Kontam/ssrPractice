@@ -43,7 +43,7 @@ async function getGroupedOptions(groupName: string, amount: number): Promise<Arr
   const options = await getOptionsByGroupName(groupName, groupRef, optionRef); 
   if (!options) return [[]];
 
-  const randomSortedOptions = randomSort(options);
+  const randomSortedOptions = randomSort(options.filter(option => option.choiceEnabled));
 
   return splitArray(randomSortedOptions, amount);
 }
