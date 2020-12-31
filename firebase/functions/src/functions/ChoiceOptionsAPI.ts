@@ -59,10 +59,23 @@ export default async function ChoiceOptionAPI(req: Request, res: Response) {
   switch(req.method) {
     case "GET":
       if (!req.query.groupName) res.send("invalid request");
-      const groupName: string = req.query.groupName;
-      let amount = 0
-      if (req.query.amount) {
-        amount = parseInt(req.query.amount);
+      const groupName = req.query.groupName;
+
+      if (typeof groupName !== 'string') {
+        res.send("invalid group name");
+        return;
+      }
+
+      if (!req.query.amount || typeof req.query.amount !== 'string') {
+        res.send('invalid amount');
+        return;
+      }
+
+      const amount = parseInt(req.query.amount);
+
+      if (typeof groupName !== 'string') {
+        res.send("invalid group name");
+        return;
       }
 
       const Options = await getOptionsByGroupName(groupName, groupRef, optionRef); 

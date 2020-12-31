@@ -161,7 +161,11 @@ export default async function choiseGroupsAPI(
         response.send("invalid request");
         return;
       }
-      const deleteTargetId: string = request.query.groupId;
+      const deleteTargetId = request.query.groupId;
+      if (typeof deleteTargetId !== 'string') {
+        response.send("invalid target ID");
+        return;
+      }
       const deleteDocRef = groupRef.doc(deleteTargetId);
       const docId = deleteDocRef.id;
 
