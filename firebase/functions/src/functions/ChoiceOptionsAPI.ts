@@ -34,7 +34,7 @@ export const getOptionsByGroupName = async (
 ): Promise<ChoiceOption[] | null> => {
   const snapshot = await groupRef.where('groupName', '==', groupName).get(); 
   if (snapshot.empty) return null;
-  const groupIds = await snapshot.docs.map((doc) => doc.id);
+  const groupIds = snapshot.docs.map((doc) => doc.id);
   const optionSnap = await optionRef.where('groupId', '==', groupIds[0]).get();
   const choiceOptions :ChoiceOption[] = optionSnap.docs.map((doc) => {
     const data = doc.data();
