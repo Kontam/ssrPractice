@@ -4,6 +4,7 @@ import { CHOICE_GROUPS, CHOICE_OPTIONS } from "./ChoiceGroupsAPI";
 import { getOptionsByGroupName } from '../functions/ChoiceOptionsAPI';
 import { splitArray } from '../modules/splitArray';
 import { ChoiceOption } from '../types.d';
+import { randomSort } from '../modules/randomSort';
 
 /**
  * choiceGroupをx人組に分けるAPI
@@ -40,6 +41,9 @@ async function getGroupedOptions(groupName: string, amount: number): Promise<Arr
   const groupRef = firestore.collection(CHOICE_GROUPS);
   const optionRef = firestore.collection(CHOICE_OPTIONS)
   const options = await getOptionsByGroupName(groupName, groupRef, optionRef); 
+  if (!options) return [[]];
 
-  return options ? splitArray(options, amount) : [[]];
+  const randomSortedOptions = randomSort(options);
+
+  return splitArray(randomSortedOptions, amount);
 }
