@@ -4,3 +4,4 @@ serviceAccount.json
 serviceAccountDev.json
 .env
 .DS_store
+*.swp

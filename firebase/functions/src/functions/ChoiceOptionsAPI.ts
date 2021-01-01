@@ -34,7 +34,7 @@ export const getOptionsByGroupName = async (
 ): Promise<ChoiceOption[] | null> => {
   const snapshot = await groupRef.where('groupName', '==', groupName).get(); 
   if (snapshot.empty) return null;
-  const groupIds = await snapshot.docs.map((doc) => doc.id);
+  const groupIds = snapshot.docs.map((doc) => doc.id);
   const optionSnap = await optionRef.where('groupId', '==', groupIds[0]).get();
   const choiceOptions :ChoiceOption[] = optionSnap.docs.map((doc) => {
     const data = doc.data();
@@ -59,10 +59,23 @@ export default async function ChoiceOptionAPI(req: Request, res: Response) {
   switch(req.method) {
     case "GET":
       if (!req.query.groupName) res.send("invalid request");
-      const groupName: string = req.query.groupName;
-      let amount = 0
-      if (req.query.amount) {
-        amount = parseInt(req.query.amount);
+      const groupName = req.query.groupName;
+
+      if (typeof groupName !== 'string') {
+        res.send("invalid group name");
+        return;
+      }
+
+      if (!req.query.amount || typeof req.query.amount !== 'string') {
+        res.send('invalid amount');
+        return;
+      }
+
+      const amount = parseInt(req.query.amount);
+
+      if (typeof groupName !== 'string') {
+        res.send("invalid group name");
+        return;
       }
 
       const Options = await getOptionsByGroupName(groupName, groupRef, optionRef); 

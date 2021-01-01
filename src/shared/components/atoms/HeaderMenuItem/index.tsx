@@ -15,7 +15,9 @@ const Item = styled.li`
     }
 `;
 
-const HeaderMenuItem: React.FC<{ menu: NavMenu }> = ({ menu }) => {
+export type HeaderMenuItemProps = { menu: NavMenu };
+
+const HeaderMenuItem: React.FC<HeaderMenuItemProps> = ({ menu }) => {
 
     return (
         <Item>

@@ -4,24 +4,24 @@ import fetchr from "../util/fetchr";
 import BFFConst from "../../modules/const";
 import { setUserInfo, UserInfo } from "./userInfo";
 import { Dispatch } from "redux";
-import firebaseApp from '../../modules/firebaseAuthUtil';
+import firebaseApp from "../../modules/firebaseAuthUtil";
 import { startHeaderLoading, endHeaderLoading } from "./headerLoading";
 
 export type AuthorityLevel =
-    typeof BFFConst.AUTHORITY_ADMIN |
-    typeof BFFConst.AUTHORITY_MEMBER |
-    typeof BFFConst.AUTHORITY_FREE |
-    typeof BFFConst.AUTHORITY_NONE;
+  | typeof BFFConst.AUTHORITY_ADMIN
+  | typeof BFFConst.AUTHORITY_MEMBER
+  | typeof BFFConst.AUTHORITY_FREE
+  | typeof BFFConst.AUTHORITY_NONE;
 
 export type Login = {
-  loggedIn: boolean,
-  authority: AuthorityLevel,  
-}
+  loggedIn: boolean;
+  authority: AuthorityLevel;
+};
 
 export const INITIAL_STATE: Login = {
   loggedIn: false,
-  authority: "none"
-}
+  authority: "none",
+};
 
 export const START_LOGIN = "START_LOGIN";
 export const START_LOGOUT = "START_LOGOUT";
@@ -34,44 +34,53 @@ export const startLogin = createAction<UserInfo>(START_LOGIN);
 export const startLogout = createAction(START_LOGOUT);
 
 export type PromiseStartLoginPayload = {
-  resolve: () => void
-  reject: () => void
-  userInfo: UserInfo
-}
-const promiseStartLoginActionCreator = createAction<PromiseStartLoginPayload>(PROMISE_START_LOGIN);
-export const promiseStartLogin = (userInfo: UserInfo, dispatch: Dispatch) => new Promise((resolve, reject) => {
-  dispatch(promiseStartLoginActionCreator({ resolve, reject, userInfo }));
-});
+  resolve: () => void;
+  reject: () => void;
+  userInfo: UserInfo;
+};
+const promiseStartLoginActionCreator = createAction<PromiseStartLoginPayload>(
+  PROMISE_START_LOGIN
+);
+export const promiseStartLogin = (userInfo: UserInfo, dispatch: Dispatch) =>
+  new Promise((resolve, reject) => {
+    dispatch(promiseStartLoginActionCreator({ resolve, reject, userInfo }));
+  });
 
 export const setLogin = createAction<Login>(SET_LOGIN);
 
 function* loginFlow(payload: UserInfo) {
-    yield put(startHeaderLoading());
-    yield put(setUserInfo(payload));
-    try {
-      const result = yield call([fetchr, fetchr.create], BFFConst.LOGIN_SERVICE, {}, payload, {});
-      yield put(setLogin(result.data));
-    } catch(error) {
-      console.log(error);
-    } finally {
-      yield put(endHeaderLoading());
-    }
+  yield put(startHeaderLoading());
+  yield put(setUserInfo(payload));
+  try {
+    const result = yield call(
+      [fetchr, fetchr.create],
+      BFFConst.LOGIN_SERVICE,
+      {},
+      payload,
+      {}
+    );
+    yield put(setLogin(result.data));
+  } catch (error) {
+    console.log(error);
+  } finally {
+    yield put(endHeaderLoading());
+  }
 }
 
-function* startLoginSaga(){
-  while(true) {
+function* startLoginSaga() {
+  while (true) {
     const action = yield take(START_LOGIN);
-    if (!action) return; // TODO: 調査 なぜかSSRで実行されてundefinedになる 
+    if (!action) return; // TODO: 調査 なぜかSSRで実行されてundefinedになる
     yield loginFlow(action.payload);
   }
 }
 
-function* promiseStartLoginSaga(action : Action<PromiseStartLoginPayload>) {
+function* promiseStartLoginSaga(action: Action<PromiseStartLoginPayload>) {
   //while(true) {
-   // const action = yield take(PROMISE_START_LOGIN);
-    //if (!action) return; // TODO: 調査 なぜかSSRで実行されてundefinedになる 
-    yield loginFlow(action.payload.userInfo);
-    action.payload.resolve();
+  // const action = yield take(PROMISE_START_LOGIN);
+  //if (!action) return; // TODO: 調査 なぜかSSRで実行されてundefinedになる
+  yield loginFlow(action.payload.userInfo);
+  action.payload.resolve();
   //}
 }
 
@@ -80,12 +89,12 @@ function* promiseStartLoginSaga(action : Action<PromiseStartLoginPayload>) {
  * loginStateに未ログイン時の値を挿入する
  * */
 function* startLogoutSaga() {
-  while(true) {
-    yield take(START_LOGOUT); 
+  while (true) {
+    yield take(START_LOGOUT);
     yield put(startHeaderLoading());
     yield firebaseApp.auth().signOut();
     if (typeof document !== "undefined") document.cookie = "token=; max-age0";
-    yield put(setLogin({loggedIn: false, authority: "none"}));
+    yield put(setLogin({ loggedIn: false, authority: "none" }));
     yield put(endHeaderLoading());
   }
 }
@@ -97,13 +106,15 @@ export const loginSaga = [
   takeEvery(PROMISE_START_LOGIN, promiseStartLoginSaga),
 ];
 
-export default handleActions<Login, any>({
-  [SET_LOGIN]: (state, { payload }: Action<Login>) => ({
-    loggedIn: true,
-    ...payload,
-  }),
-  [REMOVE_LOGIN]: (state) => ({
-    ...INITIAL_STATE,
-  }),
-}, INITIAL_STATE);
-
+export default handleActions<Login, any>(
+  {
+    [SET_LOGIN]: (_, { payload }: Action<Login>) => ({
+      ...payload,
+      loggedIn: true,
+    }),
+    [REMOVE_LOGIN]: () => ({
+      ...INITIAL_STATE,
+    }),
+  },
+  INITIAL_STATE
+);

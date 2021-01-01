@@ -1,11 +1,9 @@
 
 import React from 'react';
-import styled from 'styled-components';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
 import AppBar from '@material-ui/core/AppBar';
 import HeaderMenuItem from '../../atoms/HeaderMenuItem';
-import { Toolbar, Fab, Tooltip } from '@material-ui/core';
+import { Toolbar } from '@material-ui/core';
 import LoadingLine from '../../atoms/LoadingLine';
 import { HeaderLoading } from '../../../redux/modules/headerLoading';
 import AppButtonContainer, { AppFAB } from '../AppButtonContainer';

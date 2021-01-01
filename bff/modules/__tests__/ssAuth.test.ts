@@ -20,7 +20,4 @@ describe("サーバーサイド認証のテスト", () => {
 
     assert.deepEqual(result, expected);
   });
-
-  test("", () => {
-  });
 });
