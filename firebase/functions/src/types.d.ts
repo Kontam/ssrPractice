@@ -35,3 +35,11 @@ export type ChoiceGroup = {
   groupName: string,
   choiceOptions: ChoiceOption[], 
 }
+
+/**
+ * 仕様上のエラーが発生した際に返却するレスポンス
+ * */
+export type SuebotAPIError = {
+  error: boolean;
+  reason: any;
+}
