@@ -20,14 +20,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }))
 
-type HeaderProps = {
+export type HeaderProps = {
     navMenus: NavMenu[]
-    handleAddIconClick: React.MouseEventHandler
     headerLoading: HeaderLoading
     appButtons?: AppFAB[],
 }
 
-const Header: React.FC<HeaderProps> = ({ navMenus, handleAddIconClick, headerLoading, appButtons }) => {
+const Header: React.FC<HeaderProps> = ({ navMenus, headerLoading, appButtons }) => {
     
     return (
         <AppBar position="sticky">

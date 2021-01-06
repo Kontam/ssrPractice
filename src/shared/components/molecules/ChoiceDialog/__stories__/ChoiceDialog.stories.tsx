@@ -30,6 +30,7 @@ Primary.args = {
   isOpen: true,
   onClose: () => {},
   isDialogLoading: false,
+  handleDownloadCreator: () => () => {},
   initialValues: {
     groupId: "0001",
     groupName: "テスト",
