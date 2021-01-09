@@ -13,17 +13,17 @@ const HeaderContainer: React.FC<Props> = ({ appButtons }) => {
     const headerLoading = useSelector<RootState, HeaderLoading>(state => state.headerLoading);
     const navMenus: NavMenu[] = [
         {
-            text: "Top",
+            text: "User",
             href: "/",
             description: "ログイン中のユーザー情報が確認できます",
         },
         {
-            text: "LongoList",
+            text: "Study",
             href: "/about",
-            description: "論語の一覧が見られます",
+            description: "Study機能のデータを管理します",
         },
         {
-            text: "Choice",
+            text: "Groups",
             href: "/choice",
             description: "ランダム選別機能のデータを管理します",
         }
