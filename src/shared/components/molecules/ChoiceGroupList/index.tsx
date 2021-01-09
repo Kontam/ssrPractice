@@ -16,13 +16,13 @@ const useStyles = makeStyles(
   })
 );
 
-export type Props = {
+export type ChoiceGroupListProps = {
   choiceGroups: ChoiceGroups,
   onUpdateChoiceDialogOpen: (groupId: string) => void,
   onRemoveChoiceDialogOpen: (groupId: string) => void,
 }
 
-const ChoiceGroupList: React.FC<Props> = ({
+const ChoiceGroupList: React.FC<ChoiceGroupListProps> = ({
   choiceGroups,
   onUpdateChoiceDialogOpen,
   onRemoveChoiceDialogOpen,
