@@ -15,7 +15,7 @@ const UnAuthrizedMessage: React.FC<Props> = ({ authStatus }) => {
       message = "このページを見るための権限がありません"
       break;
     case Const.AUTHSTATUS_UNAUTHRIZED:
-      message = "ログインが必要なページです"
+      message = "Userタブでログインしてください"
       break;
   }
 
