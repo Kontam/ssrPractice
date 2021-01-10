@@ -84,7 +84,7 @@ const ChoiceDialog: React.FC<ChoiceDialogProps> = ({
               accept=".csv"
             />
             <label htmlFor="choiceDialog--uploadFile">
-              <Tooltip title="CSVで登録する" aria-label="Send CSV">
+              <Tooltip title="CSVで登録/上書きする" aria-label="Send CSV">
                 <IconButton area-label="Send CSV" component="span">
                   <PublishIcon />
                 </IconButton>
