@@ -1,5 +1,6 @@
 import React from "react";
-import { Fab, Tooltip } from "@material-ui/core";
+import Fab from "@material-ui/core/Fab";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export type AppFAB = {
   name: string;

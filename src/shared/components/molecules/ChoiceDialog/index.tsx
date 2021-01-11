@@ -5,15 +5,13 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ChoiceForm, { ChoiceFormData } from "../ChoiceForm";
 import { DialogLoading } from "../../../redux/modules/dialogLoading";
 import { FormSubmitHandler } from "redux-form";
-import {
-  Tooltip,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Box,
-  DialogActions,
-} from "@material-ui/core";
+import Tooltip from "@material-ui/core/Tooltip";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
+import Box from "@material-ui/core/Box";
+import DialogActions from "@material-ui/core/DialogActions";
 import LoadingLine from "../../atoms/LoadingLine";
 
 const useStyles = makeStyles(
