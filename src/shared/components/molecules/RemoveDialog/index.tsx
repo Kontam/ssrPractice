@@ -3,8 +3,7 @@ import RemoveDialog from "./RemoveDialog";
 import { useDispatch, useSelector } from 'react-redux';
 import { RemoveDialogState, closeRemoveDialog } from '../../../redux/modules/removeDialogState';
 import { RootState } from '../../../redux/store';
-import { Longos, removeLongo, Longo, deleteLongo } from '../../../redux/modules/longos';
-import { FormSubmitHandler } from 'redux-form';
+import { Longos, deleteLongo } from '../../../redux/modules/longos';
 import { DialogLoading } from '../../../redux/modules/dialogLoading';
 
 export type ContainerProps = {

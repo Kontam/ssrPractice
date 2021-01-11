@@ -4,7 +4,7 @@ import GlobalStyle from '../../../modules/GlobalStyle';
 import { ConnectedRouter } from 'connected-react-router';
 import RootRouter from '../../../routes';
 import { Store } from 'redux';
-import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from '../../../modules/theme';
 
 type Props = {

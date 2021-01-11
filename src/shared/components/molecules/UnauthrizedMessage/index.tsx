@@ -1,7 +1,7 @@
 import React from 'react';
 import { AuthStatus } from '../../../modules/getAuthStatus';
 import Const from '../../../modules/const';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 type Props = {
   authStatus: AuthStatus
