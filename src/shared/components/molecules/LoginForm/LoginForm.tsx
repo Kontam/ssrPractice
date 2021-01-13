@@ -1,26 +1,29 @@
 import React from "react";
-import styled from "styled-components";
 import Typography from "@material-ui/core/Typography";
 import GoogleLoginButton from "../../atoms/GoogleLoginButton";
 
 import { Login } from "../../../redux/modules/login";
+import { makeStyles } from "@material-ui/core";
 
 export type LoginFormProps = {
   login: Login;
 };
 
-const FormContainer = styled.div<{ loggedIn: boolean }>`
-  display: ${(props) => (props.loggedIn ? "none" : "block")};
-`;
+const useStyles = makeStyles<any,{loggedIn: boolean}>({
+  root: {
+    display: (props) => (props.loggedIn ? "none" : "block")   
+  }
+});
 
 const LoginForm: React.FC<LoginFormProps> = ({ login }) => {
+  const styles = useStyles({ loggedIn: login.loggedIn});
   return (
-    <FormContainer loggedIn={login.loggedIn}>
+    <div className={styles.root}>
       <Typography variant="h5" gutterBottom>
         ログインして開始してください
       </Typography>
       <GoogleLoginButton />
-    </FormContainer>
+    </div>
   );
 };
 

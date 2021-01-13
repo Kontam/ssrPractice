@@ -1,6 +1,5 @@
 import React, { ChangeEvent } from 'react';
 import { createStyles, makeStyles } from '@material-ui/styles';
-import styled from 'styled-components';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { EventWithDataHandler } from 'redux-form';
 import FormTextField from '../../atoms/FormTextField';
