@@ -1,34 +1,34 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Longos } from '../../../redux/modules/longos';
-import LongoCard from '../LongoCard';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Longos } from "../../../redux/modules/longos";
+import LongoCard from "../LongoCard";
 
 type Props = {
-    longos :Longos
-}
+  longos: Longos;
+};
 
-const Container = styled.ul`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-`;
-
-const Item = styled.li`
-    margin-top: 20px;
-`;
+const useStyles = makeStyles({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+  },
+  item: {
+    marginTop: 20,
+  },
+});
 
 const LongoList: React.FC<Props> = ({ longos }) => {
-    return (
-        <Container>
-            {
-                longos.map((longo) => (
-                    <Item key={longo.id}>
-                        <LongoCard longo={longo} />
-                    </Item>
-                ))
-            }
-        </Container>
-    )
-} 
+  const styles = useStyles();
+  return (
+    <ul className={styles.root}>
+      {longos.map((longo) => (
+        <li className={styles.item} key={longo.id}>
+          <LongoCard longo={longo} />
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 export default LongoList;

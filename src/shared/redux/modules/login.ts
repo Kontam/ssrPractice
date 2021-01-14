@@ -28,7 +28,7 @@ export const START_LOGOUT = "START_LOGOUT";
 export const PROMISE_START_LOGIN = "PROMISE_START_LOGIN";
 
 export const SET_LOGIN = "SET_LOGIN";
-export const REMOVE_LOGIN = "REMOVE_LOGIN";
+export const LOGOUT = "LOGOUT";
 
 export const startLogin = createAction<UserInfo>(START_LOGIN);
 export const startLogout = createAction(START_LOGOUT);
@@ -47,6 +47,7 @@ export const promiseStartLogin = (userInfo: UserInfo, dispatch: Dispatch) =>
   });
 
 export const setLogin = createAction<Login>(SET_LOGIN);
+export const logout = createAction(LOGOUT);
 
 function* loginFlow(payload: UserInfo) {
   yield put(startHeaderLoading());
@@ -94,7 +95,7 @@ function* startLogoutSaga() {
     yield put(startHeaderLoading());
     yield firebaseApp.auth().signOut();
     if (typeof document !== "undefined") document.cookie = "token=; max-age0";
-    yield put(setLogin({ loggedIn: false, authority: "none" }));
+    yield put(logout());
     yield put(endHeaderLoading());
   }
 }
@@ -112,7 +113,7 @@ export default handleActions<Login, any>(
       ...payload,
       loggedIn: true,
     }),
-    [REMOVE_LOGIN]: () => ({
+    [LOGOUT]: () => ({
       ...INITIAL_STATE,
     }),
   },
