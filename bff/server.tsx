@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 require('dotenv').config();
 import React from 'react';
-import { ServerStyleSheet } from 'styled-components';
 import { renderToString } from 'react-dom/server';
 import ssrLoger from './middleware/ssrLoger';
 import { StaticRouter, matchPath } from 'react-router-dom';
@@ -78,9 +77,7 @@ app.get('*', (req: Request, res: Response) => {
     }
     
     const materialStyles = new MaterialStyleSheets()
-    const sheet = new ServerStyleSheet();
     let content = "";
-    let styleTags = "";
 
     prepare().catch(
       (error) => { 
@@ -89,18 +86,15 @@ app.get('*', (req: Request, res: Response) => {
       }
     ).then(() => {
         try {
-            content = renderToString(materialStyles.collect(sheet.collectStyles(
+            content = renderToString(materialStyles.collect(
                 <StaticRouter location={req.url} context={{}}>
                     <App store={store} history={history} />
                 </StaticRouter>
-            )));
-            styleTags = sheet.getStyleTags();
+            ));
         }catch (error) {
             console.log("server.tsx", error);
-        } finally {
-            sheet.seal();
         }
-       res.send(render(content, styleTags, materialStyles.toString() ,store.getState(), req.csrfToken()));
+       res.send(render(content, materialStyles.toString() ,store.getState(), req.csrfToken()));
     })
 });
 

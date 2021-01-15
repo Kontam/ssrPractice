@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import styled from "styled-components";
 import Header from "../../molecules/Header";
 import { AppFAB } from "../../molecules/AppButtonContainer";
 import { useDispatch } from "react-redux";

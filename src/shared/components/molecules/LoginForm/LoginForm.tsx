@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import GoogleLoginButton from "../../atoms/GoogleLoginButton";
 
 import { Login } from "../../../redux/modules/login";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 export type LoginFormProps = {
   login: Login;
