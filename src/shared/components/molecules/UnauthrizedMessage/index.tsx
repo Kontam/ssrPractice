@@ -1,7 +1,7 @@
 import React from 'react';
 import { AuthStatus } from '../../../modules/getAuthStatus';
 import Const from '../../../modules/const';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 type Props = {
   authStatus: AuthStatus
@@ -15,7 +15,7 @@ const UnAuthrizedMessage: React.FC<Props> = ({ authStatus }) => {
       message = "このページを見るための権限がありません"
       break;
     case Const.AUTHSTATUS_UNAUTHRIZED:
-      message = "ログインが必要なページです"
+      message = "Userタブでログインしてください"
       break;
   }
 

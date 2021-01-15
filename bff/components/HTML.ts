@@ -1,6 +1,6 @@
 import { RootState } from "../../src/shared/redux/store"
 
-export default (content: string, style: string, materialStyles: string, state: RootState, csrfToken: string) => {
+export default (content: string, materialStyles: string, state: RootState, csrfToken: string) => {
     return `
     <html lang="en">
         <head>
@@ -13,7 +13,6 @@ export default (content: string, style: string, materialStyles: string, state: R
             <link rel="icon" href="static/img/favicon.ico">
             <title>Suebot Management Console</title>
         </head>
-        ${style}
         <body>
             <div id="root">${content}</div>
             <script>

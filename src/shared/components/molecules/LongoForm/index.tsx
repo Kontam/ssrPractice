@@ -1,14 +1,15 @@
 import React from "react";
 import { Form, reduxForm, InjectedFormProps } from "redux-form";
 import { Longo } from "../../../redux/modules/longos";
-import { makeStyles, Theme, Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from '@material-ui/icons/Send';
 
 import FormTextField from '../../atoms/FormTextField';
 
 export type LongoFormData = Longo;
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         minWidth: 500,
         padding: "2%",

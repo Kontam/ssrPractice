@@ -3,7 +3,7 @@ import SnackBar from './SnackBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { SnackBarState, closeSnackBar } from '../../../redux/modules/snackBarState';
-import { SnackbarProps } from '@material-ui/core';
+import { SnackbarProps } from '@material-ui/core/Snackbar';
 
 export default () => {
     const dispatch = useDispatch();

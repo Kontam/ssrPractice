@@ -1,9 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import GlobalStyle from '../../../modules/GlobalStyle';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { ConnectedRouter } from 'connected-react-router';
 import RootRouter from '../../../routes';
 import { Store } from 'redux';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { theme } from '../../../modules/theme';
 
 type Props = {
     store: Store,
@@ -13,10 +15,12 @@ type Props = {
 const App: React.FC<Props> = ({ store, history }) => {
     return (
         <Provider store={store}>
-            <GlobalStyle />
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
             <ConnectedRouter history={history}>
                 <RootRouter />
             </ConnectedRouter>
+          </ThemeProvider>
         </Provider>
     )
 }

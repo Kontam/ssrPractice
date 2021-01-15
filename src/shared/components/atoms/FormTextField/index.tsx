@@ -1,6 +1,6 @@
 import React, { FocusEvent, ChangeEvent } from "react";
 import { Field, EventWithDataHandler } from "redux-form";
-import { TextField } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 
 const renderTextField = ({
     input,
