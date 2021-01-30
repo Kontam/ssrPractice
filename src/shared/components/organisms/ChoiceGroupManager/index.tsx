@@ -88,7 +88,12 @@ const ChoiceGroupManagerContainer = () => {
   const formOptions =
     updateChoiceDialogInitialValues &&
     updateChoiceDialogInitialValues.choiceOptions;
-  if (formOptions && formOptions[formOptions.length - 1].choiceName) {
+  if (
+    formOptions &&
+    ((
+    formOptions.length > 0 &&
+    formOptions[formOptions.length - 1].choiceName) || formOptions.length === 0)
+  ) {
     formOptions.push({
       choiceName: "",
       choiceEnabled: true,
@@ -156,8 +161,8 @@ const ChoiceGroupManagerContainer = () => {
       type: "text/plain",
     });
     if (window.navigator.msSaveBlob) {
-      window.navigator.msSaveBlob(blob, 'blobname');
-      window.navigator.msSaveOrOpenBlob(blob, 'blobname');
+      window.navigator.msSaveBlob(blob, "blobname");
+      window.navigator.msSaveOrOpenBlob(blob, "blobname");
     }
     return window.URL.createObjectURL(blob);
   };
