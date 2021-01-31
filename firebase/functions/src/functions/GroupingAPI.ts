@@ -8,7 +8,7 @@ export async function groupingAPIfunc(request: Request, response: Response) {
   const controller = new GroupingController();
   switch (request.method) {
     case "GET":
-      response.send(controller.get(request, response));
+      response.send(await controller.get(request, response));
       return;
     default:
       response.send("");
