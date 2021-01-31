@@ -1,3 +1,4 @@
+import * as functions from "firebase-functions";
 import admin from "../modules/firebaseAdmin";
 import { Request, Response } from "firebase-functions";
 import { getOptionsByGroupId } from "./ChoiceOptionsAPI";
@@ -16,10 +17,13 @@ export const CHOICE_OPTIONS = "ChoiceOptions" as const;
  * choiceGroupを操作するAPI
  * 主にグループの編集で利用される想定
  * */
-export default async function choiseGroupsAPI(
+async function choiceGroupsAPIfunc(
   request: Request,
   response: Response
 ): Promise<void> {
+  response.set("Access-Control-Allow-Origin", "http://localhost:3000"); // localhostを許可
+  response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
+  response.set("Access-Control-Allow-Headers", "X-Api-Key"); // Content-Typeのみを許可
   if (!checkHttpHeaders(request, response)) return;
 
   const firestore = admin.firestore();
@@ -162,7 +166,7 @@ export default async function choiseGroupsAPI(
         return;
       }
       const deleteTargetId = request.query.groupId;
-      if (typeof deleteTargetId !== 'string') {
+      if (typeof deleteTargetId !== "string") {
         response.send("invalid target ID");
         return;
       }
@@ -185,3 +189,5 @@ export default async function choiseGroupsAPI(
       response.send("default");
   }
 }
+
+export const choiceGroupsAPI = functions.https.onRequest(choiceGroupsAPIfunc);

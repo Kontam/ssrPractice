@@ -8,7 +8,7 @@ const BFFConst = {
       : process.env.BACKEND_BASE_URL || "",
     API_LONGOS: "/longoAPI",
     API_AUTHORITY: "/authorityAPI",
-    API_CHOICEGROUPS: "/choiceGroupAPI",
+    API_CHOICEGROUPS: "/choiceGroupsAPI",
 
     // 権限レベル(制限が強い順番に並べる)
     AUTHORITY_ADMIN: "administrator",

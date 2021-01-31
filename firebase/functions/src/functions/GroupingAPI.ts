@@ -1,59 +1,17 @@
-import admin from "../modules/firebaseAdmin";
+import * as functions from "firebase-functions";
 import { Request, Response } from "firebase-functions";
-import { CHOICE_GROUPS, CHOICE_OPTIONS } from "./ChoiceGroupsAPI";
-import { getOptionsByGroupName } from "../functions/ChoiceOptionsAPI";
-import { splitArray } from "../modules/splitArray";
-import { ChoiceOption, SuebotAPIError } from "../types.d";
-import { randomSort } from "../modules/randomSort";
-import { checkHttpHeaders } from "../modules/checkHttpHeaders";
+import { GroupingController } from "../modules/controllers/groupingController";
 
-/**
- * choiceGroupをx人組に分けるAPI
- * 分けた後のデータを保存したりするためにBEで行う
- */
-export default async function groupingAPI(
-  request: Request,
-  response: Response
-) {
-  if (!checkHttpHeaders(request, response)) return;
-  const { amount, groupName } = request.query;
+export const groupingAPI = functions.https.onRequest(groupingAPIfunc);
 
+export async function groupingAPIfunc(request: Request, response: Response) {
+  const controller = new GroupingController();
   switch (request.method) {
     case "GET":
-      if (!amount || typeof amount !== "string") {
-        response.send("Bad Request");
-        return;
-      }
-      if (!groupName || typeof groupName !== "string") {
-        response.send("Bad Request");
-        return;
-      }
-      response.send(await getGroupedOptions(groupName, +amount));
+      response.send(controller.get(request, response));
       return;
     default:
       response.send("");
       return;
   }
-}
-
-async function getGroupedOptions(
-  groupName: string,
-  amount: number
-): Promise<Array<Array<ChoiceOption>> | SuebotAPIError> {
-  const firestore = admin.firestore();
-  const groupRef = firestore.collection(CHOICE_GROUPS);
-  const optionRef = firestore.collection(CHOICE_OPTIONS);
-  const options = await getOptionsByGroupName(groupName, groupRef, optionRef);
-  if (!options) {
-    return {
-      error: true,
-      reason: "invalid groupName"
-    };
-  }
-
-  const randomSortedOptions = randomSort(
-    options.filter(option => option.choiceEnabled)
-  );
-
-  return splitArray(randomSortedOptions, amount);
 }
