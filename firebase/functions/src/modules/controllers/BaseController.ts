@@ -9,7 +9,7 @@ export class BaseController {
   }
 
   get(req: Request, res: Response): any {
-    if (!checkHttpHeaders(req, res))
+    if (!process.env.FUNCTIONS_EMULATOR && !checkHttpHeaders(req, res))
       return res.send({ error: true, message: "invalid api token" });
 
     const paramType = this.paramTypes.get("get");
@@ -20,7 +20,17 @@ export class BaseController {
     console.error("bad request");
   }
 
-  post() {}
+  post(req: Request, res: Response): any {
+    if (!checkHttpHeaders(req, res))
+      return res.send({ error: true, message: "invalid api token" });
+
+    const paramType = this.paramTypes.get("get");
+    if (!paramType) return console.error("get paramtypes are undefined");
+
+    const invalidParams = filterValidParametors(req, paramType);
+    if (invalidParams.length === 0) return;
+    console.error("bad request");
+  }
   patch() {}
   delete() {}
 }

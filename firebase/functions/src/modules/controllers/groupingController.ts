@@ -12,18 +12,17 @@ export class GroupingController extends BaseController {
       ["groupName", "string"],
       ["amount", "string"]
     ]);
+    this.paramTypes.set("post", []);
     this.choiceGroupModel = new ChoiceGroupModel();
   }
 
   async get(req: Request, res: Response) {
     super.get(req, res);
     const { groupName, amount } = req.query;
-
     const options = await this.choiceGroupModel.getOptionsByGroupName(
       groupName as string
     );
 
-    console.log('grouping', options);
     if (!options) {
       return {
         error: true,
