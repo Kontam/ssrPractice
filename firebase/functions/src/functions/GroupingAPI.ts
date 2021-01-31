@@ -1,3 +1,4 @@
+import * as functions from 'firebase-functions';
 import admin from "../modules/firebaseAdmin";
 import { Request, Response } from "firebase-functions";
 import { CHOICE_GROUPS, CHOICE_OPTIONS } from "./ChoiceGroupsAPI";
@@ -6,12 +7,22 @@ import { splitArray } from "../modules/splitArray";
 import { ChoiceOption, SuebotAPIError } from "../types.d";
 import { randomSort } from "../modules/randomSort";
 import { checkHttpHeaders } from "../modules/checkHttpHeaders";
+import { API } from '../types.d';
 
 /**
  * choiceGroupをx人組に分けるAPI
  * 分けた後のデータを保存したりするためにBEで行う
  */
-export default async function groupingAPI(
+export const groupingAPI2: API = {
+  endpoint: '/groupingAPI',
+  handler: (req, res) => {
+    groupingAPIfunc(req,res);
+  }
+}
+
+export const groupingAPI = functions.https.onRequest(groupingAPIfunc);
+
+export async function groupingAPIfunc(
   request: Request,
   response: Response
 ) {

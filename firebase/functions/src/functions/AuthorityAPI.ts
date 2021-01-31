@@ -1,3 +1,4 @@
+import * as functions from 'firebase-functions';
 import { Request, Response } from 'firebase-functions';
 import firebaseAdmin from '../modules/firebaseAdmin';
 import { checkHttpHeaders } from '../modules/checkHttpHeaders';
@@ -53,4 +54,4 @@ async function authorityAPIfunc(req: Request, res: Response) :Promise<void> {
   }
 }
 
-export default authorityAPIfunc;
+export const authorityAPI = functions.https.onRequest(authorityAPIfunc);

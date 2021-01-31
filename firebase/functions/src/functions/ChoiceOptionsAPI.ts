@@ -1,3 +1,4 @@
+import * as functions from 'firebase-functions';
 import * as firebase from 'firebase-admin';
 import { Request, Response } from 'firebase-functions';
 import { ChoiceOption } from '../types';
@@ -48,7 +49,7 @@ export const getOptionsByGroupName = async (
   return choiceOptions;
 }
 
-export default async function ChoiceOptionAPI(req: Request, res: Response) {
+async function choiceOptionsAPIfunc(req: Request, res: Response) {
   if (!checkHttpHeaders(req, res)) return;
 
   const firestore = admin.firestore();
@@ -92,5 +93,6 @@ export default async function ChoiceOptionAPI(req: Request, res: Response) {
       
       res.send(response);
   }
-
 }
+
+export const choiceOptionsAPI = functions.https.onRequest(choiceOptionsAPIfunc);
