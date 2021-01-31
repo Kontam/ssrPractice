@@ -13,7 +13,10 @@ export class BaseController {
       return res.send({ error: true, message: "invalid api token" });
 
     const paramType = this.paramTypes.get("get");
-    if (!paramType) return console.error("get paramtypes are undefined");
+    if (!paramType) {
+      console.error("get paramtypes are undefined");
+      return; 
+    }
 
     const invalidParams = filterValidParametors(req, paramType);
     if (invalidParams.length === 0) return;
@@ -25,12 +28,13 @@ export class BaseController {
       return res.send({ error: true, message: "invalid api token" });
 
     const paramType = this.paramTypes.get("get");
-    if (!paramType) return console.error("get paramtypes are undefined");
+    if (!paramType) {
+      console.error("get paramtypes are undefined");
+      return;
+    }
 
     const invalidParams = filterValidParametors(req, paramType);
     if (invalidParams.length === 0) return;
     console.error("bad request");
   }
-  patch() {}
-  delete() {}
 }

@@ -1,15 +1,14 @@
 import admin from "../modules/firebaseAdmin";
 import * as functions from "firebase-functions";
 import { Longo } from "../types.d";
-import { Request, Response } from "firebase-functions";
 import { checkIsEmptyById } from "../modules/util";
 import { checkHttpHeaders } from "../modules/checkHttpHeaders";
 
 export const longoAPI = functions.https.onRequest(longoAPIfunc);
 
 export async function longoAPIfunc(
-  request: Request,
-  response: Response
+  request: functions.Request,
+  response: functions.Response
 ): Promise<void> {
   response.set("Access-Control-Allow-Origin", "http://localhost:3000"); // localhostを許可
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
