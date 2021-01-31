@@ -1,6 +1,5 @@
 import * as functions from "firebase-functions";
 import admin from "../modules/firebaseAdmin";
-import { Request, Response } from "firebase-functions";
 import { getOptionsByGroupId } from "./ChoiceOptionsAPI";
 import {
   ChoiceGroup,
@@ -18,8 +17,8 @@ export const CHOICE_OPTIONS = "ChoiceOptions" as const;
  * 主にグループの編集で利用される想定
  * */
 async function choiceGroupsAPIfunc(
-  request: Request,
-  response: Response
+  request: functions.Request,
+  response: functions.Response
 ): Promise<void> {
   response.set("Access-Control-Allow-Origin", "http://localhost:3000"); // localhostを許可
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否

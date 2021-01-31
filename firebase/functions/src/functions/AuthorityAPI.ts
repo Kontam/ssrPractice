@@ -1,5 +1,4 @@
 import * as functions from 'firebase-functions';
-import { Request, Response } from 'firebase-functions';
 import firebaseAdmin from '../modules/firebaseAdmin';
 import { checkHttpHeaders } from '../modules/checkHttpHeaders';
 
@@ -12,7 +11,7 @@ type AuthorityReadResponse = {
 }
 
 
-async function authorityAPIfunc(req: Request, res: Response) :Promise<void> {
+async function authorityAPIfunc(req: functions.Request, res: functions.Response) :Promise<void> {
   if (!checkHttpHeaders(req, res)) return;
 
   const userRef = firebaseAdmin.firestore().collection("user_authority");
