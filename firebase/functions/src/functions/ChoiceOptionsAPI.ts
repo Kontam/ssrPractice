@@ -55,7 +55,6 @@ async function choiceOptionsAPIfunc(req: Request, res: Response) {
   const firestore = admin.firestore();
   const groupRef = firestore.collection(CHOICE_GROUPS);
   const optionRef = firestore.collection(CHOICE_OPTIONS)
-  console.log(req.query);
 
   switch(req.method) {
     case "GET":
