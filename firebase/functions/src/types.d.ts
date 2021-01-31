@@ -1,5 +1,12 @@
-
 import * as firebase from 'firebase-admin';
+
+export type Longo = {
+    id: string,
+    text: string,
+    meaning: string,
+    comment: string,
+}
+
 /**
  * 選択肢グループテーブルのDBレコード
  * */
