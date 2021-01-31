@@ -1,6 +1,6 @@
 import admin from "../modules/firebaseAdmin";
 import * as functions from "firebase-functions";
-import { Longo } from "../index";
+import { Longo } from "../types.d";
 import { Request, Response } from "firebase-functions";
 import { checkIsEmptyById } from "../modules/util";
 import { checkHttpHeaders } from "../modules/checkHttpHeaders";
