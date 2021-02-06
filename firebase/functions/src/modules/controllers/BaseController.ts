@@ -21,6 +21,7 @@ export class BaseController {
     const invalidParams = filterValidParametors(req, paramType);
     if (invalidParams.length === 0) return;
     console.error("bad request");
+    //TODO: error procedure
   }
 
   post(req: Request, res: Response): any {
