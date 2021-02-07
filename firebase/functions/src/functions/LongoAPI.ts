@@ -3,6 +3,7 @@ import * as functions from "firebase-functions";
 import { Longo } from "../types.d";
 import { checkIsEmptyById } from "../modules/util";
 import { checkHttpHeaders } from "../modules/checkHttpHeaders";
+import { LongosController } from "../modules/controllers/longosController";
 
 export const longoAPI = functions.https.onRequest(longoAPIfunc);
 
@@ -13,24 +14,14 @@ export async function longoAPIfunc(
   response.set("Access-Control-Allow-Origin", "http://localhost:3000"); // localhostを許可
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
   response.set("Access-Control-Allow-Headers", "X-Api-Key"); // Content-Typeのみを許可
-  if (!checkHttpHeaders(request, response)) return;
+  //if (!checkHttpHeaders(request, response)) return;
 
   const ref = admin.firestore().collection("Longos");
+  const controller = new LongosController();
+
   switch (request.method) {
     case "GET":
-      const snapshot = await ref.get();
-      if (snapshot.empty) {
-        response.send({});
-        return;
-      }
-      const longos: Longo[] = [];
-      snapshot.forEach(doc => {
-        longos.push({
-          ...(doc.data() as Longo),
-          id: doc.id
-        });
-      });
-      response.send(longos);
+      response.send(await controller.get(request, response));
       break;
 
     case "PATCH":
