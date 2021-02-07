@@ -2,7 +2,6 @@ import admin from "../modules/firebaseAdmin";
 import * as functions from "firebase-functions";
 import { Longo } from "../types.d";
 import { checkIsEmptyById } from "../modules/util";
-import { checkHttpHeaders } from "../modules/checkHttpHeaders";
 import { LongosController } from "../modules/controllers/longosController";
 
 export const longoAPI = functions.https.onRequest(longoAPIfunc);
@@ -35,14 +34,7 @@ export async function longoAPIfunc(
       break;
 
     case "POST":
-      const newPost: Partial<Longo> = request.body;
-      //TODO: エラーチェックが公式に書いてないのでなにか考えたい
-      const newDocRef = await ref.add(newPost);
-      const res = {
-        ...(await newDocRef.get()).data(),
-        id: newDocRef.id
-      };
-      response.send(res);
+      response.send(await controller.post(request, response));
       break;
 
     case "DELETE":

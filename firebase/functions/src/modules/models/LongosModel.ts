@@ -26,4 +26,13 @@ export class LongosModel extends BaseModel {
 
     return longos;
   }
+
+  async postLongo(longo: Longo) {
+      const newDocRef = await this.longosRef.add(longo);
+      const res = {
+        ...(await newDocRef.get()).data(),
+        id: newDocRef.id
+      };
+      return res;
+  }
 }

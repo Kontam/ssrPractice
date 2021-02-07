@@ -16,4 +16,10 @@ export class LongosController extends BaseController {
     const longos = await this.longosModel.getLongs();
     return longos;
   }
+
+  async post(req: Request, res: Response) {
+    super.post(req, res);
+    const posted = await this.longosModel.postLongo(req.body);
+    return posted;
+  }
 }

@@ -25,7 +25,7 @@ export class BaseController {
   }
 
   post(req: Request, res: Response): any {
-    if (!checkHttpHeaders(req, res))
+    if (!process.env.FUNCTIONS_EMULATOR && !checkHttpHeaders(req, res))
       return res.send({ error: true, message: "invalid api token" });
 
     const paramType = this.paramTypes.get("get");
