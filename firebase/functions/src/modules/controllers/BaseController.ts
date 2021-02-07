@@ -1,6 +1,7 @@
 import { Request, Response } from "firebase-functions";
 import { checkHttpHeaders } from "../checkHttpHeaders";
 import { filterValidParametors, ParamTypeMap } from "../filterValidParametors";
+import { SuebotAPIExeption } from '../../classes/SuebotAPIException';
 
 export type BaseMethods = "get" | "post" | "patch" | "delete"; 
 
@@ -21,8 +22,7 @@ export class BaseController {
 
     const invalidParams = filterValidParametors(req, paramType);
     if (invalidParams.length === 0) return;
-    console.error("bad request");
-    //TODO: error procedure
+    throw new SuebotAPIExeption(`invalid: ${invalidParams.join()}`)
   }
 
   post(req: Request, res: Response): any {
@@ -35,7 +35,7 @@ export class BaseController {
 
     const invalidParams = filterValidParametors(req, paramType);
     if (invalidParams.length === 0) return;
-    console.error("bad request");
+    throw new SuebotAPIExeption(`invalid: ${invalidParams[0][0]}`)
   }
 
   _setup(req: Request, res: Response, method: BaseMethods) {
