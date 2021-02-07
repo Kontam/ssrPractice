@@ -17,7 +17,12 @@ export class FreeGroupingController extends BaseController {
     super.get(req, res);
     const { group, amount } = req.query;
 
-    const parsedGroup = (group as string[]).map(str => JSON.parse(str)); 
+    let parsedGroup;
+    try {
+      parsedGroup = (group as string[]).map(str => JSON.parse(str));
+    } catch (e) {
+      parsedGroup = group as any[];
+    }
 
     const randomSortedGroups = randomSort(parsedGroup);
     return splitArray(randomSortedGroups, +amount!);

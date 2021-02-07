@@ -15,8 +15,14 @@ export class FreeChoiceController extends BaseController {
   get(req: Request, res: Response) {
     super.get(req, res);
     const { group, amount } = req.query;
+    
+    let parsedGroup;
+    try {
+      parsedGroup = (group as string[]).map(str => JSON.parse(str));
+    } catch (e) {
+      parsedGroup = group as any[];
+    }
 
-    const parsedGroup = (group as string[]).map(str => JSON.parse(str));
     return chooseItemsRandomly(parsedGroup, parseInt(amount as string));
   }
 }
