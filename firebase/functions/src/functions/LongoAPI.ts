@@ -3,7 +3,6 @@ import * as functions from "firebase-functions";
 import { Longo } from "../types.d";
 import { checkIsEmptyById } from "../modules/util";
 import { LongosController } from "../modules/controllers/longosController";
-import { SuebotAPIExeption } from "../classes/SuebotAPIException";
 
 export const longoAPI = functions.https.onRequest(longoAPIfunc);
 
