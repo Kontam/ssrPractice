@@ -22,14 +22,14 @@ export class BaseController {
 
     const invalidParams = filterValidParametors(req, paramType);
     if (invalidParams.length === 0) return;
-    throw new SuebotAPIExeption(`invalid: ${invalidParams.join()}`)
+    throw new SuebotAPIExeption(`invalid: ${invalidParams[0][0]}`)
   }
 
   post(req: Request, res: Response): any {
     this._setup(req, res, 'post');
     const paramType = this.paramTypes.get("post");
     if (!paramType) {
-      console.error("get paramtypes are undefined");
+      console.error("post paramtypes are undefined");
       return;
     }
 
@@ -39,7 +39,7 @@ export class BaseController {
   }
 
   _setup(req: Request, res: Response, method: BaseMethods) {
-    if (!process.env.FUNCTIONS_EMULATOR && !checkHttpHeaders(req, res))
+    if (!process.env.FUNCTIONS_EMULATOR && !checkHttpHeaders(req))
       return;
   }
 }

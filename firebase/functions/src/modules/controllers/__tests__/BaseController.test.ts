@@ -7,9 +7,10 @@ import { BaseController } from "../BaseController";
 jest.mock("firebase-functions");
 jest.mock("jsonwebtoken");
 
+const VALID_TOKEN = "apikey"
 const mockConfig = {
   general: {
-    apisecret: "apisecret",
+    apiKey: VALID_TOKEN
   },
 };
 
@@ -21,7 +22,7 @@ describe("BaseController", () => {
   let mockReq: Request;
   let mockRes: Response;
   beforeEach(() => {
-    mockRes = { send: jest.fn(() => {}) } as any;
+    mockRes = {} as any;
   });
 
   describe.each([
@@ -34,24 +35,39 @@ describe("BaseController", () => {
       } as any;
     });
 
-    test("APIトークン不正のエラーがクライアントに送信される", () => {
-      const expect = { error: true, reason: "missing api key on request" };
-      method(mockReq, mockRes);
-      assert.deepStrictEqual(
-        (mockRes.send as jest.Mock).mock.calls[0][0],
-        expect
-      );
-    });
-
-    test("エラーが1度だけ送信される", () => {
-      const expect = { error: true, reason: "missing api key on request" };
-      method(mockReq, mockRes);
-      assert.deepStrictEqual((mockRes.send as jest.Mock).mock.calls.length, 1);
+    test("APIキー不足のExceptionがthrowされる", () => {
+      expect.assertions(1);
+      try {
+        method(mockReq, mockRes);
+      } catch (e) {
+        expect(e.reason).toStrictEqual("missing api key");
+      }
     });
   });
 
-  describe("要求getパラメーターに不足がある時", () => {
-    beforeEach(() => {});
-    test("", () => {});
+  describe.each([
+    ["get", baseController.get.bind(baseController)],
+    ["post", baseController.post.bind(baseController)],
+  ])("%s: 要求getパラメーターに不足がある時", (_, method) => {
+    beforeEach(() => {
+      baseController.paramTypes.set("get", [['param1', 'string']])
+      baseController.paramTypes.set("post", [['param1', 'string']])
+      mockReq = {
+        header: () => 'apiKey',
+        query: {},
+      } as any
+
+      //@ts-ignore
+      (jwt.verify as jest.Mock).mockReturnValue(VALID_TOKEN);
+    });
+
+    test("パラメータ不正のExceptionがthrowされる", () => {
+      expect.assertions(1);
+      try {
+        method(mockReq, mockRes);
+      } catch (e) {
+        expect(e.reason).toStrictEqual("invalid: param1");
+      }
+    });
   });
 });
