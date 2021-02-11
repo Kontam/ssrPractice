@@ -19,6 +19,10 @@ export class BaseController {
     this._setup(req, res, 'post');
   }
 
+  patch(req: Request, res: Response): any {
+      this._setup(req, res, 'post');
+  }
+
   _setup(req: Request, res: Response, method: BaseMethods) {
     if (!process.env.FUNCTIONS_EMULATOR && !checkHttpHeaders(req))
       return;

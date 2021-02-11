@@ -25,13 +25,7 @@ export async function longoAPIfunc(
         break;
 
       case "PATCH":
-        const params: Longo = request.body;
-        if (!(await checkIsEmptyById(ref, params.id))) {
-          response.send(`${params.id} is not exist`);
-          break;
-        }
-        await ref.doc(params.id).set(params);
-        response.send(params);
+        response.send(await controller.patch(request, response));
         break;
 
       case "POST":

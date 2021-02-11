@@ -1,6 +1,8 @@
 import { BaseModel } from "./BaseModel";
 import { Longo } from '../../types.d';
 import { CollectionReference } from "@google-cloud/firestore";
+import { checkIsEmptyById } from "../util";
+import { SuebotAPIExeption } from "../../classes/SuebotAPIException";
 
 export class LongosModel extends BaseModel {
   LONGOS = "Longos" as const;
@@ -34,5 +36,13 @@ export class LongosModel extends BaseModel {
         id: newDocRef.id
       };
       return res;
+  }
+
+  async patchLongo(longo: Longo) {
+    if (!(await checkIsEmptyById(this.longosRef, longo.id))) {
+      throw new SuebotAPIExeption(`${longo.id} is not exist`)
+    }
+    await this.longosRef.doc(longo.id).set(longo);
+    return longo;
   }
 }

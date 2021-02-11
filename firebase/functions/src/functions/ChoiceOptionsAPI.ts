@@ -49,7 +49,7 @@ export const getOptionsByGroupName = async (
 }
 
 async function choiceOptionsAPIfunc(req: functions.Request, res: functions.Response) {
-  if (!checkHttpHeaders(req, res)) return;
+  if (!checkHttpHeaders(req)) return;
 
   const firestore = admin.firestore();
   const groupRef = firestore.collection(CHOICE_GROUPS);

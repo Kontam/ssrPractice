@@ -23,7 +23,7 @@ async function choiceGroupsAPIfunc(
   response.set("Access-Control-Allow-Origin", "http://localhost:3000"); // localhostを許可
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
   response.set("Access-Control-Allow-Headers", "X-Api-Key"); // Content-Typeのみを許可
-  if (!checkHttpHeaders(request, response)) return;
+  if (!checkHttpHeaders(request)) return;
 
   const firestore = admin.firestore();
   const timeStamp = admin.firestore.FieldValue.serverTimestamp();
