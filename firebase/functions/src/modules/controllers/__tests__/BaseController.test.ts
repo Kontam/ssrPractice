@@ -1,4 +1,3 @@
-import assert from "assert";
 import { Request, Response } from "firebase-functions";
 import * as functions from "firebase-functions";
 import * as jwt from "jsonwebtoken";
