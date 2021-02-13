@@ -1,7 +1,4 @@
-import admin from "../modules/firebaseAdmin";
 import * as functions from "firebase-functions";
-import { Longo } from "../types.d";
-import { checkIsEmptyById } from "../modules/util";
 import { LongosController } from "../modules/controllers/longosController";
 
 export const longoAPI = functions.https.onRequest(longoAPIfunc);
@@ -14,8 +11,6 @@ export async function longoAPIfunc(
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
   response.set("Access-Control-Allow-Headers", "X-Api-Key"); // Content-Typeのみを許可
   //if (!checkHttpHeaders(request, response)) return;
-
-  const ref = admin.firestore().collection("Longos");
   const controller = new LongosController();
 
   try {
@@ -33,18 +28,10 @@ export async function longoAPIfunc(
         break;
 
       case "DELETE":
-        const deleteId: { id: string } = request.body;
-        if (!(await checkIsEmptyById(ref, deleteId.id))) {
-          response.send(`${deleteId.id} is not exist`);
-          break;
-        }
-        //TODO: エラーチェックが公式に書いてないのでなにか考えたい
-        await ref.doc(deleteId.id).delete();
-        response.send(deleteId);
+        response.send(await controller.delete(request, response));
         break;
 
       default:
-        console.log(request.method);
         response.send("without method");
     }
   } catch (e) {

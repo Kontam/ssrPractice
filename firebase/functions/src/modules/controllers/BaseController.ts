@@ -20,7 +20,11 @@ export class BaseController {
   }
 
   patch(req: Request, res: Response): any {
-      this._setup(req, res, 'post');
+    this._setup(req, res, 'patch');
+  }
+
+  delete(req: Request, res: Response): any {
+    this._setup(req, res, 'delete');
   }
 
   _setup(req: Request, res: Response, method: BaseMethods) {

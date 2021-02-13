@@ -27,6 +27,8 @@ describe("BaseController", () => {
   describe.each([
     ["get", baseController.get.bind(baseController)],
     ["post", baseController.post.bind(baseController)],
+    ["patch", baseController.post.bind(baseController)],
+    ["delete", baseController.post.bind(baseController)],
   ])("%s: APIキーが存在していない時", (_, method) => {
     beforeEach(() => {
       mockReq = {
@@ -47,6 +49,8 @@ describe("BaseController", () => {
   describe.each([
     ["get", baseController.get.bind(baseController)],
     ["post", baseController.post.bind(baseController)],
+    ["patch", baseController.post.bind(baseController)],
+    ["delete", baseController.post.bind(baseController)],
   ])("%s: 要求getパラメーターに不足がある時", (_, method) => {
     beforeEach(() => {
       baseController.paramTypes.set("get", [['param1', 'string']])

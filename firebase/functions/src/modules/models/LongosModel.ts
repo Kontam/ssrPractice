@@ -45,4 +45,14 @@ export class LongosModel extends BaseModel {
     await this.longosRef.doc(longo.id).set(longo);
     return longo;
   }
+
+  async deleteLongo(id: string) {
+    if (!(await checkIsEmptyById(this.longosRef, id))) {
+      throw new SuebotAPIExeption(`${id} is not exist`)
+    }
+    console.log('deleteLongo', id)
+    //TODO: エラーチェックが公式に書いてないのでなにか考えたい
+    await this.longosRef.doc(id).delete();
+    return id;
+  }
 }

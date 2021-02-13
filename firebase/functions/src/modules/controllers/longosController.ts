@@ -9,6 +9,7 @@ export class LongosController extends BaseController {
     this.paramTypes.set("get", []);
     this.paramTypes.set("post", []);
     this.paramTypes.set("patch", []);
+    this.paramTypes.set("delete", []);
     this.longosModel = new LongosModel();
   }
 
@@ -28,5 +29,11 @@ export class LongosController extends BaseController {
     super.patch(req, res);
     const updated = await this.longosModel.patchLongo(req.body);
     return updated;
+  }
+
+  async delete(req: Request, res: Response) {
+    super.delete(req, res);
+    const deleted = await this.longosModel.deleteLongo(req.body.id);
+    return deleted;
   }
 }
