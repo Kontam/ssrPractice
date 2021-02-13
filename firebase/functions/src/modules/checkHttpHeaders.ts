@@ -9,7 +9,7 @@ export function checkHttpHeaders(
   if (!apiToken) throw new SuebotAPIExeption("missing api key");
   const apisecret = functions.config().general.apisecret;
   const decoded = jwt.verify(apiToken, apisecret);
-  if (decoded !== functions.config().general.apiKey) {
+  if (decoded !== functions.config().general.apikey) {
     throw new SuebotAPIExeption("invalid api token");
   }
   return true;

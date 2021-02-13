@@ -12,7 +12,7 @@ type AuthorityReadResponse = {
 
 
 async function authorityAPIfunc(req: functions.Request, res: functions.Response) :Promise<void> {
-  if (!checkHttpHeaders(req, res)) return;
+  if (!checkHttpHeaders(req)) return;
 
   const userRef = firebaseAdmin.firestore().collection("user_authority");
   const domainRef = firebaseAdmin.firestore().collection("domain_authority");

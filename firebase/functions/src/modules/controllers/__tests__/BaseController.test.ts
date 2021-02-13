@@ -9,7 +9,7 @@ jest.mock("jsonwebtoken");
 const VALID_TOKEN = "apikey"
 const mockConfig = {
   general: {
-    apiKey: VALID_TOKEN
+    apikey: VALID_TOKEN
   },
 };
 
@@ -56,7 +56,7 @@ describe("BaseController", () => {
       baseController.paramTypes.set("get", [['param1', 'string']])
       baseController.paramTypes.set("post", [['param1', 'string']])
       mockReq = {
-        header: () => 'apiKey',
+        header: () => 'apikey',
         query: {},
       } as any
 

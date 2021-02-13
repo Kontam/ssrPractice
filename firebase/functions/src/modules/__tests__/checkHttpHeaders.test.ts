@@ -12,7 +12,7 @@ describe("checkHttpHeaders", () => {
   const VALID_TOKEN = "apikey";
   beforeEach(() => {
     const mockConfig = {
-      general: { apiKey: VALID_TOKEN }
+      general: { apikey: VALID_TOKEN }
     };
     // @ts-ignore
     (functions as jest.Mock).config.mockReturnValue(mockConfig);
