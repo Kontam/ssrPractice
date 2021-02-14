@@ -51,10 +51,37 @@ describe("BaseController", () => {
     ["post", baseController.post.bind(baseController)],
     ["patch", baseController.post.bind(baseController)],
     ["delete", baseController.post.bind(baseController)],
+  ])("%s: 想定されたリクエストが渡された時", (_, method) => {
+    beforeEach(() => {
+      baseController.paramTypes.set("get", [['param1', 'string']])
+      baseController.paramTypes.set("post", [['param1', 'string']])
+      baseController.paramTypes.set("patch", [['param1', 'string']])
+      baseController.paramTypes.set("delete", [['param1', 'string']])
+      mockReq = {
+        header: () => 'apikey',
+        query: { param1: 'test' },
+      } as any
+
+      //@ts-ignore
+      (jwt.verify as jest.Mock).mockReturnValue(VALID_TOKEN);
+    });
+
+    test("例外が発生しない", () => {
+      method(mockReq, mockRes);
+    });
+  });
+
+  describe.each([
+    ["get", baseController.get.bind(baseController)],
+    ["post", baseController.post.bind(baseController)],
+    ["patch", baseController.post.bind(baseController)],
+    ["delete", baseController.post.bind(baseController)],
   ])("%s: 要求getパラメーターに不足がある時", (_, method) => {
     beforeEach(() => {
       baseController.paramTypes.set("get", [['param1', 'string']])
       baseController.paramTypes.set("post", [['param1', 'string']])
+      baseController.paramTypes.set("patch", [['param1', 'string']])
+      baseController.paramTypes.set("delete", [['param1', 'string']])
       mockReq = {
         header: () => 'apikey',
         query: {},

@@ -7,8 +7,10 @@ export type BaseMethods = "get" | "post" | "patch" | "delete";
 
 export class BaseController {
   paramTypes: Map<BaseMethods, ParamTypeMap[]>;
+  bodyTypes: Map<"post" | "patch", ParamTypeMap[]>;
   constructor() {
     this.paramTypes = new Map();
+    this.bodyTypes = new Map();
   }
 
   get(req: Request, res: Response): any {
@@ -36,8 +38,8 @@ export class BaseController {
       console.error(`${method} paramtypes are undefined`);
       return; 
     }
-    const invalidParams = filterValidParametors(req, paramType);
-    if (invalidParams.length === 0) return;
-    throw new SuebotAPIExeption(`invalid: ${invalidParams[0][0]}`)
+    const invalidQuery = filterValidParametors(req.query, paramType);
+    if (invalidQuery.length === 0) return;
+    throw new SuebotAPIExeption(`invalid: ${invalidQuery[0][0]}`)
   }
 }
