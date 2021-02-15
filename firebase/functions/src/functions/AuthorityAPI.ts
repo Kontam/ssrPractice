@@ -1,15 +1,7 @@
 import * as functions from 'firebase-functions';
 import firebaseAdmin from '../modules/firebaseAdmin';
 import { checkHttpHeaders } from '../modules/checkHttpHeaders';
-
-type AuthorityReadParams = {
-  email?: string,
-}
-
-type AuthorityReadResponse = {
-  authority: string,
-}
-
+import { AuthorityReadParams, AuthorityReadResponse } from '../types.d';
 
 async function authorityAPIfunc(req: functions.Request, res: functions.Response) :Promise<void> {
   if (!checkHttpHeaders(req)) return;

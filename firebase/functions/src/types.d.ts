@@ -7,6 +7,14 @@ export type Longo = {
     comment: string,
 }
 
+export type AuthorityReadParams = {
+  email?: string,
+}
+
+export type AuthorityReadResponse = {
+  authority: string,
+}
+
 /**
  * 選択肢グループテーブルのDBレコード
  * */
