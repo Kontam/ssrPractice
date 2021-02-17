@@ -22,4 +22,12 @@ export class FreeGroupingController extends BaseController {
     const randomSortedGroups = randomSort(parsedGroup);
     return splitArray(randomSortedGroups, +amount!);
   }
+
+  post(req: Request, res: Response) {
+    super.post(req, res);
+    const { group, amount } = req.body;
+
+    const randomSortedGroups = randomSort(group);
+    return splitArray(randomSortedGroups, +amount);
+  }
 }

@@ -12,6 +12,9 @@ export async function freeGroupingAPIfunc(
     case "GET":
       response.send(controller.get(request, response));
       return;
+    case "POST":
+      response.send(controller.post(request, response));
+      return;
     default:
       response.send("");
       return;
