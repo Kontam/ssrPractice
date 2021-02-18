@@ -2,7 +2,7 @@ import { BaseModel } from './BaseModel';
 import { ChoiceOption } from '../../types';
 import { CollectionReference } from '@google-cloud/firestore';
 
-export class ChoiceGroupModel extends BaseModel {
+export class ChoiceGroupsModel extends BaseModel {
   CHOICE_GROUPS = "ChoiceGroups" as const;
   CHOICE_OPTIONS = "ChoiceOptions" as const;
   groupRef: CollectionReference<any>
@@ -12,6 +12,11 @@ export class ChoiceGroupModel extends BaseModel {
     super();
     this.groupRef = this.firestore.collection(this.CHOICE_GROUPS)
     this.optionRef = this.firestore.collection(this.CHOICE_OPTIONS)
+  }
+
+  async getChoiceGroups() {
+    //TODO: process
+    return {};
   }
 
   async getOptionsByGroupName(groupName: string) {

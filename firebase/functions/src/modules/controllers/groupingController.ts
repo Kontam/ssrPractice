@@ -1,11 +1,11 @@
 import { BaseController } from "./BaseController";
-import { ChoiceGroupModel } from "../models/choiceGroupModel";
+import { ChoiceGroupsModel } from "../models/choiceGroupsModel";
 import { Request, Response } from "firebase-functions";
 import { randomSort } from "../randomSort";
 import { splitArray } from "../splitArray";
 
 export class GroupingController extends BaseController {
-  choiceGroupModel: ChoiceGroupModel;
+  choiceGroupModel: ChoiceGroupsModel;
   constructor() {
     super();
     this.paramTypes.set("get", [
@@ -13,7 +13,7 @@ export class GroupingController extends BaseController {
       ["amount", "string"]
     ]);
     this.paramTypes.set("post", []);
-    this.choiceGroupModel = new ChoiceGroupModel();
+    this.choiceGroupModel = new ChoiceGroupsModel();
   }
 
   async get(req: Request, res: Response) {
