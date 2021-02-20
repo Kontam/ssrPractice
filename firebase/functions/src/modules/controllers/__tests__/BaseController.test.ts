@@ -24,7 +24,7 @@ describe("BaseController", () => {
   });
 
   describe("APIKey 異常系", () => {
-    let baseController = new BaseController();
+    const baseController = new BaseController();
     describe.each([
       ["get", baseController.get.bind(baseController)],
       ["post", baseController.post.bind(baseController)],
@@ -49,7 +49,7 @@ describe("BaseController", () => {
   });
 
   describe("Queryチェック 正常系", () => {
-    let baseController = new BaseController();
+    const baseController = new BaseController();
     describe.each([
       ["get", baseController.get.bind(baseController)],
       ["post", baseController.post.bind(baseController)],
@@ -80,7 +80,7 @@ describe("BaseController", () => {
   });
 
   describe("Queryチェック 異常系", () => {
-    let baseController = new BaseController();
+    const baseController = new BaseController();
     describe.each([
       ["get", baseController.get.bind(baseController)],
       ["post", baseController.post.bind(baseController)],
@@ -113,7 +113,7 @@ describe("BaseController", () => {
   });
 
   describe("Bodyチェック 異常系", () => {
-    let baseController = new BaseController();
+    const baseController = new BaseController();
     describe.each([
       ["post", baseController.post.bind(baseController)],
       ["patch", baseController.patch.bind(baseController)],
