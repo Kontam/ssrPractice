@@ -1,13 +1,12 @@
 import * as functions from "firebase-functions";
 import admin from "../modules/firebaseAdmin";
-import { getOptionsByGroupId } from "./ChoiceOptionsAPI";
 import {
   ChoiceGroup,
   ChoiceGroupDB,
   ChoiceOption,
   ChoiceOptionDB
 } from "../types";
-import { checkHttpHeaders } from "../modules/checkHttpHeaders";
+import {ChoiceGroupsController} from "../modules/controllers/ChoiceGroupController";
 
 export const CHOICE_GROUPS = "ChoiceGroups" as const;
 export const CHOICE_OPTIONS = "ChoiceOptions" as const;
@@ -23,37 +22,17 @@ async function choiceGroupsAPIfunc(
   response.set("Access-Control-Allow-Origin", "http://localhost:3000"); // localhostを許可
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
   response.set("Access-Control-Allow-Headers", "X-Api-Key"); // Content-Typeのみを許可
-  if (!checkHttpHeaders(request)) return;
+//  if (!checkHttpHeaders(request)) return;
 
   const firestore = admin.firestore();
   const timeStamp = admin.firestore.FieldValue.serverTimestamp();
   const groupRef = firestore.collection(CHOICE_GROUPS);
   const optionRef = firestore.collection(CHOICE_OPTIONS);
+
+  const controller = new ChoiceGroupsController();
   switch (request.method) {
     case "GET":
-      const snapshot = await groupRef.get();
-      if (snapshot.empty) {
-        console.log(CHOICE_GROUPS, "empty");
-        response.send({});
-        return;
-      }
-
-      const promises = snapshot.docs.map(
-        async (doc): Promise<ChoiceGroup> => ({
-          ...(doc.data() as ChoiceGroup),
-          groupId: doc.id,
-          choiceOptions: await getOptionsByGroupId(doc.id, optionRef)
-        })
-      );
-
-      const data = await Promise.all(promises);
-      const responseData: ChoiceGroup[] = data.map(group => ({
-        groupId: group.groupId,
-        groupName: group.groupName,
-        choiceOptions: group.choiceOptions
-      }));
-
-      response.send(responseData);
+      response.send(await controller.get(request, response));
       break;
 
     case "POST":
