@@ -1,7 +1,8 @@
 import { BaseModel } from './BaseModel';
-import { CollectionReference } from '@google-cloud/firestore';
+import { CollectionReference, FieldValue } from '@google-cloud/firestore';
 import {
   ChoiceGroup,
+  ChoiceGroupDB,
   ChoiceOption,
 } from "../../types";
 
@@ -40,6 +41,58 @@ export class ChoiceGroupsModel extends BaseModel {
       }));
 
       return responseData;
+  }
+
+  async postChoiceGroup(newChoiceGroup: ChoiceGroup) {
+      const timeStamp :FieldValue = this.firestoreModule.FieldValue.serverTimestamp();
+      // choiceOptionsとchoiceGroupは別のコレクション
+      // groupとoptionの紐付きはoption側で親のIDを保持して実現する
+      const newGroupRef = await this.groupRef.add({
+        groupName: newChoiceGroup.groupName,
+        createdAt: timeStamp
+      });
+
+      // レスポンスのため、挿入されたグループデータを取得
+      const groupData = (await (
+        await newGroupRef.get()
+      ).data()) as ChoiceGroupDB;
+      if (!newChoiceGroup.choiceOptions || newChoiceGroup.choiceOptions.length === 0) {
+        return groupData;
+      }
+
+      // グループに紐づくOptionを全てgroupIdを付与して挿入する
+      const newOptionRefs = await Promise.all(
+        newChoiceGroup.choiceOptions.map(
+          async (option: ChoiceOption) =>
+            await this.optionRef.add({
+              choiceName: option.choiceName,
+              choiceEnabled: option.choiceEnabled,
+              groupId: newGroupRef.id,
+              createdAt: timeStamp
+            })
+        )
+      );
+
+      // レスポンスのため、挿入されたオプションデータを全て取得
+      const optionsData = await Promise.all(
+        newOptionRefs.map(
+          async (ref): Promise<ChoiceOption> => {
+            const insertedData = await (await ref.get()).data();
+            return {
+              choiceEnabled: insertedData!.choiceEnabled,
+              choiceName: insertedData!.choiceName,
+              choiceId: ref.id
+            };
+          }
+        )
+      );
+
+      const res: ChoiceGroup = {
+        groupId: newGroupRef.id,
+        groupName: (groupData && groupData.groupName) || "",
+        choiceOptions: optionsData || []
+      };
+      return res;
   }
 
   async getOptionsByGroupName(groupName: string) {
