@@ -36,57 +36,7 @@ async function choiceGroupsAPIfunc(
       break;
 
     case "POST":
-      const newPost: Partial<ChoiceGroup> = request.body;
-      console.log("got post request", newPost);
-      // choiceOptionsとchoiceGroupは別のコレクション
-      // groupとoptionの紐付きはoption側で親のIDを保持して実現する
-      const newGroupRef = await groupRef.add({
-        groupName: newPost.groupName,
-        createdAt: timeStamp
-      });
-
-      // レスポンスのため、挿入されたグループデータを取得
-      const groupData = (await (
-        await newGroupRef.get()
-      ).data()) as ChoiceGroupDB;
-      if (!newPost.choiceOptions || newPost.choiceOptions.length === 0) {
-        response.send(groupData);
-        break;
-      }
-
-      // グループに紐づくOptionを全てgroupIdを付与して挿入する
-      const newOptionRefs = await Promise.all(
-        newPost.choiceOptions.map(
-          async (option: ChoiceOption) =>
-            await optionRef.add({
-              choiceName: option.choiceName,
-              choiceEnabled: option.choiceEnabled,
-              groupId: newGroupRef.id,
-              createdAt: timeStamp
-            })
-        )
-      );
-
-      // レスポンスのため、挿入されたオプションデータを全て取得
-      const optionsData = await Promise.all(
-        newOptionRefs.map(
-          async (ref): Promise<ChoiceOption> => {
-            const insertedData = await (await ref.get()).data();
-            return {
-              choiceEnabled: insertedData!.choiceEnabled,
-              choiceName: insertedData!.choiceName,
-              choiceId: ref.id
-            };
-          }
-        )
-      );
-
-      const res: ChoiceGroup = {
-        groupId: newGroupRef.id,
-        groupName: (groupData && groupData.groupName) || "",
-        choiceOptions: optionsData || []
-      };
-      response.send(res);
+      response.send(await controller.post(request, response));
       break;
 
     case "PATCH":

@@ -19,13 +19,13 @@ export class ChoiceGroupsController extends BaseController {
     return choiceGroups;
   }
 
-  /*
   async post(req: Request, res: Response) {
     super.post(req, res);
     const posted = await this.choiceGroupsModel.postChoiceGroup(req.body);
     return posted;
   }
 
+  /*
   async patch(req: Request, res: Response) {
     super.patch(req, res);
     const updated = await this.choiceGroupsModel.patchChoiceGroup(req.body);
