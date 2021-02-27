@@ -25,13 +25,13 @@ export class ChoiceGroupsController extends BaseController {
     return posted;
   }
 
-  /*
   async patch(req: Request, res: Response) {
     super.patch(req, res);
     const updated = await this.choiceGroupsModel.patchChoiceGroup(req.body);
     return updated;
   }
 
+  /*
   async delete(req: Request, res: Response) {
     super.delete(req, res);
     const deleted = await this.choiceGroupsModel.deleteChoiceGroup(req.body.id);

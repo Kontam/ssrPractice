@@ -4,6 +4,7 @@ import {
   ChoiceGroup,
   ChoiceGroupDB,
   ChoiceOption,
+  ChoiceOptionDB,
 } from "../../types";
 
 export class ChoiceGroupsModel extends BaseModel {
@@ -79,8 +80,8 @@ export class ChoiceGroupsModel extends BaseModel {
           async (ref): Promise<ChoiceOption> => {
             const insertedData = await (await ref.get()).data();
             return {
-              choiceEnabled: insertedData!.choiceEnabled,
-              choiceName: insertedData!.choiceName,
+              choiceEnabled: insertedData?.choiceEnabled,
+              choiceName: insertedData?.choiceName,
               choiceId: ref.id
             };
           }
@@ -93,6 +94,55 @@ export class ChoiceGroupsModel extends BaseModel {
         choiceOptions: optionsData || []
       };
       return res;
+  }
+
+  async patchChoiceGroup(newData: ChoiceGroup) {
+    const groupDoc = this.groupRef.doc(newData.groupId);
+    await groupDoc.update({ groupName: newData.groupName });
+
+    const timeStamp :FieldValue = this.firestoreModule.FieldValue.serverTimestamp();
+    const patchOptionBatch = this.firestoreModule.batch();
+    // Optionsの数は減少する可能性があるのでDelete then insert
+    const optionQuerySnapshot = await this.optionRef
+      .where("groupId", "==", newData.groupId)
+      .get();
+    optionQuerySnapshot.forEach(docSnap => {
+      patchOptionBatch.delete(docSnap.ref);
+    });
+    await patchOptionBatch.commit();
+
+    const patchInsertedData = await Promise.all(
+      newData.choiceOptions.map(option => {
+        const insertData: ChoiceOptionDB = {
+          groupId: newData.groupId,
+          choiceName: option.choiceName,
+          choiceEnabled: option.choiceEnabled,
+          createdAt: timeStamp
+        };
+        return this.optionRef.add(insertData);
+      })
+    );
+
+    const patchResponseOptions: ChoiceOption[] = await Promise.all(
+      patchInsertedData.map(async docRef => {
+        const patchSnapshot = await docRef.get();
+        const patchData = patchSnapshot.data();
+        return {
+          choiceId: docRef.id,
+          choiceName: patchData?.choiceName,
+          choiceEnabled: patchData?.choiceEnabled
+        };
+      })
+    );
+
+    const patchTargetSnap = await groupDoc.get();
+    const patchedData = patchTargetSnap.data();
+    const patchResponseGroup: ChoiceGroup = {
+      groupId: groupDoc.id,
+      groupName: (patchedData && patchedData.groupName) || "",
+      choiceOptions: patchResponseOptions
+    };
+    return patchResponseGroup;
   }
 
   async getOptionsByGroupName(groupName: string) {
@@ -112,6 +162,7 @@ export class ChoiceGroupsModel extends BaseModel {
 
     return choiceOptions;
   }
+
 
   async getOptionsByGroupId(groupId: string) {
     const snapshot = await this.optionRef.where('groupId', '==', groupId).get(); 
