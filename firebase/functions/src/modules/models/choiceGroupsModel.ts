@@ -101,7 +101,7 @@ export class ChoiceGroupsModel extends BaseModel {
     await groupDoc.update({ groupName: newData.groupName });
 
     const timeStamp :FieldValue = this.firestoreModule.FieldValue.serverTimestamp();
-    const patchOptionBatch = this.firestoreModule.batch();
+    const patchOptionBatch = this.firestore.batch();
     // Optionsの数は減少する可能性があるのでDelete then insert
     const optionQuerySnapshot = await this.optionRef
       .where("groupId", "==", newData.groupId)
