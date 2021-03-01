@@ -31,11 +31,9 @@ export class ChoiceGroupsController extends BaseController {
     return updated;
   }
 
-  /*
   async delete(req: Request, res: Response) {
     super.delete(req, res);
-    const deleted = await this.choiceGroupsModel.deleteChoiceGroup(req.body.id);
+    const deleted = await this.choiceGroupsModel.deleteChoiceGroup(req.query.groupId as string);
     return deleted;
   }
- */
 }

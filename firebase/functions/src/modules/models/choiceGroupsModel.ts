@@ -145,6 +145,23 @@ export class ChoiceGroupsModel extends BaseModel {
     return patchResponseGroup;
   }
 
+  async deleteChoiceGroup(groupId: string) {
+    const deleteDocRef = this.groupRef.doc(groupId);
+    const docId = deleteDocRef.id;
+
+    const deleteBatch = this.firestore.batch();
+    deleteBatch.delete(deleteDocRef);
+
+    const deleteOptionsSnap = await this.optionRef
+      .where("groupId", "==", docId)
+      .get();
+    deleteOptionsSnap.forEach(docSnap => {
+      deleteBatch.delete(docSnap.ref);
+    });
+    await deleteBatch.commit();
+    return docId;
+  }
+
   async getOptionsByGroupName(groupName: string) {
     const snapshot = await this.groupRef.where('groupName', '==', groupName).get(); 
     if (snapshot.empty) return null;

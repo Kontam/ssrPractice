@@ -37,6 +37,7 @@ async function choiceGroupsAPIfunc(
       break;
 
     case "DELETE":
+      /*
       if (!request.query.groupId) {
         response.send("invalid request");
         return;
@@ -59,7 +60,8 @@ async function choiceGroupsAPIfunc(
         deleteBatch.delete(docSnap.ref);
       });
       await deleteBatch.commit();
-      response.send(docId);
+     */
+      response.send(await controller.delete(request, response));
       break;
     default:
       response.send("default");
