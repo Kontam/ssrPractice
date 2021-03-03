@@ -1,40 +1,62 @@
 import { Request, Response } from "firebase-functions";
 import { checkHttpHeaders } from "../checkHttpHeaders";
 import { filterValidParametors, ParamTypeMap } from "../filterValidParametors";
+import { SuebotAPIExeption } from '../../classes/SuebotAPIException';
+
+export type BaseMethods = "get" | "post" | "patch" | "delete"; 
 
 export class BaseController {
-  paramTypes: Map<"get" | "post" | "patch" | "delete", ParamTypeMap[]>;
+  paramTypes: Map<BaseMethods, ParamTypeMap[]>;
+  bodyTypes: Map<"post" | "patch", ParamTypeMap[]>;
   constructor() {
     this.paramTypes = new Map();
+    this.bodyTypes = new Map();
+    this.paramTypes.set("get", [])
+    this.paramTypes.set("post", [])
+    this.paramTypes.set("patch", [])
+    this.paramTypes.set("delete", [])
+    this.bodyTypes.set("post", [])
+    this.bodyTypes.set("patch", [])
   }
 
   get(req: Request, res: Response): any {
-    if (!process.env.FUNCTIONS_EMULATOR && !checkHttpHeaders(req, res))
-      return res.send({ error: true, message: "invalid api token" });
-
-    const paramType = this.paramTypes.get("get");
-    if (!paramType) {
-      console.error("get paramtypes are undefined");
-      return; 
-    }
-
-    const invalidParams = filterValidParametors(req, paramType);
-    if (invalidParams.length === 0) return;
-    console.error("bad request");
+    this._setup(req, res, 'get');
   }
 
   post(req: Request, res: Response): any {
-    if (!checkHttpHeaders(req, res))
-      return res.send({ error: true, message: "invalid api token" });
+    this._setup(req, res, 'post');
+    this._checkBody(req, 'post');
+  }
 
-    const paramType = this.paramTypes.get("get");
-    if (!paramType) {
-      console.error("get paramtypes are undefined");
+  patch(req: Request, res: Response): any {
+    this._setup(req, res, 'patch');
+    this._checkBody(req, 'patch');
+  }
+
+  delete(req: Request, res: Response): any {
+    this._setup(req, res, 'delete');
+  }
+
+  _setup(req: Request, res: Response, method: BaseMethods) {
+    if (!process.env.FUNCTIONS_EMULATOR && !checkHttpHeaders(req))
       return;
-    }
 
-    const invalidParams = filterValidParametors(req, paramType);
-    if (invalidParams.length === 0) return;
-    console.error("bad request");
+    const paramType = this.paramTypes.get(method);
+    if (!paramType) 
+      throw new SuebotAPIExeption(`${method} query parameters are undefined`);
+
+    const invalidQuery = filterValidParametors(req.query, paramType);
+    if (invalidQuery.length === 0) return;
+    throw new SuebotAPIExeption(`invalid: ${invalidQuery[0][0]}`)
+  }
+
+  _checkBody(req: Request, method: "post" | "patch") {
+    const bodyType = this.bodyTypes.get(method); 
+    if (!bodyType) 
+      throw new SuebotAPIExeption(`${method} body parameters are undefined`);
+    
+    const invalidBody = filterValidParametors(req.body, bodyType);
+    if (invalidBody.length === 0) return;
+    throw new SuebotAPIExeption(`invalid body: ${invalidBody[0][0]}`)
   }
 }

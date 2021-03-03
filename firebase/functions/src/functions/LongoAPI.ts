@@ -1,8 +1,5 @@
-import admin from "../modules/firebaseAdmin";
 import * as functions from "firebase-functions";
-import { Longo } from "../types.d";
-import { checkIsEmptyById } from "../modules/util";
-import { checkHttpHeaders } from "../modules/checkHttpHeaders";
+import { LongosController } from "../modules/controllers/longosController";
 
 export const longoAPI = functions.https.onRequest(longoAPIfunc);
 
@@ -13,60 +10,35 @@ export async function longoAPIfunc(
   response.set("Access-Control-Allow-Origin", "http://localhost:3000"); // localhostを許可
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
   response.set("Access-Control-Allow-Headers", "X-Api-Key"); // Content-Typeのみを許可
-  if (!checkHttpHeaders(request, response)) return;
+  //if (!checkHttpHeaders(request, response)) return;
+  const controller = new LongosController();
 
-  const ref = admin.firestore().collection("Longos");
-  switch (request.method) {
-    case "GET":
-      const snapshot = await ref.get();
-      if (snapshot.empty) {
-        response.send({});
-        return;
-      }
-      const longos: Longo[] = [];
-      snapshot.forEach(doc => {
-        longos.push({
-          ...(doc.data() as Longo),
-          id: doc.id
-        });
-      });
-      response.send(longos);
-      break;
-
-    case "PATCH":
-      const params: Longo = request.body;
-      if (!(await checkIsEmptyById(ref, params.id))) {
-        response.send(`${params.id} is not exist`);
+  try {
+    switch (request.method) {
+      case "GET":
+        response.send(await controller.get(request, response));
         break;
-      }
-      await ref.doc(params.id).set(params);
-      response.send(params);
-      break;
 
-    case "POST":
-      const newPost: Partial<Longo> = request.body;
-      //TODO: エラーチェックが公式に書いてないのでなにか考えたい
-      const newDocRef = await ref.add(newPost);
-      const res = {
-        ...(await newDocRef.get()).data(),
-        id: newDocRef.id
-      };
-      response.send(res);
-      break;
-
-    case "DELETE":
-      const deleteId: { id: string } = request.body;
-      if (!(await checkIsEmptyById(ref, deleteId.id))) {
-        response.send(`${deleteId.id} is not exist`);
+      case "PATCH":
+        response.send(await controller.patch(request, response));
         break;
-      }
-      //TODO: エラーチェックが公式に書いてないのでなにか考えたい
-      await ref.doc(deleteId.id).delete();
-      response.send(deleteId);
-      break;
 
-    default:
-      console.log(request.method);
-      response.send("without method");
+      case "POST":
+        response.send(await controller.post(request, response));
+        break;
+
+      case "DELETE":
+        response.send(await controller.delete(request, response));
+        break;
+
+      default:
+        response.send("without method");
+    }
+  } catch (e) {
+    if (e.response) {
+      response.status(401).send(e.response);
+    } else {
+      console.error(e);
+    }
   }
 }

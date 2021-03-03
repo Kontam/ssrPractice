@@ -53,6 +53,7 @@
   "exclude": [
     "firebase",
 	  "src/server.tsx",
-	  "node_modules"
+    "node_modules",
+    "**/*.test.*"
   ]
 }

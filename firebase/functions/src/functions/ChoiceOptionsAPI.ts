@@ -2,23 +2,11 @@ import * as functions from 'firebase-functions';
 import * as firebase from 'firebase-admin';
 import { ChoiceOption } from '../types';
 import admin from '../modules/firebaseAdmin';
-import { CHOICE_GROUPS, CHOICE_OPTIONS } from './ChoiceGroupsAPI';
 import { chooseItemsRandomly } from '../modules/util';
 import { checkHttpHeaders } from '../modules/checkHttpHeaders';
 
-export const getOptionsByGroupId = async (groupId: string, optionRef:firebase.firestore.CollectionReference): Promise<ChoiceOption[]> => {
-  const snapshot = await optionRef.where('groupId', '==', groupId).get(); 
-  const choiceOptions :ChoiceOption[] = snapshot.docs.map((doc) => {
-    const data = doc.data();
-    return ({
-      choiceId: doc.id,
-      choiceName: data.choiceName,
-      choiceEnabled: data.choiceEnabled,
-    });
-  });
-
-  return choiceOptions;
-}
+export const CHOICE_GROUPS = "ChoiceGroups" as const;
+export const CHOICE_OPTIONS = "ChoiceOptions" as const;
 
 /**
  * グループ名から対応するオプションの配列を検索する
@@ -49,7 +37,7 @@ export const getOptionsByGroupName = async (
 }
 
 async function choiceOptionsAPIfunc(req: functions.Request, res: functions.Response) {
-  if (!checkHttpHeaders(req, res)) return;
+  if (!checkHttpHeaders(req)) return;
 
   const firestore = admin.firestore();
   const groupRef = firestore.collection(CHOICE_GROUPS);

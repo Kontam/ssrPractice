@@ -11,6 +11,6 @@ firebaseコンソールからダウンロードすること
 |パラメータ名|type|説明|
 |:-----|:-----|:-----|
 |general.devproject|string|開発環境に開発用firebaseプロジェクトのIDを登録する 本番PJでは設定不要|
-|general.apisecret|string|apiKeyの照合に必要な秘密文字列|
+|general.apisecret|string|apikeyの照合に必要な秘密文字列|
 |general.apikey|string|第三者からのAPI利用を抑制する秘密文字列|
 
