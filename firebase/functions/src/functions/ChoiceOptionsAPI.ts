@@ -2,9 +2,11 @@ import * as functions from 'firebase-functions';
 import * as firebase from 'firebase-admin';
 import { ChoiceOption } from '../types';
 import admin from '../modules/firebaseAdmin';
-import { CHOICE_GROUPS, CHOICE_OPTIONS } from './ChoiceGroupsAPI';
 import { chooseItemsRandomly } from '../modules/util';
 import { checkHttpHeaders } from '../modules/checkHttpHeaders';
+
+export const CHOICE_GROUPS = "ChoiceGroups" as const;
+export const CHOICE_OPTIONS = "ChoiceOptions" as const;
 
 /**
  * グループ名から対応するオプションの配列を検索する
