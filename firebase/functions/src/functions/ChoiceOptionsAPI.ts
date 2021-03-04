@@ -2,8 +2,8 @@ import * as functions from 'firebase-functions';
 import * as firebase from 'firebase-admin';
 import { ChoiceOption } from '../types';
 import admin from '../modules/firebaseAdmin';
-import { chooseItemsRandomly } from '../modules/util';
 import { checkHttpHeaders } from '../modules/checkHttpHeaders';
+import { ChoiceOptionsController } from '../modules/controllers/ChoiceOptionsController';
 
 export const CHOICE_GROUPS = "ChoiceGroups" as const;
 export const CHOICE_OPTIONS = "ChoiceOptions" as const;
@@ -37,14 +37,19 @@ export const getOptionsByGroupName = async (
 }
 
 async function choiceOptionsAPIfunc(req: functions.Request, res: functions.Response) {
+  /*
   if (!checkHttpHeaders(req)) return;
 
   const firestore = admin.firestore();
   const groupRef = firestore.collection(CHOICE_GROUPS);
   const optionRef = firestore.collection(CHOICE_OPTIONS)
+ */
+  
+  const controller = new ChoiceOptionsController();
 
   switch(req.method) {
     case "GET":
+      /*
       if (!req.query.groupName) res.send("invalid request");
       const groupName = req.query.groupName;
 
@@ -77,7 +82,8 @@ async function choiceOptionsAPIfunc(req: functions.Request, res: functions.Respo
       const choosenOptions = chooseItemsRandomly(enableOptions, amount);
       const response: string[] = choosenOptions.map(option => option.choiceName);
       
-      res.send(response);
+     */
+      res.send(await controller.get(req, res));
   }
 }
 
