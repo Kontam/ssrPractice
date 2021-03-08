@@ -20,7 +20,7 @@ export class ChoiceOptionsController extends BaseController {
 
   async get(req: Request, res: Response) {
     super.get(req, res);
-    const { groupName, amount } = req.query;
+    const { groupName, amount } = req.query as { groupName: string, amount: string};
     const options = await this.choiceGroupsModel.getOptionsByGroupName(
       groupName as string
     );
@@ -35,23 +35,4 @@ export class ChoiceOptionsController extends BaseController {
     return response;
   }
 
-  /*
-  async post(req: Request, res: Response) {
-    super.post(req, res);
-    const posted = await this.choiceOptionsModel.postChoiceGroup(req.body);
-    return posted;
-  }
-
-  async patch(req: Request, res: Response) {
-    super.patch(req, res);
-    const updated = await this.choiceOptionsModel.patchChoiceGroup(req.body);
-    return updated;
-  }
-
-  async delete(req: Request, res: Response) {
-    super.delete(req, res);
-    const deleted = await this.choiceOptionsModel.deleteChoiceGroup(req.query.groupId as string);
-    return deleted;
-  }
- */
 }
