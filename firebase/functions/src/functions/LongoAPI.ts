@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import { LongosController } from "../modules/controllers/longosController";
+import { errorResponse } from "../modules/errorResponse";
 
 export const longoAPI = functions.https.onRequest(longoAPIfunc);
 
@@ -10,7 +11,6 @@ export async function longoAPIfunc(
   response.set("Access-Control-Allow-Origin", "http://localhost:3000"); // localhostを許可
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
   response.set("Access-Control-Allow-Headers", "X-Api-Key"); // Content-Typeのみを許可
-  //if (!checkHttpHeaders(request, response)) return;
   const controller = new LongosController();
 
   try {
@@ -35,10 +35,6 @@ export async function longoAPIfunc(
         response.send("without method");
     }
   } catch (e) {
-    if (e.response) {
-      response.status(401).send(e.response);
-    } else {
-      console.error(e);
-    }
+    errorResponse(e, response);
   }
 }
