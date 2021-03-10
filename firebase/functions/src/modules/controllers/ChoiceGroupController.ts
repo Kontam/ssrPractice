@@ -10,6 +10,15 @@ export class ChoiceGroupsController extends BaseController {
     this.paramTypes.set("post", []);
     this.paramTypes.set("patch", []);
     this.paramTypes.set("delete", []);
+    this.bodyTypes.set("post", [
+      ["groupName", "string"],
+      ["choiceOptions", "array"],
+    ]);
+    this.bodyTypes.set("patch", [
+      ["groupId", "string"],
+      ["groupName", "string"],
+      ["choiceOptions", "array"],
+    ]);
     this.choiceGroupsModel = new ChoiceGroupsModel();
   }
 
@@ -33,7 +42,9 @@ export class ChoiceGroupsController extends BaseController {
 
   async delete(req: Request, res: Response) {
     super.delete(req, res);
-    const deleted = await this.choiceGroupsModel.deleteChoiceGroup(req.query.groupId as string);
+    const deleted = await this.choiceGroupsModel.deleteChoiceGroup(
+      req.query.groupId as string
+    );
     return deleted;
   }
 }
