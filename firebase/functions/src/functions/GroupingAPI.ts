@@ -1,9 +1,13 @@
 import * as functions from "firebase-functions";
 import { GroupingController } from "../modules/controllers/groupingController";
+import { errorResponse } from "../modules/errorResponse";
 
 export const groupingAPI = functions.https.onRequest(groupingAPIfunc);
 
-export async function groupingAPIfunc(request: functions.Request, response: functions.Response) {
+export async function groupingAPIfunc(
+  request: functions.Request,
+  response: functions.Response
+) {
   const controller = new GroupingController();
   try {
     switch (request.method) {
@@ -15,10 +19,6 @@ export async function groupingAPIfunc(request: functions.Request, response: func
         return;
     }
   } catch (e) {
-    if (e.response) {
-      response.status(401).send(e.response());
-    } else {
-      console.error(e);
-    }
+    errorResponse(e, response);
   }
 }

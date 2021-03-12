@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import { ChoiceGroupsController } from "../modules/controllers/ChoiceGroupController";
+import { errorResponse } from "../modules/errorResponse";
 
 async function choiceGroupsAPIfunc(
   request: functions.Request,
@@ -9,25 +10,29 @@ async function choiceGroupsAPIfunc(
   response.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST"); // DELETEだけは拒否
   response.set("Access-Control-Allow-Headers", "X-Api-Key"); // Content-Typeのみを許可
 
-  const controller = new ChoiceGroupsController();
-  switch (request.method) {
-    case "GET":
-      response.send(await controller.get(request, response));
-      break;
+  try {
+    const controller = new ChoiceGroupsController();
+    switch (request.method) {
+      case "GET":
+        response.send(await controller.get(request, response));
+        break;
 
-    case "POST":
-      response.send(await controller.post(request, response));
-      break;
+      case "POST":
+        response.send(await controller.post(request, response));
+        break;
 
-    case "PATCH":
-      response.send(await controller.patch(request, response));
-      break;
+      case "PATCH":
+        response.send(await controller.patch(request, response));
+        break;
 
-    case "DELETE":
-      response.send(await controller.delete(request, response));
-      break;
-    default:
-      response.send("default");
+      case "DELETE":
+        response.send(await controller.delete(request, response));
+        break;
+      default:
+        response.send("default");
+    }
+  } catch(e) {
+    errorResponse(e, response);    
   }
 }
 
