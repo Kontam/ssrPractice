@@ -13,6 +13,7 @@ export class FreeGroupingController extends BaseController {
     this.paramTypes.set("post", []);
   }
 
+  // suebotをpostにしたので使われていないはず
   get(req: Request, res: Response) {
     super.get(req, res);
     const { group, amount } = req.query;

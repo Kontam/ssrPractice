@@ -12,6 +12,7 @@ export class FreeChoiceController extends BaseController {
     this.paramTypes.set("post", []);
   }
 
+  // postにしないとbodyが巨大になった時エラーになりそう
   get(req: Request, res: Response) {
     super.get(req, res);
     const { group, amount } = req.query;
