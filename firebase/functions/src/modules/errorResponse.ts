@@ -6,5 +6,6 @@ export function errorResponse(e: SuebotAPIExeption, res: functions.Response) {
     res.status(400).send(e.response());
   } else {
     console.error(e);
+    res.status(500).send(e);
   }
 }
